@@ -1,0 +1,77 @@
+// a {
+//   &:not(:last-child) {
+//     margin-right: 36px;
+//   }
+//   &.nav-button {
+//     width: 80px;
+//     height: 80px;
+//     border-radius: 15px;
+//   }
+//   svg {
+//     height: 45px;
+//     font-size: 45px;
+//   }
+//   &.menu-metronome {
+//     svg {
+//       height: 78px;
+//     }
+//   }
+// }
+.nav-button {
+  width: 80px;
+  height: 80px;
+  border-radius: 15px;
+  &:hover {
+    transform: scale(1.2);
+  }
+  svg {
+    height: 45px;
+    font-size: 45px;
+  }
+}
+.menu-home {
+  background: #1a8273;
+}
+.menu-counter {
+  background: #313131;
+  border: 1px solid #4e5052;
+}
+.menu-weather {
+  background: #1692c1;
+}
+.menu-metronome {
+  svg {
+    height: 78px;
+  }
+}
+.menu-metronome {
+  background: #323334;
+  text-decoration: none;
+  color: #06ccff;
+  font-size: 40px;
+  border: 1px solid #4b4f50;
+  svg {
+    fill: #06ccff;
+    transform: rotateZ(-45deg);
+    height: 78px;
+    position: absolute;
+  }
+}
+
+.tip {
+  position: absolute;
+  bottom: -20px;
+  transform: translateY(100%);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+.tri {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -90%);
+  border-width: 15px 8px;
+  border-style: solid;
+}
