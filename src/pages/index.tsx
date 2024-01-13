@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '@/components/Layout';
-import IndexLink from '@/features/index/IndexLink';
+import IndexLink from '@/features/home/components/IndexLink';
 
 import { faStopwatch } from '@fortawesome/free-solid-svg-icons';
 
