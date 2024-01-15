@@ -8,7 +8,7 @@ import Layout from '@/components/Layout';
 import ViewTimes from '@/features/counter/components/ViewTimes';
 import TimeSettingTools from '@/features/counter/components/TimeSettingTools';
 import RingToneSelector from '@/features/counter/components/RingToneSelector';
-// import RingToneSelectModal from '@/features/counter/components/RingToneSelectModal';
+import RingToneSelectModal from '@/features/counter/components/RingToneSelectModal';
 // import Alert from '@/components/modals/Alert';
 // import TimesUpAlertModal from '@/features/counter/components/TimesUpAlertModal';
 import { RingToneType } from '@/features/counter/types/ring_tone';
@@ -18,7 +18,6 @@ import { Howl, Howler } from 'howler';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { useCookies } from 'react-cookie';
 
-// import '@styles/counter/Counter.scss';
 import transitionStyles from '@/styles/transition_group.module.scss';
 import styled from 'styled-components';
 
@@ -515,14 +514,14 @@ const Counter = () => {
             currentRingTone={selectedRingTone}
             onClick={() => setShowRingToneSelect(true)}
           />
-          {/* <RingToneSelectModal
+          <RingToneSelectModal
             show={showRingToneSelect}
             currentRingTone={selectedRingTone}
             viewHeight={viewHeight}
             onSubmit={rt => onSetRingTone(rt)}
             onCancel={() => setShowRingToneSelect(false)}
           />
-          <Alert
+          {/* <Alert
             message="請設定時間再開始計時！"
             show={showSettingAlert}
             yes={alertOk}

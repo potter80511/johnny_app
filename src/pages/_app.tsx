@@ -12,8 +12,10 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const theme = {
-  colors: {
-    primary: "#0070f3",
+  palette: {
+    iphoneOrange: "#c9772e",
+    iphoneGreen: "#1dcc71",
+    checkGreen: "#09d269",
   },
 };
 
