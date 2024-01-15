@@ -87,14 +87,14 @@ const CounterWrapper = styled(Layout)`
         }
         .start {
           background-color: rgba(34, 138, 84, .4);
-          color: $iphone-green;
+          color: ${({theme: { palette }}) => palette.iphoneGreen};
           &:hover {
             background-color: rgba(34, 138, 84, .6);
           }
         }
         .pause {
           background-color: rgba(205, 120, 31, .4);
-          color: $iphone-orange;
+          color: ${({theme: { palette }}) => palette.iphoneOrange};
           &:hover {
             background-color: rgba(205, 120, 31, .6);
           }
