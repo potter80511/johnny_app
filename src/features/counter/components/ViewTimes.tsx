@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spring } from 'react-spring';
+import { animated, Spring, SpringValue } from 'react-spring';
 import { CSSTransition } from 'react-transition-group';
 import { faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -126,9 +126,9 @@ const ViewTimes = (props: ViewTimesProps) => {
               to={{ strokeDashoffset: circleLength }}
               config={{ duration: remainTotalSeconds * 1000 }}
             >
-              {(stringProps) => (
-                <circle
-                  style={stringProps}
+              {(springValues: { strokeDashoffset: SpringValue<number>; }) => (
+                <animated.circle
+                  style={springValues}
                   cx={circleHeight / 2}
                   cy={circleHeight / 2}
                   r={circleRadius}
