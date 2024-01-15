@@ -481,18 +481,19 @@ const Counter = () => {
                       countingStatus={startStatus}
                     />
                   ) : (
-                    <TimeSettingTools
-                      settingsTotalSeconds={settingsTotalSeconds}
-                      seconds={Number(viewSeconds)}
-                      minutes={Number(viewMinutes)}
-                      hours={Number(viewHours)}
-                      prevSeconds={prevSeconds}
-                      prevMinutesSeconds={prevMinutesSeconds}
-                      prevHoursSeconds={prevHoursSeconds}
-                      onTotalSecondsChange={(s, type, viewTimes, numberTimes) =>
-                        onTotalSecondsChange(s, type, viewTimes, numberTimes)
-                      }
-                    />
+                    <TimeSettingTools/>
+                    // <TimeSettingTools
+                    //   settingsTotalSeconds={settingsTotalSeconds}
+                    //   seconds={Number(viewSeconds)}
+                    //   minutes={Number(viewMinutes)}
+                    //   hours={Number(viewHours)}
+                    //   prevSeconds={prevSeconds}
+                    //   prevMinutesSeconds={prevMinutesSeconds}
+                    //   prevHoursSeconds={prevHoursSeconds}
+                    //   onTotalSecondsChange={(s, type, viewTimes, numberTimes) =>
+                    //     onTotalSecondsChange(s, type, viewTimes, numberTimes)
+                    //   }
+                    // />
                   )}
                 </div>
               </CSSTransition>
