@@ -46,13 +46,14 @@ button {
   transition: all 0.3s;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+.nav-button svg {
+  height: 45px;
+  font-size: 45px;
+  color: #fff;
+}
+
 .nav-button:hover {
   transform: scale(1.2);
-}
-svg {
-  color: #fff;
-  height: 22px;
-  font-size: 22px;
 }
 .nav-button.menu-home {
   background: #1a8273;
