@@ -10,7 +10,7 @@ import TimeSettingTools from '@/features/counter/components/TimeSettingTools';
 import RingToneSelector from '@/features/counter/components/RingToneSelector';
 import RingToneSelectModal from '@/features/counter/components/RingToneSelectModal';
 // import Alert from '@/components/modals/Alert';
-// import TimesUpAlertModal from '@/features/counter/components/TimesUpAlertModal';
+import TimesUpAlertModal from '@/features/counter/components/TimesUpAlertModal';
 import { RingToneType } from '@/features/counter/types/ring_tone';
 import { CounterCookie } from '@/types/counterCookie';
 
@@ -526,14 +526,14 @@ const Counter = () => {
             show={showSettingAlert}
             yes={alertOk}
             viewHeight={viewHeight}
-          />
+          /> */}
           <TimesUpAlertModal
             viewHeight={viewHeight}
             message="時間到"
             show={showTimesUpAlert}
             yes={onTimesUpOk}
             onRecount={onRecount}
-          /> */}
+          />
         </div>
       </CounterWrapper>
   );
