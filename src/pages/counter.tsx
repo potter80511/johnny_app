@@ -7,7 +7,7 @@ import {
 import Layout from '@/components/Layout';
 import ViewTimes from '@/features/counter/components/ViewTimes';
 import TimeSettingTools from '@/features/counter/components/TimeSettingTools';
-// import RingToneSelector from '@/features/counter/components/RingToneSelector';
+import RingToneSelector from '@/features/counter/components/RingToneSelector';
 // import RingToneSelectModal from '@/features/counter/components/RingToneSelectModal';
 // import Alert from '@/components/modals/Alert';
 // import TimesUpAlertModal from '@/features/counter/components/TimesUpAlertModal';
@@ -34,7 +34,7 @@ const meta = {
   ogurl: '',
 };
 
-const CounterWrapper = styled.div`
+const CounterWrapper = styled(Layout)`
   text-align: center;
   .counter {
     width: 100%;
@@ -444,8 +444,7 @@ const Counter = () => {
   }, [remainTotalSeconds]);
 
   return (
-    <Layout id="counter" meta={meta} className="flex-center">
-      <CounterWrapper>
+      <CounterWrapper meta={meta} className="flex-center">
         <div className="counter">
           <button
             className="show_total_seconds"
@@ -512,11 +511,11 @@ const Counter = () => {
               </div>
             )}
           </div>
-          {/* <RingToneSelector
+          <RingToneSelector
             currentRingTone={selectedRingTone}
             onClick={() => setShowRingToneSelect(true)}
           />
-          <RingToneSelectModal
+          {/* <RingToneSelectModal
             show={showRingToneSelect}
             currentRingTone={selectedRingTone}
             viewHeight={viewHeight}
@@ -538,7 +537,6 @@ const Counter = () => {
           /> */}
         </div>
       </CounterWrapper>
-    </Layout>
   );
 };
 
