@@ -1,8 +1,9 @@
 import React from 'react';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import styles from '@/styles/counter/Alert.module.scss';
 import { animated, useTransition } from 'react-spring';
+import styled from 'styled-components';
+import { alertBase } from '@/features/counter/Styled';
 
 export interface TimesUpAlertProps {
   id?: string;
@@ -13,6 +14,59 @@ export interface TimesUpAlertProps {
   yes(): void;
   onRecount(): void;
 }
+
+const AnimateWrapper = styled(animated.div)`
+  ${alertBase};
+  background-color: rgba(22, 29, 35, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+
+  .modal-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .modal-content {
+      p {
+        font-size: 22px;
+        margin-bottom: 20px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        svg {
+          font-size: 18px;
+          height: 18px;
+          margin-right: 10px;
+        }
+      }
+    }
+    button {
+      border-radius: 100em;
+      color: #fff;
+      transition: all .3s;
+    }
+    .yes {
+      background-color: #fe9e0c;
+      font-size: 22px;
+      padding: 5px 40px;
+      &:hover {
+        color: #724500;
+        background-color: #ffe6c0;
+      }
+    }
+    .reset {
+      background-color: rgba(255, 255, 255, .5);
+      margin-top: 40px;
+      font-size: 13px;
+      padding: 5px 20px;
+      &:hover {
+        color: #333;
+        background-color: rgba(255, 255, 255, .8);
+      }
+    }
+  }
+`
 
 const TimesUpAlertModal = (props: TimesUpAlertProps) => {
   const { id, message, show, yes, onRecount } = props;
@@ -33,9 +87,8 @@ const TimesUpAlertModal = (props: TimesUpAlertProps) => {
   return transitions(
     (props, item) =>
       item && (
-        <animated.div
+        <AnimateWrapper
           id={id}
-          className={`${styles['ring-alert-modal']}${showClass}`}
           style={{ height: viewHeight, ...props }}
         >
           <div className="modal-block">
@@ -52,7 +105,7 @@ const TimesUpAlertModal = (props: TimesUpAlertProps) => {
               重複
             </button>
           </div>
-        </animated.div>
+        </AnimateWrapper>
       )
   )
 };
