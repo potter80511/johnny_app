@@ -81,7 +81,7 @@ const TimeSettingTools = (props: TimeSettingToolsType) => {
 
   const onTimeChange = (t: string, type: string) => {
     let numberTimes = Number(t);
-    let newTotalSeconds: number;
+    let newTotalSeconds: number = 0;
     switch (type) {
       case TimeSelectChangeType.seconds:
         newTotalSeconds = tempTotalSeconds - prevSeconds + numberTimes;
@@ -110,7 +110,7 @@ const TimeSettingTools = (props: TimeSettingToolsType) => {
       onTimeChange(String(hours), TimeSelectChangeType.hour);
       setFirstLoad(false);
     }
-  });
+  }, [firstLoad]);
 
   return (
     <Wrapper>
