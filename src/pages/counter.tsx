@@ -120,7 +120,7 @@ const CounterWrapper = styled(Layout)`
   }
 `
 
-let counting;
+let counting: any;
 
 const Counter = () => {
   const [cookies, setCookie] = useCookies(['counter_settings']);
