@@ -356,42 +356,42 @@ const Counter = () => {
   ) => {
     setSettingsTotalSeconds(t);
     calculateTotalSeconds(t);
-    let newSettingCookie: CounterCookie;
+
     const stringViewTimes =
       viewTimes < 10 ? `0${viewTimes}` : String(viewTimes);
 
     switch (type) {
       case TimeSelectChangeType.seconds:
         setPrevSeconds(numberTimes);
-        newSettingCookie = {
+        onSetCookie({
           ...counter_settings,
           settingTimes: t,
           seconds: numberTimes,
           viewSeconds: stringViewTimes,
-        };
+        });
         break;
       case TimeSelectChangeType.minutes:
         setPrevMinutesSeconds(numberTimes);
-        newSettingCookie = {
+        onSetCookie({
           ...counter_settings,
           settingTimes: t,
           minutesSeconds: numberTimes,
           viewMinutes: stringViewTimes,
-        };
+        });
         break;
       case TimeSelectChangeType.hour:
         setPrevHoursSeconds(numberTimes);
-        newSettingCookie = {
+        onSetCookie({
           ...counter_settings,
           settingTimes: t,
           hoursSeconds: numberTimes,
           viewHours: stringViewTimes,
-        };
+        });
         break;
       default:
         break;
     }
-    onSetCookie(newSettingCookie);
+    
   };
 
   const onShowTotalSeconds = () => {
@@ -433,9 +433,10 @@ const Counter = () => {
   const stopClass = startStatus === StartStatus.start ? 'pause' : 'start';
 
   const [viewHeight, setViewHeight] = useState<number>(0);
+
   useEffect(() => {
     setViewHeight(window.innerHeight);
-  });
+  }, []);
   useEffect(() => {
     remainTotalSeconds < 3600
       ? setShowViewHours(false)
