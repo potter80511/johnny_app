@@ -27,17 +27,21 @@ type TimeSettingToolsType = {
 };
 
 const Wrapper = styled.div`
-  .title {
-    font-size: 80px;
-    margin: 0 0 30px;
-    color: #8d8d92;
-  }
   .flex.tools {
     margin-top: 20px;
     justify-content: center;
     > div:not(:last-child) {
       margin-right: 20px;
     }
+  }
+`
+const Title = styled.h1`
+  font-size: 80px;
+  margin: 0 0 30px;
+  color: #8d8d92;
+  @media (max-width: 575px) {
+    font-size: 50px;
+    margin: 0 0 20px;
   }
 `
 
@@ -114,7 +118,7 @@ const TimeSettingTools = (props: TimeSettingToolsType) => {
 
   return (
     <Wrapper>
-      <h1 className="title">Counter</h1>
+      <Title>Counter</Title>
       <p>請設定時間開始計時</p>
       <div className="flex tools">
         <NormalSelect
