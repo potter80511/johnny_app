@@ -8,7 +8,7 @@ import ViewTimes from '@/features/counter/components/ViewTimes';
 import TimeSettingTools from '@/features/counter/components/TimeSettingTools';
 import RingToneSelector from '@/features/counter/components/RingToneSelector';
 import RingToneSelectModal from '@/features/counter/components/RingToneSelectModal';
-// import Alert from '@/components/modals/Alert';
+import Alert from '@/components/modals/Alert';
 import TimesUpAlertModal from '@/features/counter/components/TimesUpAlertModal';
 import { RingToneType } from '@/features/counter/types/ring_tone';
 import { CounterCookie } from '@/types/counterCookie';
@@ -494,12 +494,12 @@ const CounterIndex = () => {
       onSubmit={rt => onSetRingTone(rt)}
       onCancel={() => setShowRingToneSelect(false)}
     />
-    {/* <Alert
+    <Alert
       message="請設定時間再開始計時！"
       show={showSettingAlert}
       yes={alertOk}
       viewHeight={viewHeight}
-    /> */}
+    />
     <TimesUpAlertModal
       viewHeight={viewHeight}
       message="時間到"
