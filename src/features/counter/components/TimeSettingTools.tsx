@@ -35,10 +35,8 @@ const Wrapper = styled.div`
   .flex.tools {
     margin-top: 20px;
     justify-content: center;
-    div.select-group {
-      &:not(:last-child) {
-        margin-right: 20px;
-      }
+    > div:not(:last-child) {
+      margin-right: 20px;
     }
   }
 `
