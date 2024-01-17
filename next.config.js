@@ -10,6 +10,8 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  basePath: "/johnny_app",
+  assetPrefix:"/johnny_app",
 }
 
 module.exports = nextConfig
