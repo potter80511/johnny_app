@@ -1,0 +1,13 @@
+name: Pull request CI
+
+on: [pull_request]
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install packages
+        run: yarn install
+      -name: Build
+        run: yarn build
