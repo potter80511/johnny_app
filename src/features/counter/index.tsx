@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StartStatus,
   StartText,
@@ -421,6 +421,10 @@ const CounterIndex = () => {
       : setShowViewHours(true);
   }, [remainTotalSeconds]);
 
+  const viewTimesRef = useRef(null);
+  const TimeSettingToolsRef = useRef(null);
+  const nodeRef = showViewTimes ? viewTimesRef : TimeSettingToolsRef;
+
   return <Wrapper>
     <button
       className="show_total_seconds"
@@ -432,7 +436,8 @@ const CounterIndex = () => {
     <div className="content">
       <SwitchTransition mode="out-in">
         <CSSTransition
-          key="view-times"
+          key={showViewTimes ? 'ViewTimes' : "TimeSettingTools"}
+          nodeRef={nodeRef}
           classNames={{
             appear: transitionStyles['fade-appear'],
             appearActive: transitionStyles['fade-appear-active'],
@@ -446,6 +451,7 @@ const CounterIndex = () => {
           <div className="time-block">
             {showViewTimes ? (
               <ViewTimes
+                ref={viewTimesRef}
                 showViewHours={showViewHours}
                 resetCircle={showCircleBar}
                 totalSeconds={settingsTotalSeconds}
@@ -457,6 +463,7 @@ const CounterIndex = () => {
               />
             ) : (
               <TimeSettingTools
+                ref={TimeSettingToolsRef}
                 settingsTotalSeconds={settingsTotalSeconds}
                 seconds={Number(viewSeconds)}
                 minutes={Number(viewMinutes)}

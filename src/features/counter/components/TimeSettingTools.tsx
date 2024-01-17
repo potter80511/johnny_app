@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ForwardedRef, forwardRef } from 'react';
 import NormalSelect from '@/components/form_elements/NormalSelect';
 import { optionType } from '@/types';
 import { TimeSelectChangeType } from '@/features/counter/types';
@@ -68,7 +68,7 @@ for (let i = 0; i <= 23; i++) {
   });
 }
 
-const TimeSettingTools = (props: TimeSettingToolsType) => {
+const TimeSettingTools = (props: TimeSettingToolsType, ref: ForwardedRef<HTMLDivElement>) => {
   const {
     seconds,
     minutes,
@@ -117,7 +117,7 @@ const TimeSettingTools = (props: TimeSettingToolsType) => {
   }, [firstLoad]);
 
   return (
-    <Wrapper>
+    <Wrapper ref={ref}>
       <Title>Counter</Title>
       <p>請設定時間開始計時</p>
       <div className="flex tools">
@@ -147,4 +147,4 @@ const TimeSettingTools = (props: TimeSettingToolsType) => {
   );
 };
 
-export default TimeSettingTools;
+export default forwardRef(TimeSettingTools);

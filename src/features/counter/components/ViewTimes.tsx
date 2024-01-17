@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ForwardedRef, forwardRef } from 'react';
 import { animated, Spring, SpringValue } from 'react-spring';
 import { CSSTransition } from 'react-transition-group';
 import { faStopwatch } from '@fortawesome/free-solid-svg-icons';
@@ -65,7 +65,7 @@ const ViewTimesWrapper = styled.div`
   }
 `
 
-const ViewTimes = (props: ViewTimesProps) => {
+const ViewTimes = (props: ViewTimesProps, ref: ForwardedRef<HTMLDivElement>) => {
   const {
     showViewHours,
     resetCircle,
@@ -109,7 +109,7 @@ const ViewTimes = (props: ViewTimesProps) => {
   };
 
   return (
-    <ViewTimesWrapper style={{ height: circleHeight }}>
+    <ViewTimesWrapper style={{ height: circleHeight }} ref={ref}>
       <div className="circle" style={{ height: circleHeight }}>
         <svg height="100%" width="100%" className="circleSvg">
           <circle
@@ -188,4 +188,4 @@ const ViewTimes = (props: ViewTimesProps) => {
   );
 };
 
-export default ViewTimes;
+export default forwardRef(ViewTimes);
