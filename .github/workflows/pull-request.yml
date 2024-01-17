@@ -10,4 +10,4 @@ jobs:
       - name: Install packages
         run: yarn install
       - name: Build
-        run: yarn build
+        run: yarn start
