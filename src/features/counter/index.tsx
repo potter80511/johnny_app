@@ -6,7 +6,6 @@ import {
 } from '@/features/counter/types';
 import ViewTimes from '@/features/counter/components/ViewTimes';
 import TimeSettingTools from '@/features/counter/components/TimeSettingTools';
-import RingToneSelector from '@/features/counter/components/RingToneSelector';
 import RingToneSelectModal from '@/features/counter/components/RingToneSelectModal';
 import Alert from '@/components/modals/Alert';
 import TimesUpAlertModal from '@/features/counter/components/TimesUpAlertModal';
@@ -19,6 +18,11 @@ import { useCookies } from 'react-cookie';
 
 import transitionStyles from '@/styles/transition_group.module.scss';
 import styled from 'styled-components';
+import dynamic from 'next/dynamic';
+
+const RingToneSelector = dynamic(() => import('@/features/counter/components/RingToneSelector'), {
+  ssr: false
+})
 
 const Wrapper = styled.div`
   width: 100%;
