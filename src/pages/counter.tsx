@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '@/components/Layout';
+import MainLayout from '@/components/MainLayout';
 import styled from 'styled-components';
 import CounterIndex from '@/features/counter';
 import Head from 'next/head';
@@ -16,7 +16,7 @@ const meta = {
   ogurl: '',
 };
 
-const CounterLayout = styled(Layout)`
+const CounterLayout = styled(MainLayout)`
   text-align: center;
   @media (max-width: 768px) {
     height: calc(100vh - 50px);
@@ -45,7 +45,7 @@ const Counter = () => {
         <meta name="og:type" content={ogtype} />
         <meta name="og:sitename" content={ogsitename} />
       </Head>
-      <CounterLayout meta={meta} className="flex-center">
+      <CounterLayout className="flex-center">
         <CounterIndex />
       </CounterLayout>
     </>
