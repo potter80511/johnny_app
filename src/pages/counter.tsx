@@ -1,7 +1,7 @@
 import React from 'react';
-import MainLayout from '@/components/MainLayout';
+import MainLayout from 'src/components/MainLayout';
 import styled from 'styled-components';
-import CounterIndex from '@/features/counter';
+import CounterIndex from 'src/features/counter';
 import Head from 'next/head';
 
 const meta = {

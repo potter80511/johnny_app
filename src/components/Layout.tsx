@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import MobileMenu from '@/components/MobileMenu';
-import Meta, { MetaType } from '@/components/Meta';
+import MobileMenu from 'src/components/MobileMenu';
+import Meta, { MetaType } from 'src/components/Meta';
 
 type LayoutProps = {
   id?: string;
