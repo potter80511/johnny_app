@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
 import {
-  // translateYSelector,
+  translateYSelector,
   openedLocationIndexSelector,
   locationsDataSelector,
-  // weekTemperatureArraySelector,
+  weekTemperatureArraySelector,
   temperatureTypeSelector,
   locationItemInputDataArraySelector,
   showCreateLocationItemModalSelector,
@@ -12,54 +11,52 @@ import {
   searchValueSelector,
 } from 'src/features/weather/selectors';
 import {
-  // saveSettingsToCookie as saveSettingsToToolsCookie,
-  // initialToolsState,
+  saveSettingsToCookie as saveSettingsToToolsCookie,
+  initialToolsState,
   switchTemperatureType,
   showCreateLocationItemModal,
   searchInputChange,
   createNewLocationInputAction,
   deleteLocationInputAction,
-  // clearLocationsDataAction,
+  clearLocationsDataAction,
 } from 'src/features/weather/actions/toolsAction';
-// import {
-//   spreadOut,
-//   initialLocationsState,
-// } from 'src/features/weather/actions/locationsActions';
-// import {
-//   getCurrentDayWeather,
-//   getWeekWeather,
-// } from 'src/features/weather/actions/fetchActions';
+import {
+  spreadOut,
+  initialLocationsState,
+} from 'src/features/weather/actions/locationsActions';
+import {
+  getCurrentDayWeather,
+  // getWeekWeather,
+} from 'src/features/weather/actions/fetchActions';
 
-// import Locations from 'src/features/weather/components/locations/Locations';
+import Locations from 'src/features/weather/components/locations/Locations';
 import Tools from 'src/features/weather/components/Tools';
 import CreateLocationItemModal from 'src/features/weather/components/CreateLocationItemModal';
 import Alert from 'src/components/modals/Alert';
-import { TemperatureType } from 'src/features/weather/enums';
+import {
+  TemperatureType,
+  TaiwanCities,
+  WeatherLocationType
+} from 'src/features/weather/enums';
 import {
   LocationData,
+  SpreadIndex,
+  LocationValue,
 } from 'src/features/weather/types';
-// import {
-//   TaiwanCities,
-//   WeatherLocationType,
-//   LocationValue,
-// } from 'src/features/weather/domain/model/Location';
-// import { SpreadIndex } from 'src/features/weather/domain/model/SpreadIndex';
 import { Cookies } from 'react-cookie';
-// import '@styles/features/weather/weather.scss';
+import { CommonWrap } from 'src/styles/Styled'
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
-const MainTitle = styled.h1`
-  @media (max-width: 1023px) {
-    display: none;
-  }
+const Wrapper = styled(CommonWrap)`
+  overflow: hidden;
 `
 
 const WeatherContainer = () => {
   const dispatch = useAppDispatch();
-  // const translateY = useSelector(translateYSelector);
+  const translateY = useAppSelector(translateYSelector);
   const openedLocationIndex = useAppSelector(openedLocationIndexSelector);
-  // const weekTemperatureArray = useSelector(weekTemperatureArraySelector);
+  const weekTemperatureArray = useAppSelector(weekTemperatureArraySelector);
 
   const temperatureType = useAppSelector(temperatureTypeSelector);
   const locationItemInputDataArray = useAppSelector(
@@ -92,17 +89,17 @@ const WeatherContainer = () => {
 
   const locationSpread = openedLocationIndex >= 0;
 
-  // const onSpreadOut = (tlY: number, spreadIndex: SpreadIndex) => {
-  //   dispatch(spreadOut(tlY, spreadIndex));
-  // };
+  const onSpreadOut = (tlY: number, spreadIndex: SpreadIndex) => {
+    dispatch(spreadOut(tlY, spreadIndex));
+  };
 
-  // const onGetWeekWeather = (
-  //   locationName: LocationValue,
-  //   locationType: WeatherLocationType,
-  //   city: TaiwanCities,
-  // ) => {
-  //   dispatch(getWeekWeather(locationName, locationType, city));
-  // };
+  const onGetWeekWeather = (
+    locationName: LocationValue,
+    locationType: WeatherLocationType,
+    city: TaiwanCities,
+  ) => {
+    // dispatch(getWeekWeather(locationName, locationType, city));
+  };
 
   const onSwitchTemperatureType = (value: TemperatureType) => {
     dispatch(switchTemperatureType(value));
@@ -117,21 +114,21 @@ const WeatherContainer = () => {
   };
 
   const onCreateLocation = (newLocation: LocationData, nextIndex: number) => {
-    const { value, type, city } = newLocation;
+    const { value: locationName, type, city } = newLocation;
     dispatch(searchInputChange(''));
     dispatch(showCreateLocationItemModal(false));
     dispatch(createNewLocationInputAction(newLocation));
-    // dispatch(getCurrentDayWeather(value, type, nextIndex, city));
+    dispatch(getCurrentDayWeather({locationName, locationType: type, inputIndex: nextIndex, city}));
   };
 
-  // const onDeleteLocation = (deleteIndex: number) => {
-  //   if (locationsData.length === 1) {
-  //     setShowCannotDeleteAlert(true);
-  //   } else {
-  //     setShowDeleteAlert(true);
-  //     setDeleteLocationIndex(deleteIndex);
-  //   }
-  // };
+  const onDeleteLocation = (deleteIndex: number) => {
+    if (locationsData.length === 1) {
+      setShowCannotDeleteAlert(true);
+    } else {
+      setShowDeleteAlert(true);
+      setDeleteLocationIndex(deleteIndex);
+    }
+  };
 
   const onDeleteYes = (deleteIndex: number) => {
     dispatch(deleteLocationInputAction(deleteIndex));
@@ -148,47 +145,51 @@ const WeatherContainer = () => {
   // console.log(weather_settings)
   useEffect(() => {
     setViewHeight(window.innerHeight);
-    // dispatch(clearLocationsDataAction());
+    dispatch(clearLocationsDataAction());
 
-    // if (weather_settings && !stateIsInitial) {
-    //   console.log(weather_settings, 'weather_settings2');
-    //   dispatch(initialToolsState());
-    //   dispatch(initialLocationsState());
-    // }
+    if (weather_settings && !stateIsInitial) {
+      console.log(weather_settings, 'weather_settings2');
+      dispatch(initialToolsState());
+      dispatch(initialLocationsState());
+    }
     setStateIsInitial(true);
   }, []);
 
   useEffect(() => {
     if (stateIsInitial) {
-      // locationItemInputDataArray.forEach((item, index) => {
-      //   dispatch(getCurrentDayWeather(item.value, item.type, index, item.city));
-      // });
+      locationItemInputDataArray.forEach((item, index) => {
+        dispatch(getCurrentDayWeather({
+          locationName: item.value,
+          locationType: item.type,
+          inputIndex: index,
+          city: item.city
+        }));
+      });
     }
   }, [stateIsInitial]);
 
-  // useEffect(() => {
-  //   dispatch(saveSettingsToToolsCookie());
-  //   // dispatch(saveSettingsToLocationsCookie())
-  //   if (openedLocationIndex !== undefined) {
-  //     const openInputData = locationItemInputDataArray.find(
-  //       (item, index) => index === openedLocationIndex,
-  //     );
-  //     const { value, type, city } = openInputData;
-  //     dispatch(getWeekWeather(value, type, city));
-  //   }
-  // }, [
-  //   temperatureType,
-  //   locationItemInputDataArray,
-  //   translateY,
-  //   openedLocationIndex,
-  // ]);
+  useEffect(() => {
+    dispatch(saveSettingsToToolsCookie());
+    // dispatch(saveSettingsToLocationsCookie())
+    if (openedLocationIndex !== undefined) {
+      const openInputData = locationItemInputDataArray.find(
+        (item, index) => index === openedLocationIndex,
+      );
+      const { value, type, city } = openInputData;
+      // dispatch(getWeekWeather(value, type, city));
+    }
+  }, [
+    temperatureType,
+    locationItemInputDataArray,
+    translateY,
+    openedLocationIndex,
+  ]);
 
   return (
-    <div
-      className="weather wrap"
-      // style={{ height: locationSpread ? `${viewHeight}px` : 'auto' }}
+    <Wrapper
+      style={{ height: locationSpread ? `${viewHeight}px` : 'auto' }}
     >
-      {/* <Locations
+      <Locations
         spread={locationSpread}
         getWeekWeather={(locationName, locationType, city) =>
           onGetWeekWeather(locationName, locationType, city)
@@ -198,9 +199,9 @@ const WeatherContainer = () => {
         temperatureType={temperatureType}
         locationsData={locationsData}
         weekTemperatureArray={weekTemperatureArray}
-        spreadOut={(tlY, spreadIndex) => onSpreadOut(tlY, spreadIndex)}
-        onDelete={deleteIndex => onDeleteLocation(deleteIndex)}
-      /> */}
+        spreadOut={(tlY, spreadIndex) => spreadIndex !== null && onSpreadOut(tlY, spreadIndex)}
+        onDelete={deleteIndex =>  onDeleteLocation(deleteIndex)}
+      />
       <Tools
         show={!locationSpread}
         showCreateItemModal={show => onShowCreateLocationItemModal(show)}
@@ -234,7 +235,7 @@ const WeatherContainer = () => {
         yes={() => setShowCannotDeleteAlert(false)}
         yesText="確定"
       />
-    </div>
+    </Wrapper>
   );
 };
 
