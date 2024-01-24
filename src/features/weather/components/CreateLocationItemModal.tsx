@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { LocationData } from 'src/features/weather/types';
 import { CSSTransition } from 'react-transition-group';
-// import '@styles/features/weather/CreateLocationItemModal.scss';
+import styled from 'styled-components';
 import transitionStyles from 'src/styles/transition_group.module.scss';
 
-type CreateLocationItemModal = {
+type CreateLocationItemModalProps = {
   show: boolean;
   locationOptions: LocationData[];
   searchValue: string;
@@ -17,7 +17,98 @@ type CreateLocationItemModal = {
   onCreateLocation: (newLocation: LocationData, nextIndex: number) => void;
 };
 
-const CreateLocationItemModal = (props: CreateLocationItemModal) => {
+const ModalWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .9);
+  .container-wrap {
+    display: block;
+    max-width: 768px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .input-head {
+    padding: 15px;
+    background: #2e2f30;
+    border-bottom: 1px solid #404446;
+    label {
+      display: block;
+      width: 100%;
+      font-size: 15px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .input-block {
+      display: flex;
+      .input-group {
+        flex: 1;
+        background-color: #525759;
+        padding: 5px 10px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        transition: all .3s;
+        >svg {
+          color: #b0b1b8;
+          font-size: 13px;
+          height: 13px;
+          margin-right: 5px;
+        }
+        &:hover {
+          background-color: #666d6f;
+        }
+        ::placeholder {
+          color: #b0b1b8;
+        }
+        input {
+          background: none;
+          border: none;
+          flex: 1;
+          color: #fff;
+          &:focus {
+            outline: none;
+          }
+        }
+        button {
+          width: 15px;
+          height: 15px;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #b0b1b8;
+          border-radius: 50%;
+          svg {
+            font-size: 10px;
+            height: 10px;
+            color: #555;
+          }
+        }
+      }
+    }
+  }
+  .location-options {
+    width: 100%;
+    max-height: 400px;
+    overflow: scroll;
+    padding: 5px;
+    background: #333;
+    box-sizing: border-box;
+    .location-option {
+      padding: 5px 10px;
+      cursor: pointer;
+      &:hover {
+        background-color: #666d6f;
+      }
+    }
+  }
+`
+
+const CreateLocationItemModal = (props: CreateLocationItemModalProps) => {
   const {
     show,
     locationOptions,
@@ -39,14 +130,14 @@ const CreateLocationItemModal = (props: CreateLocationItemModal) => {
   ));
   return (
     <CSSTransition in={show} timeout={500} classNames={{
-      appear: transitionStyles['slideInCenterUp-appear'],
-      appearActive: transitionStyles['slideInCenterUp-appear-active'],
-      enter: transitionStyles['slideInCenterUp-enter'],
-      enterActive: transitionStyles['slideInCenterUp-enter-active'],
-      exit: transitionStyles['slideInCenterUp-exit'],
-      exitActive: transitionStyles['slideInCenterUp-exit-active']
+      appear: transitionStyles['slideFadeInUp-appear'],
+      appearActive: transitionStyles['slideFadeInUp-appear-active'],
+      enter: transitionStyles['slideFadeInUp-enter'],
+      enterActive: transitionStyles['slideFadeInUp-enter-active'],
+      exit: transitionStyles['slideFadeInUp-exit'],
+      exitActive: transitionStyles['slideFadeInUp-exit-active']
     }} unmountOnExit>
-      <div id="create-location-item-modal">
+      <ModalWrapper>
         <div className="input-head">
           <div className="container-wrap">
             <label>輸入城市或鄉鎮名字</label>
@@ -72,7 +163,7 @@ const CreateLocationItemModal = (props: CreateLocationItemModal) => {
         {locationOptions.length > 0 && searchValue !== '' && (
           <div className="location-options">{locationOptionsBlock}</div>
         )}
-      </div>
+      </ModalWrapper>
     </CSSTransition>
   );
 };
