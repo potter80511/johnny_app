@@ -3,10 +3,10 @@ import { animated, Spring, SpringValue } from 'react-spring';
 import { CSSTransition } from 'react-transition-group';
 import { faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { StartStatus } from '@/features/counter/types';
-import transitionStyles from '@/styles/transition_group.module.scss';
+import { StartStatus } from 'src/features/counter/types';
+import transitionStyles from 'src/styles/transition_group.module.scss';
 import styled from 'styled-components';
-import { CustomAnimation } from '@/styles/Styled/CustomAnimation';
+import { CustomAnimation } from 'src/styles/Styled/CustomAnimation';
 
 interface ViewTimesProps {
   showViewHours: boolean;
