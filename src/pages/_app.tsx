@@ -1,6 +1,8 @@
 import 'src/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { Provider } from 'react-redux';
+import { store } from 'src/store';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -23,9 +25,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </Provider>
     </>
   );
 }
