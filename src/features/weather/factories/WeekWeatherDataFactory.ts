@@ -1,14 +1,15 @@
 import {
   WeekTemperature,
   WXType,
-} from 'src/features/weather/domain/model/Weather';
+} from 'src/features/weather/types/Weather';
 import {
   ElementName,
   WeatherElementItem,
   ElementTime,
-} from 'src/features/weather/domain/model/WeatherElement';
-import moment from 'moment';
-import { WeatherDataFactory } from './WeatherDataFactory';
+} from 'src/features/weather/types/WeatherElement';
+import dayjs from 'dayjs';
+import { WeatherDataFactory } from 'src/features/weather/factories/WeatherDataFactory';
+import 'dayjs/locale/zh-tw'
 
 interface WXArray {
   dayName: string;
@@ -44,14 +45,14 @@ export class WeekWeatherDataFactory {
 
     const wXArray = dateArray.map(date => {
       const filterDay = timeArray.filter(time => {
-        const timeDate = moment(time.startTime)
+        const timeDate = dayjs(time.startTime)
           .locale('zh-tw')
           .format('yyyy-MM-DD');
         return timeDate === date;
       });
       // console.log(filterDay)
       // 轉成「星期幾」
-      const dayName = moment(date).locale('zh-tw').format('dddd');
+      const dayName = dayjs(date).locale('zh-tw').format('dddd');
       return {
         dayName,
         wX: filterDay[0].elementValue[0].value as WXType,
@@ -76,7 +77,7 @@ export class WeekWeatherDataFactory {
 
     dateArray.forEach(date => {
       const filterDay = timeArray.filter(time => {
-        const timeDate = moment(time.startTime)
+        const timeDate = dayjs(time.startTime)
           .locale('zh-tw')
           .format('yyyy-MM-DD');
         return timeDate === date;
@@ -105,13 +106,13 @@ export class WeekWeatherDataFactory {
   static createDateArray(timeArray: ElementTime[]): string[] {
     // 找出星期幾
     const filterWithStartTime = timeArray.filter(item => {
-      const startTimeHour = moment(item.startTime).format('HH');
+      const startTimeHour = dayjs(item.startTime).format('HH');
       return startTimeHour === '18';
     });
 
     // 每天的日期
     const dateArray = filterWithStartTime.map(item =>
-      moment(item.startTime).locale('zh-tw').format('yyyy-MM-DD'),
+      dayjs(item.startTime).locale('zh-tw').format('yyyy-MM-DD'),
     );
     return dateArray;
   }

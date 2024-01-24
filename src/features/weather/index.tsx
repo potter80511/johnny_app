@@ -26,7 +26,7 @@ import {
 } from 'src/features/weather/actions/locationsActions';
 import {
   getCurrentDayWeather,
-  // getWeekWeather,
+  getWeekWeather,
 } from 'src/features/weather/actions/fetchActions';
 
 import Locations from 'src/features/weather/components/locations/Locations';
@@ -98,7 +98,7 @@ const WeatherContainer = () => {
     locationType: WeatherLocationType,
     city: TaiwanCities,
   ) => {
-    // dispatch(getWeekWeather(locationName, locationType, city));
+    dispatch(getWeekWeather({ locationName, locationType, city }));
   };
 
   const onSwitchTemperatureType = (value: TemperatureType) => {
@@ -170,13 +170,12 @@ const WeatherContainer = () => {
 
   useEffect(() => {
     dispatch(saveSettingsToToolsCookie());
-    // dispatch(saveSettingsToLocationsCookie())
     if (openedLocationIndex !== undefined) {
       const openInputData = locationItemInputDataArray.find(
         (item, index) => index === openedLocationIndex,
       );
       const { value, type, city } = openInputData;
-      // dispatch(getWeekWeather(value, type, city));
+      dispatch(getWeekWeather({ locationName: value, locationType: type, city}));
     }
   }, [
     temperatureType,
