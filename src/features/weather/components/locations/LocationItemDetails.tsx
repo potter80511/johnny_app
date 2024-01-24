@@ -50,14 +50,17 @@ const LocationItemDetails = (props: LocationItemDetailsProps) => {
   const fixedDistance = 130 - 7 - 20;
   const opacityDistance = 100;
 
-  const contentRef = useRef(null);
-  const todayEveryTimeRef = useRef(null);
-  const moreRef = useRef(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const todayEveryTimeRef = useRef<HTMLDivElement>(null);
+  const moreRef = useRef<HTMLDivElement>(null);
 
   const locationsData = useSelector(locationsDataSelector);
   const locationsLength = locationsData.length;
 
   const onWeekScroll = () => {
+    if(!contentRef.current){
+      return
+    }
     const { scrollTop } = contentRef.current;
     const opacityRate = 1 - scrollTop / opacityDistance;
     const opacity = opacityRate >= 0 ? opacityRate : 0;

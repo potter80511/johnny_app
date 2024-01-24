@@ -18,7 +18,7 @@ interface CurrentWx {
 
 export class LocationWeatherDataFactory {
   static createCurrentDayDataFromNet(
-    data,
+    data: any,
     city: TaiwanCities,
     showCity: boolean,
   ): Omit<CurrentDayDetails, 'locationType' | 'city' | 'inputIndex'> {
@@ -71,6 +71,7 @@ export class LocationWeatherDataFactory {
       const currentTime = wxData.time[0].startTime || '';
       return { wX, currentTime };
     }
+    return { wX: WXType.CLEAR, currentTime: '' };
   }
 
   // static getCurrentWxNight(weatherElement: WeatherElementItem[]): boolean {
@@ -134,7 +135,7 @@ export class LocationWeatherDataFactory {
   static createLocationTodayEveryHourArray(
     weatherElement: WeatherElementItem[],
   ): TodayEveryHour[] {
-    let wxArray = [];
+    let wxArray: Array<Omit<TodayEveryHour, 'hourName' | 'temperature'>> = [];
     const wxData = weatherElement.find(
       item => item.elementName === ElementName.Wx,
     );

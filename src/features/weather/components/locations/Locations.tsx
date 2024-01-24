@@ -11,10 +11,9 @@ import {
 } from 'src/features/weather/types/Weather';
 import {
   LocationValue,
+  SpreadIndex,
 } from 'src/features/weather/types';
 import { styled } from 'styled-components';
-
-// import '@styles/features/weather/Locations.scss';
 
 type LocationsProps = {
   spread: boolean;
@@ -23,7 +22,7 @@ type LocationsProps = {
   temperatureType: TemperatureType;
   locationsData: CurrentDayDetails[];
   weekTemperatureArray: WeekTemperature[];
-  spreadOut: (tlY: number, spreadIndex: number | null) => void;
+  spreadOut: (tlY: number, spreadIndex: SpreadIndex) => void;
   getWeekWeather: (
     locationName: LocationValue,
     locationType: WeatherLocationType,

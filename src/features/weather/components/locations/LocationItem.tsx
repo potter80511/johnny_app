@@ -6,6 +6,7 @@ import {
 } from 'src/features/weather/types/Weather';
 import {
   LocationValue,
+  SpreadIndex,
 } from 'src/features/weather/types';
 import { TemperatureType, TaiwanCities, WeatherLocationType } from 'src/features/weather/enums';
 import { TemperatureHelper } from 'src/features/weather/helper';
@@ -20,7 +21,7 @@ type LocationItemProps = {
   temperatureType: TemperatureType;
   translateD: number;
   spread: boolean;
-  spreadOut: (translateY: number, spreadIndex: number | null) => void;
+  spreadOut: (translateY: number, spreadIndex: SpreadIndex) => void;
   getWeekWeather: (
     locationName: LocationValue,
     locationType: WeatherLocationType,
@@ -44,8 +45,11 @@ const LocationItem = (props: LocationItemProps) => {
 
   const { locationName, locationType, city } = locationData;
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const onItemClick = () => {
+    if(!ref?.current) {
+      return
+    }
     spreadOut(ref.current.clientHeight * index, index);
     getWeekWeather(locationName, locationType, city);
   };
@@ -53,7 +57,7 @@ const LocationItem = (props: LocationItemProps) => {
     spreadOut(0, undefined);
   };
 
-  const onDeleteLocation = (e, deleteIndex: number) => {
+  const onDeleteLocation = (e: React.MouseEvent, deleteIndex: number) => {
     onDelete(deleteIndex);
     e.stopPropagation();
   };
