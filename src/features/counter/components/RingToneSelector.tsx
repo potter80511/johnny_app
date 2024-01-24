@@ -1,5 +1,5 @@
 import React from 'react';
-import { RingToneType } from '@/features/counter/types/ring_tone';
+import { RingToneType } from 'src/features/counter/types/ring_tone';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

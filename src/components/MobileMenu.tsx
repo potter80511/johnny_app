@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import WeatherSvg from '@/components/icons/WeatherSvg';
-import InfinitySvg from '@/components/icons/InfinitySvg';
+import WeatherSvg from 'src/components/icons/WeatherSvg';
+import InfinitySvg from 'src/components/icons/InfinitySvg';
 import Link from 'next/link';
 import { faHome, faStopwatch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CSSTransition } from 'react-transition-group';
 
-import styles from '@/styles/components/MobileMenu.module.scss';
-import transitionStyles from '@/styles/transition_group.module.scss';
+import styles from 'src/styles/components/MobileMenu.module.scss';
+import transitionStyles from 'src/styles/transition_group.module.scss';
 
 const MobileMenu = () => {
   const [showList, setShowList] = useState<boolean>(false);

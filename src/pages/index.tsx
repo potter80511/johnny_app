@@ -1,13 +1,13 @@
 import React from 'react';
-import MainLayout from '@/components/MainLayout';
-import IndexLink from '@/features/home/components/IndexLink';
+import MainLayout from 'src/components/MainLayout';
+import IndexLink from 'src/features/home/components/IndexLink';
 
 import { faStopwatch } from '@fortawesome/free-solid-svg-icons';
 
-import WeatherSvg from '@/components/icons/WeatherSvg';
-import InfinitySvg from '@/components/icons/InfinitySvg';
+import WeatherSvg from 'src/components/icons/WeatherSvg';
+import InfinitySvg from 'src/components/icons/InfinitySvg';
 
-import styles from '@/styles/features/index.module.scss';
+import styles from 'src/styles/features/index.module.scss';
 import Head from 'next/head';
 
 const meta = {
