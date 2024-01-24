@@ -1,5 +1,5 @@
 import { ActionType } from 'src/features/weather/reducers/locationsReducer';
-import { SpreadIndex } from 'src/features/weather/domain/model/SpreadIndex';
+import { SpreadIndex } from 'src/features/weather/types';
 
 export const saveSettingsToCookie = () => ({
   type: ActionType.SaveSettingsToCookie,
