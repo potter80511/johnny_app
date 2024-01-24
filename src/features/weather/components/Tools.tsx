@@ -1,5 +1,4 @@
 import React from 'react';
-// import '@styles/features/weather/Tools.scss';
 import {
   TemperatureType,
   SwitchButtonDataType,
@@ -7,6 +6,7 @@ import {
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
+import styled from 'styled-components';
 
 type SwitchButtonProps = SwitchButtonDataType & {
   currentType: TemperatureType;
@@ -30,6 +30,52 @@ type ToolsProps = {
   onSwitchTemperatureType: (value: TemperatureType) => void;
 };
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 15px;
+  .switch {
+    font-size: 15px;
+    button {
+      font-size: 15px;
+      padding: 0;
+      opacity: .3;
+      &.active {
+        opacity: 1;
+      }
+    }
+    span {
+      padding: 0 5px;
+    }
+  }
+  .home {
+    color: #888;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all .3s;
+    &:hover {
+      color: #eee;
+    }
+  }
+  #add-location {
+    border: 1px solid #fff;
+    width: 20px;
+    height: 20px;
+    line-height: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 16px;
+    svg {
+      color: #fff;
+      height: 11px;
+    }
+  }
+`
+
 const Tools = (props: ToolsProps) => {
   const {
     show,
@@ -39,7 +85,7 @@ const Tools = (props: ToolsProps) => {
   } = props;
   return (
     show && (
-      <div className="tools">
+      <Wrapper>
         <div className="switch">
           <SwitchButton
             currentType={temperatureType}
@@ -65,7 +111,7 @@ const Tools = (props: ToolsProps) => {
         >
           <FontAwesomeIcon icon={faPlus} />
         </button>
-      </div>
+      </Wrapper>
     )
   );
 };
