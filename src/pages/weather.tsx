@@ -3,7 +3,6 @@ import MainLayout from 'src/components/MainLayout';
 import styled from 'styled-components';
 import WeatherContainer from 'src/features/weather';
 import Head from 'next/head';
-// import '@styles/features/weather/weather.scss';
 
 const meta = {
   title: "Johnny's App - 天氣 Weather",
@@ -22,9 +21,6 @@ const WeatherLayout = styled(MainLayout)`
   button {
     color: #fff;
   }
-  /* .weather {
-    overflow: hidden;
-  }*/
 `
 
 const weather = () => {
