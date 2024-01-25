@@ -2,13 +2,9 @@ import React from 'react';
 import MainLayout from 'src/components/MainLayout';
 import IndexLink from 'src/features/home/components/IndexLink';
 
-import { faStopwatch } from '@fortawesome/free-solid-svg-icons';
-
-import WeatherSvg from 'src/components/icons/WeatherSvg';
-import InfinitySvg from 'src/components/icons/InfinitySvg';
-
 import styles from 'src/styles/features/index.module.scss';
 import Head from 'next/head';
+import { navigation } from 'src/constants';
 
 const meta = {
   title: "Johnny's App",
@@ -48,29 +44,18 @@ const index = () => {
         <div className="index">
           <h2>Johnny's App</h2>
           <nav>
-            <IndexLink
-              url="/counter"
-              className="counter"
-              icon={faStopwatch}
-              tip="Counter"
-              tipColor="#0a8a77"
-            />
-            <IndexLink
-              url="/weather"
-              className="weather"
-              tip="Weather"
-              tipColor="#daae2b"
-            >
-              <WeatherSvg />
-            </IndexLink>
-            <IndexLink
-              url="/metronome"
-              className="metronome"
-              tip="Metronome"
-              tipColor="#038caf"
-            >
-              <InfinitySvg />
-            </IndexLink>
+            {navigation.map(({ name, icon }) =>
+              <IndexLink
+                key={`home-menu-${name}`}
+                url={`/${name}`}
+                className={name}
+                icon={icon.fontAwsome}
+                tip={icon.tip}
+                tipColor={icon.tipColor}
+              >
+                {icon.childrenSvg}
+              </IndexLink>
+            )}
           </nav>
         </div>
       </MainLayout>
