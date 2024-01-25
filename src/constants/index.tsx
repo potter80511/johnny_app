@@ -30,12 +30,12 @@ export const navigation: Navigation = [
       tipColor: '#daae2b',
     }
   },
-  {
-    name: 'metronome',
-    icon: {
-      childrenSvg: <InfinitySvg />,
-      tip: 'Metronome',
-      tipColor: '#038caf',
-    }
-  },
+  // {
+  //   name: 'metronome',
+  //   icon: {
+  //     childrenSvg: <InfinitySvg />,
+  //     tip: 'Metronome',
+  //     tipColor: '#038caf',
+  //   }
+  // },
 ]
