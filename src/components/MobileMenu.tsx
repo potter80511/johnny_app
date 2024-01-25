@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import WeatherSvg from 'src/components/icons/WeatherSvg';
-import InfinitySvg from 'src/components/icons/InfinitySvg';
 import Link from 'next/link';
-import { faHome, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
 import styles from 'src/styles/components/MobileMenu.module.scss';
 import transitionStyles from 'src/styles/transition_group.module.scss';
+import { navigation } from 'src/constants';
 
 const Height22Icon = styled(FontAwesomeIcon)`
   height: 22px;
@@ -52,15 +51,15 @@ const MobileMenu = () => {
             <Link href="/" className="nav-button menu-home flex-center">
               <Height22Icon icon={faHome} />
             </Link>
-            <Link href="/counter" className="nav-button menu-counter flex-center">
-              <Height22Icon icon={faStopwatch} />
-            </Link>
-            <Link href="/weather" className="nav-button menu-weather flex-center">
-              <WeatherSvg />
-            </Link>
-            <Link href="/metronome" className="nav-button menu-metronome flex-center">
-              <InfinitySvg />
-            </Link>
+            {navigation.map(({ name, icon }) =>
+              <Link
+                key={`mobiile-menu-${name}`}
+                href={`/${name}`}
+                className={`nav-button menu-${name} flex-center`}
+              >
+                {icon.fontAwsome ? <Height22Icon icon={icon.fontAwsome} /> : icon.childrenSvg}
+              </Link>
+            )}
           </div>
         </div>
       </CSSTransition>
