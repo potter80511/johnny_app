@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Transition, CSSTransition } from 'react-transition-group';
-import transitionStyles from '@/styles/transition_group.module.scss';
-import { RingToneType } from '@/features/counter/types/ring_tone';
+import transitionStyles from 'src/styles/transition_group.module.scss';
+import { RingToneType } from 'src/features/counter/types/ring_tone';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from 'styled-components';

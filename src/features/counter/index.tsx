@@ -3,24 +3,24 @@ import {
   StartStatus,
   StartText,
   TimeSelectChangeType,
-} from '@/features/counter/types';
-import ViewTimes from '@/features/counter/components/ViewTimes';
-import TimeSettingTools from '@/features/counter/components/TimeSettingTools';
-import RingToneSelectModal from '@/features/counter/components/RingToneSelectModal';
-import Alert from '@/components/modals/Alert';
-import TimesUpAlertModal from '@/features/counter/components/TimesUpAlertModal';
-import { RingToneType } from '@/features/counter/types/ring_tone';
-import { CounterCookie } from '@/types/counterCookie';
+} from 'src/features/counter/types';
+import ViewTimes from 'src/features/counter/components/ViewTimes';
+import TimeSettingTools from 'src/features/counter/components/TimeSettingTools';
+import RingToneSelectModal from 'src/features/counter/components/RingToneSelectModal';
+import Alert from 'src/components/modals/Alert';
+import TimesUpAlertModal from 'src/features/counter/components/TimesUpAlertModal';
+import { RingToneType } from 'src/features/counter/types/ring_tone';
+import { CounterCookie } from 'src/types/counterCookie';
 
 import { Howl, Howler } from 'howler';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { useCookies } from 'react-cookie';
 
-import transitionStyles from '@/styles/transition_group.module.scss';
+import transitionStyles from 'src/styles/transition_group.module.scss';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 
-const RingToneSelector = dynamic(() => import('@/features/counter/components/RingToneSelector'), {
+const RingToneSelector = dynamic(() => import('src/features/counter/components/RingToneSelector'), {
   ssr: false
 })
 

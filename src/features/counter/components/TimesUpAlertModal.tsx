@@ -3,7 +3,7 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { animated, useTransition } from 'react-spring';
 import styled from 'styled-components';
-import { alertBase } from '@/features/counter/Styled';
+import { alertBase } from 'src/features/counter/Styled';
 
 export interface TimesUpAlertProps {
   id?: string;

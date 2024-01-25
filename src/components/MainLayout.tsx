@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MobileMenu from '@/components/MobileMenu';
+import MobileMenu from 'src/components/MobileMenu';
 
 type MainLayoutProps = {
   id?: string;

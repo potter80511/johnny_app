@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { CSSTransition } from 'react-transition-group';
-import styles from '@/styles/transition_group.module.scss';
-import IndexLinkStyles from '@/styles/IndexLink.module.scss';
+import styles from 'src/styles/transition_group.module.scss';
+import IndexLinkStyles from 'src/styles/IndexLink.module.scss';
 
 type IndexLinkProps = {
   className: string;

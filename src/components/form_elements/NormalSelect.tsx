@@ -1,5 +1,5 @@
 import React from 'react';
-import { optionType } from '@/types';
+import { optionType } from 'src/types';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';

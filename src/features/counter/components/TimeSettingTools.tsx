@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ForwardedRef, forwardRef } from 'react';
-import NormalSelect from '@/components/form_elements/NormalSelect';
-import { optionType } from '@/types';
-import { TimeSelectChangeType } from '@/features/counter/types';
+import NormalSelect from 'src/components/form_elements/NormalSelect';
+import { optionType } from 'src/types';
+import { TimeSelectChangeType } from 'src/features/counter/types';
 import { styled } from 'styled-components';
 
 type TimeSettingToolDatas = {

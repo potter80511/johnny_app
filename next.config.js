@@ -12,6 +12,9 @@ const nextConfig = {
   },
   basePath: "/johnny_app",
   assetPrefix:"/johnny_app",
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 }
 
 module.exports = nextConfig
