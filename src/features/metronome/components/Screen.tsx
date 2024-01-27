@@ -8,6 +8,7 @@ import { blueLightActiveSelector } from 'src/features/metronome/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { blueLightsOn, fadeOutSlowly, greenLightsOn, lightsOn, scaleBounceOff, scaleBounceOn } from 'src/features/metronome/Styled';
 
 const commonLightLong = 400;
 
@@ -41,6 +42,7 @@ const ScreenInner = styled.div`
 const ScreenHead = styled.div`
   display: flex;
   justify-content: space-between;
+
   span {
     display: block;
   }
@@ -115,13 +117,13 @@ const ScreenHead = styled.div`
         &.on {
           color: #eadd8d;
           opacity: 1;
-          animation: scaleBounceOn 0.3s ease-in-out;
+          animation: ${scaleBounceOn} 0.3s ease-in-out;
         }
         &.off {
           color: #ece9d1;
           opacity: 0.3;
           transform: scale(0.9, 0.9);
-          animation: scaleBounceOff 0.3s ease-in-out;
+          animation: ${scaleBounceOff} 0.3s ease-in-out;
         }
       }
     }
@@ -152,7 +154,7 @@ const ScreenHead = styled.div`
         font-size: 9px;
         color: red;
         opacity: 0;
-        animation: fadeOutSlowly 2s ease-in-out;
+        animation: ${fadeOutSlowly} 2s ease-in-out;
       }
     }
   }
@@ -188,13 +190,13 @@ const BeatingLights = styled.div`
   .left-light {
     background-color: #58beea;
     &.active {
-      animation-name: lightsOn, blueLightsOn;
+      animation-name: ${lightsOn}, ${blueLightsOn};
     }
   }
   .right-light {
     background-color: #3fea6c;
     &.active {
-      animation-name: lightsOn, greenLightsOn;
+      animation-name: ${lightsOn}, ${greenLightsOn};
     }
   }
   .lights {
