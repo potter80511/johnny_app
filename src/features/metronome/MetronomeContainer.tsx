@@ -7,101 +7,99 @@ import StartField from 'src/features/metronome/components/StartField';
 // import { TimeSignature } from 'src/features/metronome/domain/model/TimeSignature';
 // import '@styles/features/metronome/Metronome.scss';
 
-// import { actions as settingActions } from 'src/features/metronome/slices/settingSlice';
-// import { actions as beatingActions } from 'src/features/metronome/slices/beatingSlice';
+// import { actions as settingActions } from 'src/features/metronome/reducers/slices/settingSlice';
+import { actions as beatingActions } from 'src/features/metronome/reducers/slices/beatingSlice';
 import {
 //   settingSelector,
 //   timeSignatureSelector,
 //   showTempoTypeModalSelector,
 //   firstBeatHintSelector,
 //   currentTimeSignatureIndexSelector,
-//   computedTimeSignatureSelector,
-//   perBeatSecondsSelector,
-//   beatingNumberSelector,
+  computedTimeSignatureSelector,
+  perBeatSecondsSelector,
+  beatingNumberSelector,
   beatingStatusSelector,
 //   speedExpressionSelector,
-//   countingSecondsSelector,
+  countingSecondsSelector,
   countingTimesSelector,
   currentVoiceSelector,
 //   voiceSwitchDegSelector,
-//   soundSelector,
+  soundSelector,
 } from 'src/features/metronome/selectors';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
-import { useSelector, useDispatch } from 'react-redux';
-
 import { Howl, Howler } from 'howler';
 
-let beating;
-let counting;
+let beating: any;
+let counting: any;
 
 const MetronomeContainer = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  // const setting = useSelector(settingSelector);
-  // const timeSignature = useSelector(timeSignatureSelector);
-  // const showTempoTypeModal = useSelector(showTempoTypeModalSelector);
-  // const firstBeatHint = useSelector(firstBeatHintSelector);
-  // const currentTimeSignatureIndex = useSelector(
+  // const setting = useAppSelector(settingSelector);
+  // const timeSignature = useAppSelector(timeSignatureSelector);
+  // const showTempoTypeModal = useAppSelector(showTempoTypeModalSelector);
+  // const firstBeatHint = useAppSelector(firstBeatHintSelector);
+  // const currentTimeSignatureIndex = useAppSelector(
   //   currentTimeSignatureIndexSelector,
   // );
-  // const computedTimeSignature = useSelector(computedTimeSignatureSelector);
-  // const perBeatSeconds = useSelector(perBeatSecondsSelector);
+  const computedTimeSignature = useAppSelector(computedTimeSignatureSelector);
+  const perBeatSeconds = useAppSelector(perBeatSecondsSelector);
 
-  // const maxBeatNumber = computedTimeSignature.beatingPerSignature;
-  // const beatNumber = useSelector(beatingNumberSelector);
+  const maxBeatNumber = computedTimeSignature.beatingPerSignature;
+  const beatNumber = useAppSelector(beatingNumberSelector);
   const startStatus = useAppSelector(beatingStatusSelector);
-  // const speedExpression = useSelector(speedExpressionSelector);
-  // const countingSeconds = useSelector(countingSecondsSelector);
+  // const speedExpression = useAppSelector(speedExpressionSelector);
+  const countingSeconds = useAppSelector(countingSecondsSelector);
   const countingTimes = useAppSelector(countingTimesSelector);
   const currentVoice = useAppSelector(currentVoiceSelector);
-  // const voiceSwitchDeg = useSelector(voiceSwitchDegSelector);
+  // const voiceSwitchDeg = useAppSelector(voiceSwitchDegSelector);
 
-  // const sound = useSelector(soundSelector);
+  const sound = useAppSelector(soundSelector);
 
-  // let tempBeatNumber = beatNumber;
+  let tempBeatNumber = beatNumber;
 
-  // const beater = () => {
-  //   dispatch(beatingActions.setBlueLightActive(true));
-  //   if (tempBeatNumber === maxBeatNumber) {
-  //     sound.ding.play();
-  //     tempBeatNumber = 1;
-  //   } else {
-  //     sound.common.play();
-  //     tempBeatNumber += 1;
-  //   }
-  //   dispatch(beatingActions.beat(tempBeatNumber));
-  // };
+  const beater = () => {
+    dispatch(beatingActions.setBlueLightActive(true));
+    if (tempBeatNumber === maxBeatNumber) {
+      sound.ding.play();
+      tempBeatNumber = 1;
+    } else {
+      sound.common.play();
+      tempBeatNumber += 1;
+    }
+    dispatch(beatingActions.beat(tempBeatNumber));
+  };
 
-  // let tempSeconds = countingSeconds;
+  let tempSeconds = countingSeconds;
 
-  // const counter = () => {
-  //   tempSeconds += 1;
-  //   dispatch(beatingActions.countingTime(tempSeconds));
-  // };
+  const counter = () => {
+    tempSeconds += 1;
+    dispatch(beatingActions.countingTime(tempSeconds));
+  };
 
   const onStartStop = (status: boolean) => {
-    // if (status) {
-    //   sound.ding.play();
-    //   dispatch(beatingActions.setBlueLightActive(true));
+    if (status) {
+      sound.ding.play();
+      dispatch(beatingActions.setBlueLightActive(true));
 
-    //   if (tempBeatNumber === maxBeatNumber) {
-    //     tempBeatNumber = 1;
-    //     dispatch(beatingActions.beat(tempBeatNumber));
-    //   }
-    //   beating = setInterval(beater, perBeatSeconds);
+      if (tempBeatNumber === maxBeatNumber) {
+        tempBeatNumber = 1;
+        dispatch(beatingActions.beat(tempBeatNumber));
+      }
+      beating = setInterval(beater, perBeatSeconds);
 
-    //   // 秒數計時
-    //   dispatch(beatingActions.countingTime(0)); // 剛點開始要reset為0
-    //   tempSeconds = 0; // 剛點開始要reset為0
-    //   counting = setInterval(counter, 1000);
-    // } else {
-    //   Howler.stop();
-    //   dispatch(beatingActions.beat(maxBeatNumber));
-    //   clearInterval(beating);
-    //   clearInterval(counting);
-    // }
-    // dispatch(beatingActions.statusChanged(status));
+      // 秒數計時
+      dispatch(beatingActions.countingTime(0)); // 剛點開始要reset為0
+      tempSeconds = 0; // 剛點開始要reset為0
+      counting = setInterval(counter, 1000);
+    } else {
+      Howler.stop();
+      dispatch(beatingActions.beat(maxBeatNumber));
+      clearInterval(beating);
+      clearInterval(counting);
+    }
+    dispatch(beatingActions.statusChanged(status));
   };
 
   // const closeModal = () => dispatch(settingActions.onShowTempoTypeModal(false));
