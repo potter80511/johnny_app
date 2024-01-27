@@ -29,6 +29,51 @@ import {
 import { useAppDispatch, useAppSelector } from 'src/store';
 
 import { Howl, Howler } from 'howler';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  background-color: #444;
+  width: 100%;
+  height: 100%;
+  max-height: 630px;
+  max-width: 404px;
+  padding-bottom: 30px;
+  touch-action: manipulation;
+  *:not(input) {
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+  @media (max-width: 575px) {
+    height: 100%;
+  }
+`
+const MetronomeHead = styled.div`
+  padding: 15px 10px;
+  background-color: #222;
+`
+const MetronomeBody = styled.div`
+  padding: 10px;
+  border-top: 1px solid #777;
+  text-align: center;
+  .adjusting-tools,
+  .other-tools {
+    display: flex;
+  }
+  .adjusting-tools {
+    justify-content: space-between;
+    margin-bottom: 30px;
+    .adjusting-tool {
+      flex: 1;
+    }
+  }
+`
+const OtherTools = styled.div`
+  justify-content: center;
+`
 
 let beating: any;
 let counting: any;
@@ -123,8 +168,8 @@ const MetronomeContainer = () => {
   // }, [timeSignature, setting.originalSpeed, currentVoice, firstBeatHint]);
 
   return (
-    <div className="metronome">
-      <div className="metronome-head">
+    <Wrapper>
+      <MetronomeHead>
         {/* <Screen
           startStatus={startStatus}
           firstBeatHint={firstBeatHint}
@@ -160,8 +205,8 @@ const MetronomeContainer = () => {
           }}
           closeModal={closeModal}
         /> */}
-      </div>
-      <div className="metronome-body">
+      </MetronomeHead>
+      <MetronomeBody>
         <div className="adjusting-tools">
           {/* <AdjustingTool
             label="拍子"
@@ -181,7 +226,7 @@ const MetronomeContainer = () => {
             }}
           /> */}
         </div>
-        <div className="other-tools">
+        <OtherTools>
           {/* <VoiceSwitch
             currentVoice={currentVoice}
             switchDeg={voiceSwitchDeg}
@@ -204,9 +249,9 @@ const MetronomeContainer = () => {
             currentVoice={currentVoice}
             onStartStop={onStartStop}
           />
-        </div>
-      </div>
-    </div>
+        </OtherTools>
+      </MetronomeBody>
+    </Wrapper>
   );
 };
 
