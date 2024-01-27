@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 // import Screen from 'src/features/metronome/components/Screen';
-// import AdjustingTool from 'src/features/metronome/components/AdjustingTool';
+import AdjustingTool from 'src/features/metronome/components/AdjustingTool';
 import VoiceSwitch from 'src/features/metronome/components/VoiceSwitch';
 // import TempoTypeModal from 'src/features/metronome/components/TempoTypeModal';
 import StartField from 'src/features/metronome/components/StartField';
@@ -9,11 +9,11 @@ import StartField from 'src/features/metronome/components/StartField';
 import { actions as settingActions } from 'src/features/metronome/reducers/slices/settingSlice';
 import { actions as beatingActions } from 'src/features/metronome/reducers/slices/beatingSlice';
 import {
-//   settingSelector,
+  settingSelector,
 //   timeSignatureSelector,
 //   showTempoTypeModalSelector,
 //   firstBeatHintSelector,
-//   currentTimeSignatureIndexSelector,
+  currentTimeSignatureIndexSelector,
   computedTimeSignatureSelector,
   perBeatSecondsSelector,
   beatingNumberSelector,
@@ -67,6 +67,14 @@ const MetronomeBody = styled.div`
     }
   }
 `
+const AdjustingTools = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  .adjusting-tool {
+    flex: 1;
+  }
+`
 const OtherTools = styled.div`
 display: flex;
   justify-content: center;
@@ -78,13 +86,13 @@ let counting: any;
 const MetronomeContainer = () => {
   const dispatch = useAppDispatch();
 
-  // const setting = useAppSelector(settingSelector);
+  const setting = useAppSelector(settingSelector);
   // const timeSignature = useAppSelector(timeSignatureSelector);
   // const showTempoTypeModal = useAppSelector(showTempoTypeModalSelector);
   // const firstBeatHint = useAppSelector(firstBeatHintSelector);
-  // const currentTimeSignatureIndex = useAppSelector(
-  //   currentTimeSignatureIndexSelector,
-  // );
+  const currentTimeSignatureIndex = useAppSelector(
+    currentTimeSignatureIndexSelector,
+  );
   const computedTimeSignature = useAppSelector(computedTimeSignatureSelector);
   const perBeatSeconds = useAppSelector(perBeatSecondsSelector);
 
@@ -204,8 +212,8 @@ const MetronomeContainer = () => {
         /> */}
       </MetronomeHead>
       <MetronomeBody>
-        <div className="adjusting-tools">
-          {/* <AdjustingTool
+        <AdjustingTools>
+          <AdjustingTool
             label="拍子"
             currentValue={currentTimeSignatureIndex}
             sound={sound}
@@ -221,8 +229,8 @@ const MetronomeContainer = () => {
               dispatch(settingActions.update({ speed: String(newValue) }));
               dispatch(settingActions.onBlurChecked(String(newValue)));
             }}
-          /> */}
-        </div>
+          />
+        </AdjustingTools>
         <OtherTools>
           <VoiceSwitch
             currentVoice={currentVoice}
