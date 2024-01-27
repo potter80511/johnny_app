@@ -3,13 +3,13 @@ import React, { useEffect } from 'react';
 // import AdjustingTool from 'src/features/metronome/components/AdjustingTool';
 // import VoiceSwitch from 'src/features/metronome/components/VoiceSwitch';
 // import TempoTypeModal from 'src/features/metronome/components/TempoTypeModal';
-// import StartField from 'src/features/metronome/components/StartField';
+import StartField from 'src/features/metronome/components/StartField';
 // import { TimeSignature } from 'src/features/metronome/domain/model/TimeSignature';
 // import '@styles/features/metronome/Metronome.scss';
 
 // import { actions as settingActions } from 'src/features/metronome/slices/settingSlice';
 // import { actions as beatingActions } from 'src/features/metronome/slices/beatingSlice';
-// import {
+import {
 //   settingSelector,
 //   timeSignatureSelector,
 //   showTempoTypeModalSelector,
@@ -18,14 +18,15 @@ import React, { useEffect } from 'react';
 //   computedTimeSignatureSelector,
 //   perBeatSecondsSelector,
 //   beatingNumberSelector,
-//   beatingStatusSelector,
+  beatingStatusSelector,
 //   speedExpressionSelector,
 //   countingSecondsSelector,
-//   countingTimesSelector,
-//   currentVoiceSelector,
+  countingTimesSelector,
+  currentVoiceSelector,
 //   voiceSwitchDegSelector,
 //   soundSelector,
-// } from 'src/features/metronome/selectors';
+} from 'src/features/metronome/selectors';
+import { useAppDispatch, useAppSelector } from 'src/store';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -49,11 +50,11 @@ const MetronomeContainer = () => {
 
   // const maxBeatNumber = computedTimeSignature.beatingPerSignature;
   // const beatNumber = useSelector(beatingNumberSelector);
-  // const startStatus = useSelector(beatingStatusSelector);
+  const startStatus = useAppSelector(beatingStatusSelector);
   // const speedExpression = useSelector(speedExpressionSelector);
   // const countingSeconds = useSelector(countingSecondsSelector);
-  // const countingTimes = useSelector(countingTimesSelector);
-  // const currentVoice = useSelector(currentVoiceSelector);
+  const countingTimes = useAppSelector(countingTimesSelector);
+  const currentVoice = useAppSelector(currentVoiceSelector);
   // const voiceSwitchDeg = useSelector(voiceSwitchDegSelector);
 
   // const sound = useSelector(soundSelector);
@@ -79,29 +80,29 @@ const MetronomeContainer = () => {
   //   dispatch(beatingActions.countingTime(tempSeconds));
   // };
 
-  // const onStartStop = (status: boolean) => {
-  //   if (status) {
-  //     sound.ding.play();
-  //     dispatch(beatingActions.setBlueLightActive(true));
+  const onStartStop = (status: boolean) => {
+    // if (status) {
+    //   sound.ding.play();
+    //   dispatch(beatingActions.setBlueLightActive(true));
 
-  //     if (tempBeatNumber === maxBeatNumber) {
-  //       tempBeatNumber = 1;
-  //       dispatch(beatingActions.beat(tempBeatNumber));
-  //     }
-  //     beating = setInterval(beater, perBeatSeconds);
+    //   if (tempBeatNumber === maxBeatNumber) {
+    //     tempBeatNumber = 1;
+    //     dispatch(beatingActions.beat(tempBeatNumber));
+    //   }
+    //   beating = setInterval(beater, perBeatSeconds);
 
-  //     // 秒數計時
-  //     dispatch(beatingActions.countingTime(0)); // 剛點開始要reset為0
-  //     tempSeconds = 0; // 剛點開始要reset為0
-  //     counting = setInterval(counter, 1000);
-  //   } else {
-  //     Howler.stop();
-  //     dispatch(beatingActions.beat(maxBeatNumber));
-  //     clearInterval(beating);
-  //     clearInterval(counting);
-  //   }
-  //   dispatch(beatingActions.statusChanged(status));
-  // };
+    //   // 秒數計時
+    //   dispatch(beatingActions.countingTime(0)); // 剛點開始要reset為0
+    //   tempSeconds = 0; // 剛點開始要reset為0
+    //   counting = setInterval(counter, 1000);
+    // } else {
+    //   Howler.stop();
+    //   dispatch(beatingActions.beat(maxBeatNumber));
+    //   clearInterval(beating);
+    //   clearInterval(counting);
+    // }
+    // dispatch(beatingActions.statusChanged(status));
+  };
 
   // const closeModal = () => dispatch(settingActions.onShowTempoTypeModal(false));
 
@@ -198,13 +199,13 @@ const MetronomeContainer = () => {
                 }),
               )
             }
-          />
+          /> */}
           <StartField
             startStatus={startStatus}
             countingTimes={countingTimes}
             currentVoice={currentVoice}
             onStartStop={onStartStop}
-          /> */}
+          />
         </div>
       </div>
     </div>
