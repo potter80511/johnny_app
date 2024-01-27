@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers, applyMiddleware } from 'redux';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import weatherReducer, {
-  CombinedState as WeatherState,
-} from 'src/features/weather/reducers/combinedReducer';
+import weatherReducer from 'src/features/weather/reducers/combinedReducer';
+import metronomeReducer from 'src/features/metronome/reducers';
 
 const appReducer = combineReducers({
   weather: weatherReducer,
+  metronome: metronomeReducer,
 })
 
 export function makeStore() {
