@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import Screen from 'src/features/metronome/components/Screen';
 import AdjustingTool from 'src/features/metronome/components/AdjustingTool';
 import VoiceSwitch from 'src/features/metronome/components/VoiceSwitch';
-// import TempoTypeModal from 'src/features/metronome/components/TempoTypeModal';
+import TempoTypeModal from 'src/features/metronome/components/TempoTypeModal';
 import StartField from 'src/features/metronome/components/StartField';
-// import { TimeSignature } from 'src/features/metronome/domain/model/TimeSignature';
+import { TimeSignature } from 'src/features/metronome/enums/TimeSignature';
 
 import { actions as settingActions } from 'src/features/metronome/reducers/slices/settingSlice';
 import { actions as beatingActions } from 'src/features/metronome/reducers/slices/beatingSlice';
 import {
   settingSelector,
   timeSignatureSelector,
-//   showTempoTypeModalSelector,
+  showTempoTypeModalSelector,
   firstBeatHintSelector,
   currentTimeSignatureIndexSelector,
   computedTimeSignatureSelector,
@@ -88,7 +88,7 @@ const MetronomeContainer = () => {
 
   const setting = useAppSelector(settingSelector);
   const timeSignature = useAppSelector(timeSignatureSelector);
-  // const showTempoTypeModal = useAppSelector(showTempoTypeModalSelector);
+  const showTempoTypeModal = useAppSelector(showTempoTypeModalSelector);
   const firstBeatHint = useAppSelector(firstBeatHintSelector);
   const currentTimeSignatureIndex = useAppSelector(
     currentTimeSignatureIndexSelector,
@@ -152,7 +152,7 @@ const MetronomeContainer = () => {
     dispatch(beatingActions.statusChanged(status));
   };
 
-  // const closeModal = () => dispatch(settingActions.onShowTempoTypeModal(false));
+  const closeModal = () => dispatch(settingActions.onShowTempoTypeModal(false));
 
   useEffect(() => {
     dispatch(settingActions.loaded());
@@ -200,7 +200,7 @@ const MetronomeContainer = () => {
           }
           onInputFucus={() => onStartStop(false)}
         />
-        {/* <TempoTypeModal
+        <TempoTypeModal
           show={showTempoTypeModal}
           currentTimeSignature={timeSignature}
           sound={sound}
@@ -209,7 +209,7 @@ const MetronomeContainer = () => {
             closeModal();
           }}
           closeModal={closeModal}
-        /> */}
+        />
       </MetronomeHead>
       <MetronomeBody>
         <AdjustingTools>
