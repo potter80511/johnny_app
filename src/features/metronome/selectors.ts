@@ -111,7 +111,7 @@ export const speedExpressionSelector = createSelector(speedSelector, speed => {
   if (speed > 199) {
     return SpeedExpression.Prestissimo;
   }
-  return 'no';
+  return SpeedExpression.Adagissimo;
 });
 
 export const currentVoiceSelector = createSelector(

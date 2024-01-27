@@ -31,7 +31,7 @@ export const { actions, reducer } = createSlice({
   name: 'metronome/setting/',
   initialState: defaultState,
   reducers: {
-    loaded: (state, _action) => {
+    loaded: (state) => {
       const metronomeSettingsFromLocalStorage = localStorage.getItem('metronome_settings')
 
       const metronome_settings: any = metronomeSettingsFromLocalStorage
@@ -53,7 +53,7 @@ export const { actions, reducer } = createSlice({
         firstBeatHint,
       };
     },
-    setLocalStorage: (state, _action) => {
+    setLocalStorage: (state) => {
       const {
         timeSignature,
         speed,

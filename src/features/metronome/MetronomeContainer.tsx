@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-// import Screen from 'src/features/metronome/components/Screen';
+import Screen from 'src/features/metronome/components/Screen';
 import AdjustingTool from 'src/features/metronome/components/AdjustingTool';
 import VoiceSwitch from 'src/features/metronome/components/VoiceSwitch';
 // import TempoTypeModal from 'src/features/metronome/components/TempoTypeModal';
@@ -10,15 +10,15 @@ import { actions as settingActions } from 'src/features/metronome/reducers/slice
 import { actions as beatingActions } from 'src/features/metronome/reducers/slices/beatingSlice';
 import {
   settingSelector,
-//   timeSignatureSelector,
+  timeSignatureSelector,
 //   showTempoTypeModalSelector,
-//   firstBeatHintSelector,
+  firstBeatHintSelector,
   currentTimeSignatureIndexSelector,
   computedTimeSignatureSelector,
   perBeatSecondsSelector,
   beatingNumberSelector,
   beatingStatusSelector,
-//   speedExpressionSelector,
+  speedExpressionSelector,
   countingSecondsSelector,
   countingTimesSelector,
   currentVoiceSelector,
@@ -87,9 +87,9 @@ const MetronomeContainer = () => {
   const dispatch = useAppDispatch();
 
   const setting = useAppSelector(settingSelector);
-  // const timeSignature = useAppSelector(timeSignatureSelector);
+  const timeSignature = useAppSelector(timeSignatureSelector);
   // const showTempoTypeModal = useAppSelector(showTempoTypeModalSelector);
-  // const firstBeatHint = useAppSelector(firstBeatHintSelector);
+  const firstBeatHint = useAppSelector(firstBeatHintSelector);
   const currentTimeSignatureIndex = useAppSelector(
     currentTimeSignatureIndexSelector,
   );
@@ -99,7 +99,7 @@ const MetronomeContainer = () => {
   const maxBeatNumber = computedTimeSignature.beatingPerSignature;
   const beatNumber = useAppSelector(beatingNumberSelector);
   const startStatus = useAppSelector(beatingStatusSelector);
-  // const speedExpression = useAppSelector(speedExpressionSelector);
+  const speedExpression = useAppSelector(speedExpressionSelector);
   const countingSeconds = useAppSelector(countingSecondsSelector);
   const countingTimes = useAppSelector(countingTimesSelector);
   const currentVoice = useAppSelector(currentVoiceSelector);
@@ -154,28 +154,28 @@ const MetronomeContainer = () => {
 
   // const closeModal = () => dispatch(settingActions.onShowTempoTypeModal(false));
 
-  // useEffect(() => {
-  //   dispatch(settingActions.loaded());
-  // }, []);
+  useEffect(() => {
+    dispatch(settingActions.loaded());
+  }, []);
 
-  // useEffect(() => {
-  //   dispatch(beatingActions.beat(maxBeatNumber));
-  // }, [maxBeatNumber]);
+  useEffect(() => {
+    dispatch(beatingActions.beat(maxBeatNumber));
+  }, [maxBeatNumber]);
 
-  // useEffect(() => {
-  //   if (startStatus) {
-  //     onStartStop(false);
-  //   }
-  // }, [setting]);
+  useEffect(() => {
+    if (startStatus) {
+      onStartStop(false);
+    }
+  }, [setting]);
 
-  // useEffect(() => {
-  //   dispatch(settingActions.setLocalStorage());
-  // }, [timeSignature, setting.originalSpeed, currentVoice, firstBeatHint]);
+  useEffect(() => {
+    dispatch(settingActions.setLocalStorage());
+  }, [timeSignature, setting.originalSpeed, currentVoice, firstBeatHint]);
 
   return (
     <Wrapper>
       <MetronomeHead>
-        {/* <Screen
+        <Screen
           startStatus={startStatus}
           firstBeatHint={firstBeatHint}
           beatNumber={beatNumber}
@@ -200,7 +200,7 @@ const MetronomeContainer = () => {
           }
           onInputFucus={() => onStartStop(false)}
         />
-        <TempoTypeModal
+        {/* <TempoTypeModal
           show={showTempoTypeModal}
           currentTimeSignature={timeSignature}
           sound={sound}
