@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 // import Screen from 'src/features/metronome/components/Screen';
 // import AdjustingTool from 'src/features/metronome/components/AdjustingTool';
-// import VoiceSwitch from 'src/features/metronome/components/VoiceSwitch';
+import VoiceSwitch from 'src/features/metronome/components/VoiceSwitch';
 // import TempoTypeModal from 'src/features/metronome/components/TempoTypeModal';
 import StartField from 'src/features/metronome/components/StartField';
 // import { TimeSignature } from 'src/features/metronome/domain/model/TimeSignature';
-// import '@styles/features/metronome/Metronome.scss';
 
-// import { actions as settingActions } from 'src/features/metronome/reducers/slices/settingSlice';
+import { actions as settingActions } from 'src/features/metronome/reducers/slices/settingSlice';
 import { actions as beatingActions } from 'src/features/metronome/reducers/slices/beatingSlice';
 import {
 //   settingSelector,
@@ -23,7 +22,7 @@ import {
   countingSecondsSelector,
   countingTimesSelector,
   currentVoiceSelector,
-//   voiceSwitchDegSelector,
+  voiceSwitchDegSelector,
   soundSelector,
 } from 'src/features/metronome/selectors';
 import { useAppDispatch, useAppSelector } from 'src/store';
@@ -59,11 +58,8 @@ const MetronomeBody = styled.div`
   padding: 10px;
   border-top: 1px solid #777;
   text-align: center;
-  .adjusting-tools,
-  .other-tools {
-    display: flex;
-  }
   .adjusting-tools {
+    display: flex;
     justify-content: space-between;
     margin-bottom: 30px;
     .adjusting-tool {
@@ -72,6 +68,7 @@ const MetronomeBody = styled.div`
   }
 `
 const OtherTools = styled.div`
+display: flex;
   justify-content: center;
 `
 
@@ -98,7 +95,7 @@ const MetronomeContainer = () => {
   const countingSeconds = useAppSelector(countingSecondsSelector);
   const countingTimes = useAppSelector(countingTimesSelector);
   const currentVoice = useAppSelector(currentVoiceSelector);
-  // const voiceSwitchDeg = useAppSelector(voiceSwitchDegSelector);
+  const voiceSwitchDeg = useAppSelector(voiceSwitchDegSelector);
 
   const sound = useAppSelector(soundSelector);
 
@@ -227,7 +224,7 @@ const MetronomeContainer = () => {
           /> */}
         </div>
         <OtherTools>
-          {/* <VoiceSwitch
+          <VoiceSwitch
             currentVoice={currentVoice}
             switchDeg={voiceSwitchDeg}
             sound={sound}
@@ -242,7 +239,7 @@ const MetronomeContainer = () => {
                 }),
               )
             }
-          /> */}
+          />
           <StartField
             startStatus={startStatus}
             countingTimes={countingTimes}

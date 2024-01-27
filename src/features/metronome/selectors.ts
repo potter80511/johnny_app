@@ -136,7 +136,7 @@ export const voiceSwitchDegSelector = createSelector(
       case VoiceName.Voice5:
         return '-180deg';
       default:
-        break;
+        return '0deg';
     }
   },
 );
