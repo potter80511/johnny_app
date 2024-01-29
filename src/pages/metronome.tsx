@@ -37,7 +37,7 @@ const metronome = () => {
         <meta name="og:type" content={ogtype} />
         <meta name="og:sitename" content={ogsitename} />
       </Head>
-      <MainLayout id="metronome" className="flex-center" height>
+      <MainLayout id="metronome" className="flex-center" shouldUseViewHeight>
         <MetronomeContainer />
       </MainLayout>
     </>
