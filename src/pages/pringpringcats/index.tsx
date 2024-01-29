@@ -1,8 +1,7 @@
 import React from 'react';
 import MainLayout from 'src/components/MainLayout';
-import MetronomeContainer from 'src/features/metronome/MetronomeContainer';
-import Head from 'next/head';
 import PringPringCatsIndex from 'src/features/pringpringcats';
+import Head from 'next/head';
 
 const meta = {
   title: "Johnny's App - Pring Pring Cats 毛昕&毛馨",
