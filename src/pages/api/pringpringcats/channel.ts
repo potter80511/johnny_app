@@ -13,7 +13,6 @@ const channel = async (
     const response = await fetch(
       'https://www.googleapis.com/youtube/v3/channels?key=AIzaSyDrvBbitoDXcIHklICoeE6w_guJrwotF0k&id=UCrfpfIhOA_bH9QJvZNluv9w&part=snippet,contentDetails,statistics',
     )
-    console.log(response, 'response')
     const rawData = await response.json()
     res.json({ data: rawData })
   } catch (error) {
