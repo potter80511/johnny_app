@@ -17,7 +17,7 @@ const meta = {
 };
 
 const WeatherLayout = styled(MainLayout)`
-  align-items: flex-start;
+  /* align-items: flex-start; */
   button {
     color: #fff;
   }
@@ -45,7 +45,7 @@ const weather = () => {
         <meta name="og:type" content={ogtype} />
         <meta name="og:sitename" content={ogsitename} />
       </Head>
-      <WeatherLayout className="flex-center">
+      <WeatherLayout id="weather">
         <WeatherContainer />
       </WeatherLayout>
     </>

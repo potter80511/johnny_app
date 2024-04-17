@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MobileMenu from 'src/components/MobileMenu';
+import { CommonWrap } from 'src/styles/Styled';
 
 type MainLayoutProps = {
   id?: string;
@@ -7,6 +8,7 @@ type MainLayoutProps = {
   children?: React.ReactNode;
   shouldUseMinHeight?: boolean;
   shouldUseViewHeight?: boolean;
+  shouldCenter?: boolean;
 };
 
 const MainLayout = (props: MainLayoutProps) => {
@@ -17,6 +19,7 @@ const MainLayout = (props: MainLayoutProps) => {
     children,
     shouldUseMinHeight = true,
     shouldUseViewHeight = false,
+    shouldCenter = false
   } = props;
 
   useEffect(() => {
@@ -35,7 +38,9 @@ const MainLayout = (props: MainLayoutProps) => {
         }}
         className={className}
       >
-        {children}
+        <CommonWrap className={shouldCenter ? 'flex-center' : ''}>
+          {children}
+        </CommonWrap>
       </div>
     </>
   );
