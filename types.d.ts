@@ -6,3 +6,9 @@ type Callback<RawData> = {
 }
 
 type Fetcher<RawData, Payload = any> = (params: {payload?: Payload, callBack: Callback<RawData>}) => Promise<void>
+
+type APIResponse<Data = any> = {
+  message?: string
+  success: boolean
+  data?: Data
+}
