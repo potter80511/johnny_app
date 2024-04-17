@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import MainLayout from 'src/components/MainLayout';
-import MetronomeContainer from 'src/features/metronome/MetronomeContainer';
+import InterviewsIndex from 'src/features/interviews';
 import Head from 'next/head';
-import handler from './api/hello';
-import interviews from './api/interviews';
 
 // const meta = {
 //   title: "Johnny's App - 節拍器 Metronome",
@@ -28,22 +26,6 @@ const Interviews = () => {
   //   ogsitename
   // } = meta
 
-  const getInterviews = async () => {
-    const testResponse = await fetch('/api/interviews')
-    const testRawData = await testResponse.json()
-    console.log(testRawData, 'getInterviews')
-  }
-  const createInterviews = async () => {
-    const testResponse = await fetch('/api/interviews', { method: 'POST' })
-    const testRawData = await testResponse.json()
-    console.log(testRawData, 'createInterviews')
-  }
-
-  useEffect(() => {
-    getInterviews()
-    createInterviews()
-  }, [])
-
   return (
     <>
       {/* <Head>
@@ -56,7 +38,7 @@ const Interviews = () => {
         <meta name="og:sitename" content={ogsitename} />
       </Head> */}
       <MainLayout id="interviews">
-      interviews
+        <InterviewsIndex/>
       </MainLayout>
     </>
   );

@@ -16,5 +16,5 @@ type Fetcher<RawData, Payload = any> = (params: {payload?: Payload, callBack: Ca
 type APIResponse<Data = any> = {
   message?: string
   success: boolean
-  data?: Data
+  data: Data
 }
