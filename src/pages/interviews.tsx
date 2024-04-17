@@ -28,14 +28,14 @@ const Interviews = () => {
   //   ogsitename
   // } = meta
 
-  const testFetch = async () => {
+  const getInterviews = async () => {
     const testResponse = await fetch('/api/interviews')
     const testRawData = await testResponse.json()
     console.log(testRawData, 'testRawData')
   }
 
   useEffect(() => {
-    testFetch()
+    getInterviews()
   }, [])
 
   return (
