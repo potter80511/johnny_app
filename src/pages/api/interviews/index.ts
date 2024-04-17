@@ -3,16 +3,16 @@ import pool from '../../../../db';
 
 const interviews = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<APIResponse>
 ) => {
   const connection = await pool.getConnection();
 
   if (req.method === 'GET') {
     try {
       const [rows] = await connection.query('SELECT * FROM interviews');
-      res.status(200).json(rows)
+      res.status(200).json({data: rows, success: true})
     } catch (error) {
-      res.status(500).json({ message: 'Error fetching interviews' });
+      res.status(500).json({ success: false, message: 'Fetching interviews error' });
     } finally {
       connection.release();
     }
@@ -23,9 +23,9 @@ const interviews = async (
 
     try {
       // await connection.query('INSERT INTO users (name, age) VALUES (?, ?)', [name, age]);
-      res.status(200).json({ message: 'User added successfully' });
+      res.status(200).json({ message: 'Interview added successfully', success: true });
     } catch (error) {
-      res.status(500).json({ message: 'Error adding interviews' });
+      res.status(500).json({ message: 'Adding interviews error', success: false });
     } finally {
       connection.release();
     }
