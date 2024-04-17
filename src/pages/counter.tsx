@@ -45,7 +45,7 @@ const Counter = () => {
         <meta name="og:type" content={ogtype} />
         <meta name="og:sitename" content={ogsitename} />
       </Head>
-      <CounterLayout className="flex-center">
+      <CounterLayout className="flex-center" shouldCenter>
         <CounterIndex />
       </CounterLayout>
     </>
