@@ -31,11 +31,17 @@ const Interviews = () => {
   const getInterviews = async () => {
     const testResponse = await fetch('/api/interviews')
     const testRawData = await testResponse.json()
-    console.log(testRawData, 'testRawData')
+    console.log(testRawData, 'getInterviews')
+  }
+  const createInterviews = async () => {
+    const testResponse = await fetch('/api/interviews', { method: 'POST' })
+    const testRawData = await testResponse.json()
+    console.log(testRawData, 'createInterviews')
   }
 
   useEffect(() => {
     getInterviews()
+    createInterviews()
   }, [])
 
   return (
