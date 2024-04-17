@@ -1,17 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import pool from '../../../../db';
 
 const interviews = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
+  const connection = await pool.getConnection();
+
   if (req.method === 'GET') {
     try {
-      // const [rows] = await connection.query('SELECT * FROM users');
-      res.status(200).json({ name: 'John Doe' })
+      const [rows] = await connection.query('SELECT * FROM interviews');
+      res.status(200).json(rows)
     } catch (error) {
       res.status(500).json({ message: 'Error fetching interviews' });
     } finally {
-      // connection.release();
+      connection.release();
     }
   }
 
@@ -24,7 +27,7 @@ const interviews = async (
     } catch (error) {
       res.status(500).json({ message: 'Error adding interviews' });
     } finally {
-      // connection.release();
+      connection.release();
     }
   }
 }
