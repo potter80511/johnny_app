@@ -19,6 +19,11 @@ const GlobalStyle = createGlobalStyle`
       width: 100%;
     }
   }
+
+  h2 {
+    color: #888;
+    font-size: 60px;
+  }
 `;
 const muiDarkTheme = createMUITheme({
   palette: {
