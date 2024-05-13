@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import useOnClickOutside from 'src/hooks/useOnClickOutside'
 import { OptionType } from 'src/types'
 import styled, { css } from 'styled-components'
 
 const Wrapper = styled.div`
   position: relative;
-  padding: 8px;
+  padding: 4px 8px;
   cursor: pointer;
   border-radius: 4px;
   background-color: #333;
@@ -61,12 +62,15 @@ const SelectOptions = ({
   const [isOptionOpen, setIsOptionOpen] = useState(false)
   const [currentValue, setCurrentValue] = useState<OptionValue>(defaultValue)
 
+  const clickRef = useRef(null)
+  useOnClickOutside(clickRef, () => setIsOptionOpen(false))
+
   const handleOnChange = (newValue: OptionValue) => {
     onChange(newValue)
     setCurrentValue(newValue)
   }
 
-  return <Wrapper onClick={() => setIsOptionOpen(!isOptionOpen)}>
+  return <Wrapper onClick={() => setIsOptionOpen(!isOptionOpen)} ref={clickRef}>
     <span>{options.find((item) => item.value === currentValue)?.label || '--'}</span>
     {isOptionOpen && <OptionsWrapper customStyle={optionsMenuStyle}>
       {options.map((o) => <Option
