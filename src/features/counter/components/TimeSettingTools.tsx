@@ -1,13 +1,13 @@
 import React, { useState, useEffect, ForwardedRef, forwardRef } from 'react';
 import NormalSelect from 'src/components/form_elements/NormalSelect';
-import { optionType } from 'src/types';
+import { OptionType } from 'src/types';
 import { TimeSelectChangeType } from 'src/features/counter/types';
 import { styled } from 'styled-components';
 
 type TimeSettingToolDatas = {
-  seconds: optionType[];
-  minutes: optionType[];
-  hours: optionType[];
+  seconds: OptionType[];
+  minutes: OptionType[];
+  hours: OptionType[];
 };
 
 type TimeSettingToolsType = {
