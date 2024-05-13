@@ -1,35 +1,65 @@
+import { ReactNode } from 'react';
 import { Interview } from 'src/features/interviews/types';
 
+type TableField = {
+  id: number | string
+  [key: string]: ReactNode
+}
+
 export type TableProps = {
-  data: Array<Interview>
+  data: Array<TableField>
 }
 
 type KeyType = keyof Pick<Interview, 'companyName' | 'rejectReason'>
 
+type ColumnBase = {
+  headTitle: string
+  width?: number
+  align?: 'left' | 'center' | 'right'
+}
+
+type TableHeadData = {
+  [key in KeyType]: ColumnBase
+}
+
 const Table = (props: TableProps) => {
   const { data } = props
-  const headTitlteData: { [key in KeyType]: string } = {
-    companyName: '公司名稱',
-    rejectReason: '回絕原因',
+  const tableHeadData: TableHeadData = {
+    companyName: {
+      headTitle: '公司名稱',
+      width: 100
+    },
+    rejectReason: {
+      headTitle: '回絕原因',
+    }
   }
-  const columns: Array<{
+  const columns: Array<ColumnBase & {
     fieldKey: string
-    headTitle: string
-  }> = Object.keys(headTitlteData).map((fieldKey) => {
+  }> = Object.keys(tableHeadData).map((fieldKey) => {
+    const currentColumn = tableHeadData[fieldKey as KeyType]
     return {
       fieldKey,
-      headTitle: headTitlteData[fieldKey as KeyType]
+      headTitle: currentColumn.headTitle,
+      width: currentColumn.width,
+      align: currentColumn.align || 'left',
     }
   })
   return <table>
     <thead>
-      <tr>{columns.map(({ headTitle, fieldKey: filedKey }) => <th key={filedKey}>{headTitle}</th>)}</tr>
+      <tr>{columns.map(({ headTitle, fieldKey, width, align }) =>
+          <th
+            key={fieldKey}
+            style={{ width, textAlign: align }}
+          >{headTitle}
+          </th>
+        )}
+      </tr>
     </thead>
     <tbody>
       {data.map((item) => {
         return <tr key={item.id}>
-          {columns.map(({fieldKey: filedKey}) => {
-            return <td key={`table-td-${filedKey}`}>{item[filedKey as keyof Interview]}</td>
+          {columns.map(({fieldKey, width}) => {
+            return <td key={`table-td-${fieldKey}`} style={{width}}>{item[fieldKey]}</td>
           })}
         </tr>
       })}
