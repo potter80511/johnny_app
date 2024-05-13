@@ -6,11 +6,7 @@ type TableField = {
   [key: string]: ReactNode
 }
 
-export type TableProps = {
-  data: Array<TableField>
-}
-
-type KeyType = keyof Pick<Interview, 'companyName' | 'rejectReason'>
+export type TableData = Array<TableField>
 
 type ColumnBase = {
   headTitle: string
@@ -18,25 +14,26 @@ type ColumnBase = {
   align?: 'left' | 'center' | 'right'
 }
 
-type TableHeadData = {
-  [key in KeyType]: ColumnBase
+export type TableHeadData = {
+  [key: string]: ColumnBase
 }
 
+export type TableProps = {
+  tableHeadData: TableHeadData
+  data: TableData
+}
+
+type KeyType = keyof Pick<Interview, 'companyName' | 'rejectReason'>
+
+
 const Table = (props: TableProps) => {
-  const { data } = props
-  const tableHeadData: TableHeadData = {
-    companyName: {
-      headTitle: '公司名稱',
-      width: 100
-    },
-    rejectReason: {
-      headTitle: '回絕原因',
-    }
-  }
+  const { data, tableHeadData } = props
+  console.log(data, 'data')
+  
   const columns: Array<ColumnBase & {
     fieldKey: string
   }> = Object.keys(tableHeadData).map((fieldKey) => {
-    const currentColumn = tableHeadData[fieldKey as KeyType]
+    const currentColumn = tableHeadData[fieldKey]
     return {
       fieldKey,
       headTitle: currentColumn.headTitle,

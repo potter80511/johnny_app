@@ -1,7 +1,23 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { fetchInterviews } from 'src/features/interviews/fetchers';
 import { Interview } from 'src/features/interviews/types';
-import Table, { TableProps } from 'src/features/interviews/components/Table';
+import Table, { TableData, TableHeadData } from 'src/features/interviews/components/Table';
+import { statusOptions } from './constants';
+import SelectOptions from 'src/features/interviews/components/SelectOptions';
+import { InterviewStatus } from 'src/features/interviews/enum';
+
+const tableHeadData: TableHeadData = {
+  companyName: {
+    headTitle: '公司名稱',
+    width: 100
+  },
+  status: {
+    headTitle: '狀態',
+  },
+  rejectReason: {
+    headTitle: '回絕原因',
+  }
+}
 
 const InterviewsIndex = () => {
   const [interviewList, setInterviewList] = useState<Interview[]>([])
@@ -14,19 +30,23 @@ const InterviewsIndex = () => {
     } catch {}
   }
 
-  // const tableData: TableProps = useMemo(() => {
-  //   const headTitlteData: { [key: keyof Interview]: string } = {
-  //     companyName: '公司名稱',
-  //     rejectReason: '公司名稱',
-  //   }
-  //   return {
-  //     columns: interviewList.map(({companyName}) => {
-  //       return {
+  const handleChangeStatus = (newValue: InterviewStatus) => {}
 
-  //       }
-  //     })
-  //   }
-  // }, [interviewList])
+
+  const tableData: TableData = useMemo(() => {
+    return interviewList.map((item) => {
+      return {
+        ...item,
+        status: <SelectOptions
+          id="InterviewStatusSelect"
+          defaultValue={item.status}
+          options={statusOptions}
+          onChange={(newValue) => handleChangeStatus(newValue as InterviewStatus)}
+          optionsMenuStyle={{ minWidth: 150 }}
+        />
+      }
+    })
+  }, [interviewList])
 
   useEffect(() => {
     getInterviews()
@@ -34,7 +54,7 @@ const InterviewsIndex = () => {
 
   return <div>
     <h2>Interviews</h2>
-    <Table data={interviewList} />
+    <Table data={tableData} tableHeadData={tableHeadData} />
   </div>
 }
 
