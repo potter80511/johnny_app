@@ -1,5 +1,5 @@
 import React from 'react';
-import { optionType } from 'src/types';
+import { OptionType } from 'src/types';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
@@ -9,7 +9,7 @@ type NormalSelectProps = {
   className?: string;
   unit?: string;
   value?: number;
-  optionDatas: optionType[];
+  optionDatas: OptionType[];
   onSelectChange(value: string): void;
 };
 
