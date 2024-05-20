@@ -24,6 +24,11 @@ button {
   justify-content: center;
   align-items: center;
 }
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .wrap {
   max-width: 1024px;
