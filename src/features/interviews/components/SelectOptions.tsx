@@ -2,16 +2,24 @@ import { useRef, useState } from 'react'
 import useOnClickOutside from 'src/hooks/useOnClickOutside'
 import { OptionType } from 'src/types'
 import styled, { css } from 'styled-components'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Wrapper = styled.div`
   position: relative;
   padding: 4px 8px;
   cursor: pointer;
   border-radius: 4px;
-  background-color: #333;
+  background-color: #222;
   transition: all .3s;
+  gap: 8px;
   &:hover {
-    background-color: #222;
+    background-color: #333;
+  }
+
+  svg {
+    color: #555;
+    font-size: 12px;
   }
 `
 
@@ -33,7 +41,7 @@ const OptionsWrapper = styled.div<{customStyle?: MenuStyle}>`
   `};
 `
 const Option = styled.div`
-  padding: 4px;
+  padding: 8px 4px;
   transition: all .3s;
   border-radius: 4px;
   &:not(:last-child) {
@@ -70,8 +78,9 @@ const SelectOptions = ({
     setCurrentValue(newValue)
   }
 
-  return <Wrapper onClick={() => setIsOptionOpen(!isOptionOpen)} ref={clickRef}>
+  return <Wrapper className="flex-between" onClick={() => setIsOptionOpen(!isOptionOpen)} ref={clickRef}>
     <span>{options.find((item) => item.value === currentValue)?.label || '--'}</span>
+    <FontAwesomeIcon icon={faChevronDown} />
     {isOptionOpen && <OptionsWrapper customStyle={optionsMenuStyle}>
       {options.map((o) => <Option
         key={`${id}-${o.value}`}
