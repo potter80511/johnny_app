@@ -7,17 +7,18 @@ type BoardProps = {
 }
 
 const Wrapper = styled.div`
-  border-radius: 5px;
-  overflow: hidden;
+  
 `;
 const Head = styled.div`
   background: #282d36;
   border-bottom: 1px solid #171717;
   padding: 16px;
+  border-radius: 5px 5px 0 0;
 `;
 const Body = styled.div`
   background: #2e353e;
   padding: 16px;
+  border-radius: 0 0 5px 5px;
 `;
 
 const Board = ({ title, children }: BoardProps) => {

@@ -52,7 +52,15 @@ const Option = styled.div`
   }
 `
 
-type OptionValue = string | number
+export type OptionValue = string | number
+
+export type SelectOptionsProps = {
+  id: string,
+  currentValue: OptionValue
+  options: OptionType[]
+  onChange: (newValue: OptionValue) => void
+  optionsMenuStyle?: MenuStyle
+}
 
 const SelectOptions = ({
   id,
@@ -60,13 +68,7 @@ const SelectOptions = ({
   options,
   onChange,
   optionsMenuStyle
-}: {
-  id: string,
-  currentValue: OptionValue
-  options: OptionType[]
-  onChange: (newValue: OptionValue) => void
-  optionsMenuStyle?: MenuStyle
-}) => {
+}: SelectOptionsProps) => {
   const [isOptionOpen, setIsOptionOpen] = useState(false)
 
   const clickRef = useRef(null)
