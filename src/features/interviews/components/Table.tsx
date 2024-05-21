@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { Interview } from 'src/features/interviews/types';
 import { TableWrapper, TbodyTr, Td, Th } from 'src/features/interviews/Styles';
 
 type TableField = {
@@ -15,17 +14,12 @@ type ColumnBase = {
   align?: 'left' | 'center' | 'right'
 }
 
-export type TableHeadData = {
-  [key: string]: ColumnBase
-}
+export type TableHeadData<K extends string> = Record<K, ColumnBase>
 
 export type TableProps = {
-  tableHeadData: TableHeadData
+  tableHeadData: TableHeadData<string>
   data: TableData
 }
-
-type KeyType = keyof Pick<Interview, 'companyName' | 'rejectReason'>
-
 
 const Table = (props: TableProps) => {
   const { data, tableHeadData } = props
