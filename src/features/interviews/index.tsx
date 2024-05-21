@@ -3,9 +3,8 @@ import { fetchInterviews } from 'src/features/interviews/fetchers';
 import { Interview } from 'src/features/interviews/types';
 import Table, { TableData, TableHeadData } from 'src/features/interviews/components/Table';
 import { statusOptions } from './constants';
-import SelectOptions from 'src/features/interviews/components/SelectOptions';
-import { InterviewStatus } from 'src/features/interviews/enum';
 import Board from 'src/components/Board';
+import StatusOptionsContainer from './components/StatusOptionsContainer';
 
 const tableHeadData: TableHeadData = {
   companyName: {
@@ -31,18 +30,15 @@ const InterviewsIndex = () => {
     } catch {}
   }
 
-  const handleChangeStatus = (newValue: InterviewStatus) => {}
-
 
   const tableData: TableData = useMemo(() => {
     return interviewList.map((item) => {
       return {
         ...item,
-        status: <SelectOptions
+        status: <StatusOptionsContainer
           id="InterviewStatusSelect"
           defaultValue={item.status}
           options={statusOptions}
-          onChange={(newValue) => handleChangeStatus(newValue as InterviewStatus)}
           optionsMenuStyle={{ minWidth: 150 }}
         />
       }
