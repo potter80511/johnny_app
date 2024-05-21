@@ -6,22 +6,25 @@ import { statusOptions } from './constants';
 import Board from 'src/components/Board';
 import StatusOptionsContainer from './components/StatusOptionsContainer';
 
-type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel'>
+type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel' | 'interviewFlow'>
 
 const tableHeadData: TableHeadData<TableKeyType> = {
   companyName: {
-    headTitle: '公司名稱',
-    width: 100
-  },
-  status: {
-    headTitle: '狀態',
+    headTitle: '公司名稱'
   },
   rejectReason: {
     headTitle: '回絕原因',
   },
+  interviewFlow: {
+    headTitle: '流程'
+  },
   currentTestLevel: {
     headTitle: '當前關卡'
-  }
+  },
+  status: {
+    headTitle: '狀態',
+    width: 100
+  },
 }
 
 const InterviewsIndex = () => {
