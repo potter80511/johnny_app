@@ -5,6 +5,7 @@ import Table, { TableData, TableHeadData } from 'src/features/interviews/compone
 import { statusOptions } from './constants';
 import SelectOptions from 'src/features/interviews/components/SelectOptions';
 import { InterviewStatus } from 'src/features/interviews/enum';
+import Board from 'src/components/Board';
 
 const tableHeadData: TableHeadData = {
   companyName: {
@@ -54,7 +55,9 @@ const InterviewsIndex = () => {
 
   return <div>
     <h2>Interviews</h2>
-    <Table data={tableData} tableHeadData={tableHeadData} />
+    <Board title="Records">
+      <Table data={tableData} tableHeadData={tableHeadData} />
+    </Board>
   </div>
 }
 
