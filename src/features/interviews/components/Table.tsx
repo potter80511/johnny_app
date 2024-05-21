@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Interview } from 'src/features/interviews/types';
+import { TableWrapper, TbodyTr, Td, Th } from 'src/features/interviews/Styles';
 
 type TableField = {
   id: number | string
@@ -41,27 +42,27 @@ const Table = (props: TableProps) => {
       align: currentColumn.align || 'left',
     }
   })
-  return <table>
+  return <TableWrapper>
     <thead>
       <tr>{columns.map(({ headTitle, fieldKey, width, align }) =>
-          <th
+          <Th
             key={fieldKey}
             style={{ width, textAlign: align }}
           >{headTitle}
-          </th>
+          </Th>
         )}
       </tr>
     </thead>
     <tbody>
       {data.map((item) => {
-        return <tr key={item.id}>
+        return <TbodyTr key={item.id}>
           {columns.map(({fieldKey, width}) => {
-            return <td key={`table-td-${fieldKey}`} style={{width}}>{item[fieldKey]}</td>
+            return <Td key={`table-td-${fieldKey}`} style={{width}}>{item[fieldKey]}</Td>
           })}
-        </tr>
+        </TbodyTr>
       })}
     </tbody>
-  </table>
+  </TableWrapper>
 }
 
 export default Table
