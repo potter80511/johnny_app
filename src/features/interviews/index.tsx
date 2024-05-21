@@ -6,7 +6,9 @@ import { statusOptions } from './constants';
 import Board from 'src/components/Board';
 import StatusOptionsContainer from './components/StatusOptionsContainer';
 
-const tableHeadData: TableHeadData = {
+type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel'>
+
+const tableHeadData: TableHeadData<TableKeyType> = {
   companyName: {
     headTitle: '公司名稱',
     width: 100
@@ -16,6 +18,9 @@ const tableHeadData: TableHeadData = {
   },
   rejectReason: {
     headTitle: '回絕原因',
+  },
+  currentTestLevel: {
+    headTitle: '當前關卡'
   }
 }
 
