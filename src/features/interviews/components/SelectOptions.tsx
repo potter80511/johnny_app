@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   }
 
   svg {
-    color: #555;
+    color: #fff;
     font-size: 12px;
   }
 `
