@@ -56,27 +56,21 @@ type OptionValue = string | number
 
 const SelectOptions = ({
   id,
-  defaultValue,
+  currentValue,
   options,
   onChange,
   optionsMenuStyle
 }: {
   id: string,
-  defaultValue: OptionValue
+  currentValue: OptionValue
   options: OptionType[]
   onChange: (newValue: OptionValue) => void
   optionsMenuStyle?: MenuStyle
 }) => {
   const [isOptionOpen, setIsOptionOpen] = useState(false)
-  const [currentValue, setCurrentValue] = useState<OptionValue>(defaultValue)
 
   const clickRef = useRef(null)
   useOnClickOutside(clickRef, () => setIsOptionOpen(false))
-
-  const handleOnChange = (newValue: OptionValue) => {
-    onChange(newValue)
-    setCurrentValue(newValue)
-  }
 
   return <Wrapper className="flex-between" onClick={() => setIsOptionOpen(!isOptionOpen)} ref={clickRef}>
     <span>{options.find((item) => item.value === currentValue)?.label || '--'}</span>
