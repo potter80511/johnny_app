@@ -4,8 +4,10 @@ import { createYoutubeVideosFromNet } from "src/features/pringpringcats/factorie
 import { useMemo } from "react"
 import styled from "styled-components"
 import { lineCamp } from "src/styles/Styled"
-import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faMessage } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from "@fortawesome/fontawesome-svg-core"
 
 const VideosWrapper = styled(Flex)`
   margin: 0 -16px;
@@ -87,7 +89,7 @@ const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideo
               <span>觀看次數：{viewCount}次 ‧ {publishedAt}</span>
               <Count>
                 <span><FontAwesomeIcon icon={faThumbsUp} /> {likeCount}</span>
-                <span><FontAwesomeIcon icon={faComment} /> {commentCount}</span>
+                <span><FontAwesomeIcon icon={faMessage as IconProp} /> {commentCount}</span>
               </Count>
             </StatisticsWrapper>
           </VideoContent>
