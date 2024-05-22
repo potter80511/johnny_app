@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import pool from '../../../../db';
-import { RawInterview } from 'src/features/interviews/types/net/RawInterview';
+import { RawInterview, RawInterviewOptions } from 'src/features/interviews/types/net/RawInterview';
 
 const handleInterviewById = async (
   req: NextApiRequest,
@@ -10,9 +10,9 @@ const handleInterviewById = async (
 
   if (req.method === 'PUT') {
     const { id } = req.query
-    const { status } = JSON.parse(req.body);
+    const { status } = JSON.parse(req.body) as RawInterviewOptions;
     try {
-      await connection.query('UPDATE interviews SET status = ? WHERE id = ?', [status, id]);
+      await connection.query('UPDATE interviews SET status = ?,  updated_date = NOW() WHERE id = ?', [status, id]);
       
       const [rows] = await connection.query('SELECT * FROM interviews WHERE id = ?', [id]);
 
