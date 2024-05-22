@@ -4,9 +4,12 @@ import { Interview } from 'src/features/interviews/types';
 import Table, { TableData, TableHeadData } from 'src/features/interviews/components/Table';
 import { statusOptions } from './constants';
 import Board from 'src/components/Board';
-import StatusOptionsContainer from './components/StatusOptionsContainer';
+import StatusOptionsContainer from 'src/features/interviews/components/StatusOptionsContainer';
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import styled from 'styled-components';
 
-type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel' | 'interviewFlow'>
+type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel' | 'interviewFlow'> | 'edit'
 
 const tableHeadData: TableHeadData<TableKeyType> = {
   companyName: {
@@ -25,7 +28,18 @@ const tableHeadData: TableHeadData<TableKeyType> = {
     headTitle: '狀態',
     width: 100
   },
+  edit: {
+    headTitle: '',
+    width: 30,
+    align: 'center'
+  }
 }
+
+const EditButton = styled.button`
+  svg {
+    color: white;
+  }
+`
 
 const InterviewsIndex = () => {
   const [interviewList, setInterviewList] = useState<Interview[]>([])
@@ -39,7 +53,7 @@ const InterviewsIndex = () => {
   }
 
 
-  const tableData: TableData = useMemo(() => {
+  const tableData: TableData<TableKeyType> = useMemo(() => {
     return interviewList.map((item) => {
       return {
         ...item,
@@ -48,7 +62,10 @@ const InterviewsIndex = () => {
           defaultValue={item.status}
           options={statusOptions}
           optionsMenuStyle={{ minWidth: 150 }}
-        />
+        />,
+        edit: <EditButton type="button">
+          <FontAwesomeIcon icon={faPenToSquare} />
+        </EditButton>
       }
     })
   }, [interviewList])
