@@ -52,10 +52,10 @@ const Option = styled.div`
   }
 `
 
-export type OptionValue = string | number
+export type OptionValue<V = string | number> = V
 
 export type SelectOptionsProps = {
-  id: string,
+  componentName: string,
   currentValue: OptionValue
   options: OptionType[]
   onChange: (newValue: OptionValue) => void
@@ -63,7 +63,7 @@ export type SelectOptionsProps = {
 }
 
 const SelectOptions = ({
-  id,
+  componentName,
   currentValue,
   options,
   onChange,
@@ -79,7 +79,7 @@ const SelectOptions = ({
     <FontAwesomeIcon icon={faChevronDown} />
     {isOptionOpen && <OptionsWrapper customStyle={optionsMenuStyle}>
       {options.map((o) => <Option
-        key={`${id}-${o.value}`}
+        key={`${componentName}-${o.value}`}
         onClick={() => onChange(o.value)}
       >
         {o.label}

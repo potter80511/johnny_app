@@ -58,7 +58,8 @@ const InterviewsIndex = () => {
       return {
         ...item,
         status: <StatusOptionsContainer
-          id="InterviewStatusSelect"
+          id={item.id}
+          componentName="InterviewStatusSelect"
           defaultValue={item.status}
           options={statusOptions}
           optionsMenuStyle={{ minWidth: 150 }}
