@@ -17,3 +17,5 @@ export type RawInterview = {
   created_date: string
   updated_date: string
 }
+
+export type RawInterviewOptions = Partial<Omit<RawInterview, 'id'>>
