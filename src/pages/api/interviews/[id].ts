@@ -4,7 +4,7 @@ import { RawInterview } from 'src/features/interviews/types/net/RawInterview';
 
 const handleInterviewById = async (
   req: NextApiRequest,
-  res: NextApiResponse<APIResponse>
+  res: NextApiResponse<APIResponse<RawInterview | null>>
 ) => {
   const connection = await pool.getConnection();
 
@@ -12,10 +12,15 @@ const handleInterviewById = async (
     const { id } = req.query
     const { status } = JSON.parse(req.body);
     try {
-      const [result] = await connection.query('UPDATE interviews SET status = ? WHERE id = ?', [status, id]);
-      res.status(200).json({ success: true, message: `Interview updated successfully`, data: result });
+      await connection.query('UPDATE interviews SET status = ? WHERE id = ?', [status, id]);
+      
+      const [rows] = await connection.query('SELECT * FROM interviews WHERE id = ?', [id]);
+
+      const data = Array.isArray(rows) && rows.length > 0 ? rows[0] as RawInterview : null
+      res.status(200).json({ success: true, message: `Interview updated successfully`, data });
+
     } catch (error) {
-      res.status(500).json({ success: false, message: 'Update interview by id error:' + error, data: [] });
+      res.status(500).json({ success: false, message: 'Update interview by id error:' + error, data: null });
     } finally {
       connection.release();
     }
