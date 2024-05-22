@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
 import { TableWrapper, TbodyTr, Td, Th } from 'src/features/interviews/Styles';
 
-type TableField = {
+type TableFieldBase<KeyName extends string> = Record<KeyName, ReactNode>
+
+type TableField<KeyName extends string> = TableFieldBase<KeyName> & {
   id: number | string
-  [key: string]: ReactNode
 }
 
-export type TableData = Array<TableField>
+export type TableData<KeyName extends string> = Array<TableField<KeyName>>
 
 type ColumnBase = {
   headTitle: string
@@ -14,11 +15,11 @@ type ColumnBase = {
   align?: 'left' | 'center' | 'right'
 }
 
-export type TableHeadData<K extends string> = Record<K, ColumnBase>
+export type TableHeadData<KeyName extends string> = Record<KeyName, ColumnBase>
 
 export type TableProps = {
   tableHeadData: TableHeadData<string>
-  data: TableData
+  data: TableData<string>
 }
 
 const Table = (props: TableProps) => {
@@ -50,8 +51,11 @@ const Table = (props: TableProps) => {
     <tbody>
       {data.map((item) => {
         return <TbodyTr key={item.id}>
-          {columns.map(({fieldKey, width}) => {
-            return <Td key={`table-td-${fieldKey}`} style={{width}}>{item[fieldKey]}</Td>
+          {columns.map(({fieldKey, width, align}) => {
+            return <Td
+              key={`table-td-${fieldKey}`}
+              style={{width, textAlign: align}}
+            >{item[fieldKey]}</Td>
           })}
         </TbodyTr>
       })}
