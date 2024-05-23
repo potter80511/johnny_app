@@ -36,7 +36,7 @@ const StatusOptionsContainer = (props: StatusOptionsContainerProps ) => {
     try {
       await updateInterviewById(id, {status: newValue})
       setCurrentValue(newValue)
-      onOpenDialog()
+      newValue === InterviewStatus.Reject && onOpenDialog()
     } catch {} finally {
       setIsLoading(false)
     }

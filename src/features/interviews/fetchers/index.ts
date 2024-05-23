@@ -1,5 +1,6 @@
 import { RawInterview, RawInterviewOptions } from 'src/features/interviews/types/net/RawInterview';
-import { createInterviewsFromNet } from 'src/features/interviews/factories';
+import { createInterviewsFromNet, createInterviewsOpitonsToNet } from 'src/features/interviews/factories';
+import { InterviewOptions } from '../types';
 
 export const fetchInterviews = async () => {
   try {
@@ -17,10 +18,11 @@ export const fetchInterviews = async () => {
   }
 }
 
-export const updateInterviewById = async (id: number, requestBody: RawInterviewOptions) => {
+export const updateInterviewById = async (id: number, payload: InterviewOptions) => {
+  const requestBody = createInterviewsOpitonsToNet(payload)
   try {
     const response = await fetch(`/api/interviews/${id}`, { method: 'PUT', body: JSON.stringify(requestBody) })
-    const rawResponseData: APIResponse<RawInterview[]> = await response.json()
+    const rawResponseData: APIResponse<RawInterview> = await response.json()
     console.log(rawResponseData, 'rawResponseData');
 
     if(rawResponseData.success) {
