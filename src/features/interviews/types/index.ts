@@ -17,3 +17,5 @@ export type Interview = {
   createdDate: string
   updatedDate: string
 }
+
+export type InterviewOptions = Partial<Omit<Interview, 'id'>>

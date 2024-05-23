@@ -1,5 +1,5 @@
-import { RawInterview } from 'src/features/interviews/types/net/RawInterview';
-import { Interview } from 'src/features/interviews/types';
+import { RawInterview, RawInterviewOptions } from 'src/features/interviews/types/net/RawInterview';
+import { Interview, InterviewOptions } from 'src/features/interviews/types';
 
 export const createInterviewsFromNet = (rawData: RawInterview[]): Interview[] => {
   return rawData.map(({
@@ -35,4 +35,11 @@ export const createInterviewsFromNet = (rawData: RawInterview[]): Interview[] =>
     createdDate: created_date,
     updatedDate: updated_date
   }))
+}
+
+export const createInterviewsOpitonsToNet = (inputData: InterviewOptions): RawInterviewOptions => {
+  const { rejectReason } = inputData
+  return {
+    reject_reason: rejectReason,
+  }
 }

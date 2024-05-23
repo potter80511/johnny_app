@@ -20,6 +20,7 @@ const Transition = forwardRef(function Transition(
 export default function AlertDialogSlide({
   title,
   isDialogOpen,
+  shouldHideButtons = false,
   children,
   yesText,
   noText,
@@ -29,6 +30,7 @@ export default function AlertDialogSlide({
 }: {
   title: string;
   isDialogOpen: boolean;
+  shouldHideButtons?: boolean;
   children: ReactNode;
   yesText?: string
   noText?: string
@@ -64,10 +66,10 @@ export default function AlertDialogSlide({
           {children}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      {!shouldHideButtons && <DialogActions>
         <Button onClick={handleClose}>{noText || 'Cancel'}</Button>
         <Button onClick={handleYes}>{yesText || 'Ok'}</Button>
-      </DialogActions>
+      </DialogActions>}
     </Dialog>
   );
 }
