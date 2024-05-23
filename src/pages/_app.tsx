@@ -43,6 +43,11 @@ const theme = {
     lg: '1024px',
   }
 };
+const muiDarkTheme = createMUITheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   console.log('App:')

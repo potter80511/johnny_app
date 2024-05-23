@@ -8,6 +8,7 @@ import StatusOptionsContainer from 'src/features/interviews/components/StatusOpt
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
+import AlertDialogSlide from 'src/components/mui/AlertDialogSlide';
 
 type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel' | 'interviewFlow'> | 'edit'
 
@@ -43,6 +44,7 @@ const EditButton = styled.button`
 
 const InterviewsIndex = () => {
   const [interviewList, setInterviewList] = useState<Interview[]>([])
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   console.log(interviewList, 'interviewList')
   
   const getInterviews = async () => {
@@ -63,6 +65,7 @@ const InterviewsIndex = () => {
           defaultValue={item.status}
           options={statusOptions}
           optionsMenuStyle={{ minWidth: 150 }}
+          onOpenDialog={() => setIsDialogOpen(true)}
         />,
         edit: <EditButton type="button">
           <FontAwesomeIcon icon={faPenToSquare} />
@@ -80,6 +83,11 @@ const InterviewsIndex = () => {
     <Board title="Records">
       <Table data={tableData} tableHeadData={tableHeadData} />
     </Board>
+    <AlertDialogSlide
+      title="title"
+      isDialogOpen={isDialogOpen}
+      onClose={() => setIsDialogOpen(false)}
+    >test</AlertDialogSlide>
   </div>
 }
 

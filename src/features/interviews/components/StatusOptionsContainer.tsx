@@ -7,7 +7,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
 
 type StatusOptionsContainerProps = Omit<SelectOptionsProps, 'currentValue' | 'onChange'> &
-  { defaultValue: OptionValue; id: number }
+  {
+    defaultValue: OptionValue;
+    id: number;
+    onOpenDialog: () => void
+  }
 
 const Wrapper = styled.div`
   position: relative;
@@ -23,7 +27,7 @@ const IconWrapper = styled.div`
 `
 
 const StatusOptionsContainer = (props: StatusOptionsContainerProps ) => {
-  const { defaultValue, componentName, id, ...rest } = props
+  const { defaultValue, componentName, id, onOpenDialog, ...rest } = props
   const [currentValue, setCurrentValue] = useState<OptionValue>(defaultValue)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -32,6 +36,7 @@ const StatusOptionsContainer = (props: StatusOptionsContainerProps ) => {
     try {
       await updateInterviewById(id, {status: newValue})
       setCurrentValue(newValue)
+      onOpenDialog()
     } catch {} finally {
       setIsLoading(false)
     }
