@@ -38,8 +38,9 @@ export const createInterviewsFromNet = (rawData: RawInterview[]): Interview[] =>
 }
 
 export const createInterviewsOpitonsToNet = (inputData: InterviewOptions): RawInterviewOptions => {
-  const { rejectReason } = inputData
+  const { rejectReason, status } = inputData
   return {
     reject_reason: rejectReason,
+    status,
   }
 }
