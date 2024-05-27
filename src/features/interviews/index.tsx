@@ -106,7 +106,7 @@ const InterviewsIndex = () => {
       <Table data={tableData} tableHeadData={tableHeadData} />
     </Board>
     <AlertDialogSlide
-      title="title"
+      title="請填寫回絕原因"
       isDialogOpen={dialogData.isOpen}
       shouldHideButtons
       onClose={handleResetDialogData}
