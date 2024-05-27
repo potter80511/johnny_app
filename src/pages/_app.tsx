@@ -28,6 +28,13 @@ const GlobalStyle = createGlobalStyle`
 const muiDarkTheme = createMUITheme({
   palette: {
     mode: 'dark',
+    primary: {
+      main: '#04b8d9',
+      contrastText: '#fff'
+    },
+    text: {
+      primary: '#fff'
+    }
   },
 });
 
