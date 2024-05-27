@@ -10,9 +10,17 @@ const handleInterviewById = async (
 
   if (req.method === 'PUT') {
     const { id } = req.query
-    const { status, reject_reason } = JSON.parse(req.body) as RawInterviewOptions;
+    const requestBody = JSON.parse(req.body) as RawInterviewOptions;
+
     try {
-      await connection.query('UPDATE interviews SET status = ?, reject_reason = ?,  updated_date = NOW() WHERE id = ?', [status, reject_reason, id]);
+      const fieldKeys: string[] = []
+      const values = []
+  
+      for(const [key, value] of Object.entries(requestBody)) {
+        fieldKeys.push(`${key} = ?`)
+        values.push(value)
+      }
+      await connection.query(`UPDATE interviews SET ${fieldKeys.join(', ')},  updated_date = NOW() WHERE id = ?`, [...values, id]);
       
       const [rows] = await connection.query('SELECT * FROM interviews WHERE id = ?', [id]);
 
