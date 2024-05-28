@@ -24,8 +24,8 @@ const ButtonWrapper = styled.div`
 
 const defaultDialogData: {
   isOpen: boolean;
-  id: number,
-  formName: DialogInfoName
+  id: number;
+  formName: DialogInfoName;
 } = {
   isOpen: false,
   id: 0,
@@ -43,7 +43,7 @@ const InterviewsIndex = () => {
     handleUpdateInterview
   } = useInterviews()
 
-  const handleResetDialogData = () => setDialogData(defaultDialogData)
+  const handleCloseDialogData = () => setDialogData({...dialogData, isOpen: false})
 
   const tableData: TableData<TableKeyType> = useMemo(() => {
     return interviewList.map((item) => {
@@ -62,7 +62,14 @@ const InterviewsIndex = () => {
           })}
         />,
         editDelete: <EditDeleteTools
-          deleteProps={{onClick: () => {}, color: '#f50057'}}
+          deleteProps={{
+            onClick: () => setDialogData({
+              id: item.id,
+              isOpen: true,
+              formName: DialogInfoName.DeleteInterview
+            }),
+            color: '#f50057'
+          }}
           editProps={{onClick: () => {}}}
         />
       }
@@ -87,26 +94,46 @@ const InterviewsIndex = () => {
         </div>
   }, [listLoading, tableData])
 
-  const dialogFormInfo: {[key in DialogInfoName]: { title: string; form: ReactNode } } = useMemo(() => ({
-    [DialogInfoName.RejectReason]: {
-      title: '請填寫回絕原因',
-      form: <RejectReasonsForm
-        onSubmit={(reasons) => {
-          handleUpdateInterview(dialogData.id, { rejectReason: reasons })
-          handleResetDialogData()
-        }}
-      />
-    },
-    [DialogInfoName.CreateInterview]: {
-      title: '新增面試資料',
-      form: <CreateInterviewForm
-        onSubmit={(companyName) => {
-          handleCreateInterview({ companyName })
-          handleResetDialogData()
-        }}
-      />
-    },
-  }), [dialogData])
+  const dialogFormInfo: {
+    [key in DialogInfoName]: {
+      title: string;
+      form: ReactNode;
+      dialogSubmit?: {
+        onSubmit: () => void
+        text: string
+      }
+    }
+  } = useMemo(() => {
+    const currentComponayName = interviewList.find((item) => item.id === dialogData.id)?.companyName || ''
+    return {
+      [DialogInfoName.RejectReason]: {
+        title: '請填寫回絕原因',
+        form: <RejectReasonsForm
+          onSubmit={(reasons) => {
+            handleUpdateInterview(dialogData.id, { rejectReason: reasons })
+            handleCloseDialogData()
+          }}
+        />
+      },
+      [DialogInfoName.CreateInterview]: {
+        title: '新增面試資料',
+        form: <CreateInterviewForm
+          onSubmit={(companyName) => {
+            handleCreateInterview({ companyName })
+            handleCloseDialogData()
+          }}
+        />
+      },
+      [DialogInfoName.DeleteInterview]: {
+        title: `確定要刪除${currentComponayName}的面試資料嗎？`,
+        form: null,
+        dialogSubmit: {
+          onSubmit: () => {},
+          text: '刪除'
+        }
+      },
+    }
+  }, [dialogData, interviewList])
 
   useEffect(() => {
     getInterviews()
@@ -120,8 +147,10 @@ const InterviewsIndex = () => {
     <AlertDialogSlide
       title={dialogFormInfo[dialogData.formName].title}
       isDialogOpen={dialogData.isOpen}
-      shouldHideButtons
-      onClose={handleResetDialogData}
+      shouldHideButtons={!dialogFormInfo[dialogData.formName].dialogSubmit}
+      onYes={dialogFormInfo[dialogData.formName].dialogSubmit?.onSubmit}
+      yesText={dialogFormInfo[dialogData.formName].dialogSubmit?.text}
+      onClose={handleCloseDialogData}
     >
       {dialogFormInfo[dialogData.formName].form}
     </AlertDialogSlide>
