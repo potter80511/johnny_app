@@ -18,6 +18,8 @@ export type Interview = {
   updatedDate: string
 }
 
+export type InterviewPayload = Pick<Interview, 'companyName'>
+
 export type InterviewOptions = Partial<Omit<Interview, 'id'>>
 
 export type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel' | 'interviewFlow'> | 'edit'
