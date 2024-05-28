@@ -5,6 +5,7 @@ import { InterviewStatus } from 'src/features/interviews/enum';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
+import Loading from 'src/components/Loading';
 
 type StatusOptionsContainerProps = Omit<SelectOptionsProps, 'currentValue' | 'onChange'> &
   {
@@ -43,10 +44,7 @@ const StatusOptionsContainer = (props: StatusOptionsContainerProps ) => {
   }
 
   return <Wrapper>
-    {isLoading && <IconWrapper className="flex-center">
-        <FontAwesomeIcon icon={faSpinner} spinPulse />
-      </IconWrapper>
-    }
+    {isLoading && <Loading size={12} shouldMask/>}
     <SelectOptions
       currentValue={currentValue}
       onChange={(newValue) => handleOnChange(newValue as OptionValue<InterviewStatus>)}
