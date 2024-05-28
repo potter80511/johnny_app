@@ -55,8 +55,6 @@ export default function AlertDialogSlide({
   const handleClose = () => {
     if(!!onNo) {
       onNo()
-    } else if(!!onYes) {
-      onYes()
     }
     onClose()
   };
