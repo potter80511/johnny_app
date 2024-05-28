@@ -11,11 +11,17 @@ import AlertDialogSlide from 'src/components/mui/AlertDialogSlide';
 import RejectReasonsForm from './components/forms/RejectReasonsForm';
 import Loading from 'src/components/Loading';
 import useInterviews from './hooks';
+import { Button } from '@mui/material';
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 const EditButton = styled.button`
   svg {
     color: white;
   }
+`
+const ButtonWrapper = styled.div`
+  text-align: right;
+  margin-bottom: 16px;
 `
 
 const InterviewsIndex = () => {
@@ -66,7 +72,15 @@ const InterviewsIndex = () => {
   const boardContentDisplay = useMemo(() => {
     return listLoading
       ? <Loading size={24}/>
-      : <Table data={tableData} tableHeadData={tableHeadData} />
+      : <div>
+          <ButtonWrapper>
+            <Button variant="outlined">
+              <FontAwesomeIcon icon={faPlus} size="xs" style={{marginRight: 4}} />
+              新增
+            </Button>
+          </ButtonWrapper>
+          <Table data={tableData} tableHeadData={tableHeadData} />
+        </div>
   }, [listLoading, tableData])
 
   useEffect(() => {
