@@ -27,7 +27,7 @@ type MenuStyle = {
   minWidth?: number
 }
 
-const OptionsWrapper = styled.div<{customStyle?: MenuStyle}>`
+const OptionsWrapper = styled.div<{customstyle?: MenuStyle}>`
   position: absolute;
   left: 0;
   top: 100%;
@@ -36,8 +36,8 @@ const OptionsWrapper = styled.div<{customStyle?: MenuStyle}>`
   border-radius: 4px;
   overflow: hidden;
   padding: 4px;
-  ${({ customStyle }) => css`
-    min-width: ${customStyle?.minWidth && customStyle.minWidth + 'px'};
+  ${({ customstyle }) => css`
+    min-width: ${customstyle?.minWidth && customstyle.minWidth + 'px'};
   `};
 `
 const Option = styled.div`
@@ -77,7 +77,7 @@ const SelectOptions = ({
   return <Wrapper className="flex-between" onClick={() => setIsOptionOpen(!isOptionOpen)} ref={clickRef}>
     <span>{options.find((item) => item.value === currentValue)?.label || '--'}</span>
     <FontAwesomeIcon icon={faChevronDown} />
-    {isOptionOpen && <OptionsWrapper customStyle={optionsMenuStyle}>
+    {isOptionOpen && <OptionsWrapper customstyle={optionsMenuStyle}>
       {options.map((o) => <Option
         key={`${componentName}-${o.value}`}
         onClick={() => onChange(o.value)}
