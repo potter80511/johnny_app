@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
 import AlertDialogSlide from 'src/components/mui/AlertDialogSlide';
 import RejectReasonsForm from './components/forms/RejectReasonsForm';
+import Loading from 'src/components/Loading';
 
 type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel' | 'interviewFlow'> | 'edit'
 
@@ -45,6 +46,7 @@ const EditButton = styled.button`
 
 const InterviewsIndex = () => {
   const [interviewList, setInterviewList] = useState<Interview[]>([])
+  const [listLoading, setListLoading] = useState(false)
   const [dialogData, setDialogData] = useState<{
     isOpen: boolean;
     id: number
@@ -56,9 +58,12 @@ const InterviewsIndex = () => {
   
   const getInterviews = async () => {
     try {
+      setListLoading(true)
       const interviews = await fetchInterviews()
       setInterviewList(interviews)
-    } catch {}
+    } catch {} finally {
+      setListLoading(false)
+    }
   }
 
   const handleUpdateInterview = async (id: number, payload: InterviewOptions) => {
@@ -103,7 +108,10 @@ const InterviewsIndex = () => {
   return <div>
     <h2>Interviews</h2>
     <Board title="Records">
-      <Table data={tableData} tableHeadData={tableHeadData} />
+      {listLoading
+        ? <Loading size={24}/>
+        : <Table data={tableData} tableHeadData={tableHeadData} />
+      }
     </Board>
     <AlertDialogSlide
       title="請填寫回絕原因"
