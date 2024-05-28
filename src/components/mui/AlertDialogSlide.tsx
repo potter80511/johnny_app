@@ -2,7 +2,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
@@ -62,9 +61,7 @@ export default function AlertDialogSlide({
     >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-slide-description">
-          {children}
-        </DialogContentText>
+        {children}
       </DialogContent>
       {!shouldHideButtons && <DialogActions>
         <Button onClick={handleClose}>{noText || 'Cancel'}</Button>

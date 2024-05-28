@@ -18,6 +18,7 @@ const RejectReasonsForm = ({ onSubmit }: {
   return <Form>
     <div>
       <TextField
+        component="div"
         variant="filled"
         label="Reason"
         value={reasons}
