@@ -11,4 +11,5 @@ export enum InterviewStatus {
 export enum DialogInfoName {
   RejectReason = 'RejectReason',
   CreateInterview = 'CreateInterview',
+  DeleteInterview = 'DeleteInterview',
 }
