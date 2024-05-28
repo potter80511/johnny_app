@@ -22,4 +22,4 @@ export type InterviewPayload = Pick<Interview, 'companyName'>
 
 export type InterviewOptions = Partial<Omit<Interview, 'id'>>
 
-export type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel' | 'interviewFlow'> | 'edit'
+export type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel' | 'interviewFlow'> | 'editDelete'

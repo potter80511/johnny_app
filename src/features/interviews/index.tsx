@@ -15,12 +15,8 @@ import { Button } from '@mui/material';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import CreateInterviewForm from 'src/features/interviews/components/forms/CreateInterviewForm';
 import { DialogInfoName } from 'src/features/interviews/enum';
+import EditDeleteTools from 'src/components/EditDeleteTools';
 
-const EditButton = styled.button`
-  svg {
-    color: white;
-  }
-`
 const ButtonWrapper = styled.div`
   text-align: right;
   margin-bottom: 16px;
@@ -65,9 +61,10 @@ const InterviewsIndex = () => {
             formName: DialogInfoName.RejectReason
           })}
         />,
-        edit: <EditButton type="button">
-          <FontAwesomeIcon icon={faPenToSquare} />
-        </EditButton>
+        editDelete: <EditDeleteTools
+          deleteProps={{onClick: () => {}, color: '#f50057'}}
+          editProps={{onClick: () => {}}}
+        />
       }
     })
   }, [interviewList])
