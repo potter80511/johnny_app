@@ -8,11 +8,12 @@ import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import styled from 'styled-components';
 import AlertDialogSlide from 'src/components/mui/AlertDialogSlide';
-import RejectReasonsForm from './components/forms/RejectReasonsForm';
+import RejectReasonsForm from 'src/features/interviews/components/forms/RejectReasonsForm';
 import Loading from 'src/components/Loading';
 import useInterviews from './hooks';
 import { Button } from '@mui/material';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import CreateInterviewForm from 'src/features/interviews/components/forms/CreateInterviewForm';
 
 const EditButton = styled.button`
   svg {
@@ -37,6 +38,7 @@ const InterviewsIndex = () => {
     listLoading,
     interviewList,
     getInterviews,
+    handleCreateInterview,
     handleUpdateInterview
   } = useInterviews()
   
@@ -101,6 +103,19 @@ const InterviewsIndex = () => {
       <RejectReasonsForm
         onSubmit={(reasons) => {
           handleUpdateInterview(dialogData.id, { rejectReason: reasons })
+          handleResetDialogData()
+        }}
+      />
+    </AlertDialogSlide>
+    <AlertDialogSlide
+      title="新增面試資料"
+      isDialogOpen={true}
+      shouldHideButtons
+      onClose={handleResetDialogData}
+    >
+      <CreateInterviewForm
+        onSubmit={(companyName) => {
+          handleCreateInterview({ companyName })
           handleResetDialogData()
         }}
       />
