@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { fetchInterviews, updateInterviewById } from 'src/features/interviews/fetchers';
-import { Interview, InterviewOptions, TableKeyType } from 'src/features/interviews/types';
+import { TableKeyType } from 'src/features/interviews/types';
 import Table, { TableData } from 'src/features/interviews/components/Table';
 import { statusOptions, tableHeadData } from 'src/features/interviews/constants';
 import Board from 'src/components/Board';
@@ -11,6 +10,7 @@ import styled from 'styled-components';
 import AlertDialogSlide from 'src/components/mui/AlertDialogSlide';
 import RejectReasonsForm from './components/forms/RejectReasonsForm';
 import Loading from 'src/components/Loading';
+import useInterviews from './hooks';
 
 const EditButton = styled.button`
   svg {
@@ -19,8 +19,6 @@ const EditButton = styled.button`
 `
 
 const InterviewsIndex = () => {
-  const [interviewList, setInterviewList] = useState<Interview[]>([])
-  const [listLoading, setListLoading] = useState(false)
   const [dialogData, setDialogData] = useState<{
     isOpen: boolean;
     id: number
@@ -28,24 +26,14 @@ const InterviewsIndex = () => {
     isOpen: false,
     id: 0
   })
-  console.log(interviewList, 'interviewList')
   
-  const getInterviews = async () => {
-    try {
-      setListLoading(true)
-      const interviews = await fetchInterviews()
-      setInterviewList(interviews)
-    } catch {} finally {
-      setListLoading(false)
-    }
-  }
-
-  const handleUpdateInterview = async (id: number, payload: InterviewOptions) => {
-    try {
-      await updateInterviewById(id, payload)
-      await getInterviews()
-    } catch {}
-  }
+  const {
+    listLoading,
+    interviewList,
+    getInterviews,
+    handleUpdateInterview
+  } = useInterviews()
+  
 
   const handleResetDialogData = () => setDialogData({
     id: 0,
