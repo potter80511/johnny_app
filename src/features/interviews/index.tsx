@@ -40,7 +40,8 @@ const InterviewsIndex = () => {
     interviewList,
     getInterviews,
     handleCreateInterview,
-    handleUpdateInterview
+    handleUpdateInterview,
+    handlDeleteInterview
   } = useInterviews()
 
   const handleCloseDialogData = () => setDialogData({...dialogData, isOpen: false})
@@ -128,7 +129,7 @@ const InterviewsIndex = () => {
         title: `確定要刪除${currentComponayName}的面試資料嗎？`,
         form: null,
         dialogSubmit: {
-          onSubmit: () => {},
+          onSubmit: () => handlDeleteInterview(dialogData.id),
           text: '刪除'
         }
       },

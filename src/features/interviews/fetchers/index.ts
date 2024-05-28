@@ -51,3 +51,19 @@ export const updateInterviewById = async (id: number, payload: InterviewOptions)
     throw error
   }
 }
+
+export const deleteInterviewById = async (id: number) => {
+  try {
+    const response = await fetch(`/api/interviews/${id}`, { method: 'DELETE' })
+    const rawResponseData: APIResponse<RawInterview> = await response.json()
+
+    if(rawResponseData.success) {
+      return rawResponseData.data
+    } else {
+      throw new Error(rawResponseData.message)
+    }
+  } catch(error) {
+    console.log(error)
+    throw error
+  }
+}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { fetchInterviews, updateInterviewById, createInterview } from 'src/features/interviews/fetchers';
+import { fetchInterviews, updateInterviewById, createInterview, deleteInterviewById } from 'src/features/interviews/fetchers';
 import { Interview, InterviewOptions, InterviewPayload } from 'src/features/interviews/types';
 
 const useInterviews = () => {
@@ -31,12 +31,20 @@ const useInterviews = () => {
     } catch {}
   }
 
+  const handlDeleteInterview = async (id: number) => {
+    try {
+      await deleteInterviewById(id)
+      await getInterviews()
+    } catch {}
+  }
+
   return {
     listLoading,
     interviewList,
     getInterviews,
     handleCreateInterview,
-    handleUpdateInterview
+    handleUpdateInterview,
+    handlDeleteInterview
   }
 }
 
