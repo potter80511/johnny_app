@@ -19,3 +19,5 @@ export type Interview = {
 }
 
 export type InterviewOptions = Partial<Omit<Interview, 'id'>>
+
+export type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel' | 'interviewFlow'> | 'edit'

@@ -1,5 +1,7 @@
 import { OptionType } from 'src/types';
 import { InterviewStatus } from 'src/features/interviews/enum';
+import { TableHeadData } from 'src/features/interviews/components/Table';
+import { TableKeyType } from 'src/features/interviews/types';
 
 export const statusOptions: OptionType<InterviewStatus>[] = [
   {
@@ -31,3 +33,27 @@ export const statusOptions: OptionType<InterviewStatus>[] = [
     value: InterviewStatus.CalculateSalary
   },
 ]
+
+export const tableHeadData: TableHeadData<TableKeyType> = {
+  companyName: {
+    headTitle: '公司名稱'
+  },
+  rejectReason: {
+    headTitle: '回絕原因',
+  },
+  interviewFlow: {
+    headTitle: '流程'
+  },
+  currentTestLevel: {
+    headTitle: '當前關卡'
+  },
+  status: {
+    headTitle: '狀態',
+    width: 100
+  },
+  edit: {
+    headTitle: '',
+    width: 30,
+    align: 'center'
+  }
+}
