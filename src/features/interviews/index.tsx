@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { fetchInterviews, updateInterviewById } from 'src/features/interviews/fetchers';
-import { Interview, InterviewOptions } from 'src/features/interviews/types';
-import Table, { TableData, TableHeadData } from 'src/features/interviews/components/Table';
-import { statusOptions } from './constants';
+import { Interview, InterviewOptions, TableKeyType } from 'src/features/interviews/types';
+import Table, { TableData } from 'src/features/interviews/components/Table';
+import { statusOptions, tableHeadData } from 'src/features/interviews/constants';
 import Board from 'src/components/Board';
 import StatusOptionsContainer from 'src/features/interviews/components/StatusOptionsContainer';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
@@ -11,32 +11,6 @@ import styled from 'styled-components';
 import AlertDialogSlide from 'src/components/mui/AlertDialogSlide';
 import RejectReasonsForm from './components/forms/RejectReasonsForm';
 import Loading from 'src/components/Loading';
-
-type TableKeyType = keyof Pick<Interview, 'companyName' | 'rejectReason' | 'status' | 'currentTestLevel' | 'interviewFlow'> | 'edit'
-
-const tableHeadData: TableHeadData<TableKeyType> = {
-  companyName: {
-    headTitle: '公司名稱'
-  },
-  rejectReason: {
-    headTitle: '回絕原因',
-  },
-  interviewFlow: {
-    headTitle: '流程'
-  },
-  currentTestLevel: {
-    headTitle: '當前關卡'
-  },
-  status: {
-    headTitle: '狀態',
-    width: 100
-  },
-  edit: {
-    headTitle: '',
-    width: 30,
-    align: 'center'
-  }
-}
 
 const EditButton = styled.button`
   svg {
@@ -101,6 +75,12 @@ const InterviewsIndex = () => {
     })
   }, [interviewList])
 
+  const boardContentDisplay = useMemo(() => {
+    return listLoading
+      ? <Loading size={24}/>
+      : <Table data={tableData} tableHeadData={tableHeadData} />
+  }, [listLoading, tableData])
+
   useEffect(() => {
     getInterviews()
   }, [])
@@ -108,10 +88,7 @@ const InterviewsIndex = () => {
   return <div>
     <h2>Interviews</h2>
     <Board title="Records">
-      {listLoading
-        ? <Loading size={24}/>
-        : <Table data={tableData} tableHeadData={tableHeadData} />
-      }
+      {boardContentDisplay}
     </Board>
     <AlertDialogSlide
       title="請填寫回絕原因"
