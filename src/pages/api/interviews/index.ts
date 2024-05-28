@@ -18,19 +18,6 @@ const interviews = async (
       connection.release();
     }
   }
-
-  if (req.method === 'POST') {
-    const { name, age } = req.body;
-
-    try {
-      // await connection.query('INSERT INTO users (name, age) VALUES (?, ?)', [name, age]);
-      res.status(200).json({ message: 'Interview added successfully', success: true, data: [] });
-    } catch (error) {
-      res.status(500).json({ message: 'Adding interviews error', success: false, data: [] });
-    } finally {
-      connection.release();
-    }
-  }
 }
 
 export default interviews

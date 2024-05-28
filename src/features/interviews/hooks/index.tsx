@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { fetchInterviews, updateInterviewById } from 'src/features/interviews/fetchers';
-import { Interview, InterviewOptions } from 'src/features/interviews/types';
+import { fetchInterviews, updateInterviewById, createInterview } from 'src/features/interviews/fetchers';
+import { Interview, InterviewOptions, InterviewPayload } from 'src/features/interviews/types';
 
 const useInterviews = () => {
   const [interviewList, setInterviewList] = useState<Interview[]>([])
@@ -17,6 +17,13 @@ const useInterviews = () => {
     }
   }
 
+  const handleCreateInterview = async (payload: InterviewPayload) => {
+    try {
+      await createInterview(payload)
+      await getInterviews()
+    } catch {}
+  }
+
   const handleUpdateInterview = async (id: number, payload: InterviewOptions) => {
     try {
       await updateInterviewById(id, payload)
@@ -28,6 +35,7 @@ const useInterviews = () => {
     listLoading,
     interviewList,
     getInterviews,
+    handleCreateInterview,
     handleUpdateInterview
   }
 }

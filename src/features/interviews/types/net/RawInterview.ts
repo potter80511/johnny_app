@@ -12,10 +12,12 @@ export type RawInterview = {
   guarantee_month: number | null
   projects: string | null
   main_product: string | null
-  interview_flow: Array<string>
+  interview_flow: Array<string> | null
   current_test_level: number | null
   created_date: string
   updated_date: string
 }
+
+export type RawInterviewPayload = Pick<RawInterview, 'company_name'>
 
 export type RawInterviewOptions = Partial<Omit<RawInterview, 'id'>>
