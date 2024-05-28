@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import { TableKeyType } from 'src/features/interviews/types';
 import Table, { TableData } from 'src/features/interviews/components/Table';
 import { statusOptions, tableHeadData } from 'src/features/interviews/constants';
@@ -14,6 +14,7 @@ import useInterviews from './hooks';
 import { Button } from '@mui/material';
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import CreateInterviewForm from 'src/features/interviews/components/forms/CreateInterviewForm';
+import { DialogInfoName } from 'src/features/interviews/enum';
 
 const EditButton = styled.button`
   svg {
@@ -25,14 +26,18 @@ const ButtonWrapper = styled.div`
   margin-bottom: 16px;
 `
 
+const defaultDialogData: {
+  isOpen: boolean;
+  id: number,
+  formName: DialogInfoName
+} = {
+  isOpen: false,
+  id: 0,
+  formName: DialogInfoName.CreateInterview
+}
+
 const InterviewsIndex = () => {
-  const [dialogData, setDialogData] = useState<{
-    isOpen: boolean;
-    id: number
-  }>({
-    isOpen: false,
-    id: 0
-  })
+  const [dialogData, setDialogData] = useState(defaultDialogData)
   
   const {
     listLoading,
@@ -41,13 +46,8 @@ const InterviewsIndex = () => {
     handleCreateInterview,
     handleUpdateInterview
   } = useInterviews()
-  
 
-  const handleResetDialogData = () => setDialogData({
-    id: 0,
-    isOpen: false
-  })
-
+  const handleResetDialogData = () => setDialogData(defaultDialogData)
 
   const tableData: TableData<TableKeyType> = useMemo(() => {
     return interviewList.map((item) => {
@@ -61,7 +61,8 @@ const InterviewsIndex = () => {
           optionsMenuStyle={{ minWidth: 150 }}
           onOpenDialog={() => setDialogData({
             id: item.id,
-            isOpen: true
+            isOpen: true,
+            formName: DialogInfoName.RejectReason
           })}
         />,
         edit: <EditButton type="button">
@@ -76,7 +77,11 @@ const InterviewsIndex = () => {
       ? <Loading size={24}/>
       : <div>
           <ButtonWrapper>
-            <Button variant="outlined">
+            <Button variant="outlined" onClick={() => setDialogData({
+              id: 0,
+              isOpen: true,
+              formName: DialogInfoName.CreateInterview
+            })}>
               <FontAwesomeIcon icon={faPlus} size="xs" style={{marginRight: 4}} />
               新增
             </Button>
@@ -84,6 +89,27 @@ const InterviewsIndex = () => {
           <Table data={tableData} tableHeadData={tableHeadData} />
         </div>
   }, [listLoading, tableData])
+
+  const dialogFormInfo: {[key in DialogInfoName]: { title: string; form: ReactNode } } = useMemo(() => ({
+    [DialogInfoName.RejectReason]: {
+      title: '請填寫回絕原因',
+      form: <RejectReasonsForm
+        onSubmit={(reasons) => {
+          handleUpdateInterview(dialogData.id, { rejectReason: reasons })
+          handleResetDialogData()
+        }}
+      />
+    },
+    [DialogInfoName.CreateInterview]: {
+      title: '新增面試資料',
+      form: <CreateInterviewForm
+        onSubmit={(companyName) => {
+          handleCreateInterview({ companyName })
+          handleResetDialogData()
+        }}
+      />
+    },
+  }), [dialogData])
 
   useEffect(() => {
     getInterviews()
@@ -95,30 +121,12 @@ const InterviewsIndex = () => {
       {boardContentDisplay}
     </Board>
     <AlertDialogSlide
-      title="請填寫回絕原因"
+      title={dialogFormInfo[dialogData.formName].title}
       isDialogOpen={dialogData.isOpen}
       shouldHideButtons
       onClose={handleResetDialogData}
     >
-      <RejectReasonsForm
-        onSubmit={(reasons) => {
-          handleUpdateInterview(dialogData.id, { rejectReason: reasons })
-          handleResetDialogData()
-        }}
-      />
-    </AlertDialogSlide>
-    <AlertDialogSlide
-      title="新增面試資料"
-      isDialogOpen={true}
-      shouldHideButtons
-      onClose={handleResetDialogData}
-    >
-      <CreateInterviewForm
-        onSubmit={(companyName) => {
-          handleCreateInterview({ companyName })
-          handleResetDialogData()
-        }}
-      />
+      {dialogFormInfo[dialogData.formName].form}
     </AlertDialogSlide>
   </div>
 }
