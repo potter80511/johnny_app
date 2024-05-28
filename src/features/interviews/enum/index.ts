@@ -7,3 +7,8 @@ export enum InterviewStatus {
   Approved = 'approved',
   CalculateSalary = 'calculate_salary',
 }
+
+export enum DialogInfoName {
+  RejectReason = 'RejectReason',
+  CreateInterview = 'CreateInterview',
+}
