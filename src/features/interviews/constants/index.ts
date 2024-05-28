@@ -51,7 +51,7 @@ export const tableHeadData: TableHeadData<TableKeyType> = {
     headTitle: '狀態',
     width: 100
   },
-  edit: {
+  editDelete: {
     headTitle: '',
     width: 30,
     align: 'center'
