@@ -2,6 +2,7 @@ import { Button } from "@mui/material"
 import { useState } from "react"
 import AlertDialogSlide from "src/components/mui/AlertDialogSlide"
 import { styled } from "styled-components"
+import RegisterForm from "src/features/common/Header/RegisterForm"
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const Header = () => {
       shouldHideButtons
       onClose={handleCloseDialogData}
     >
-      test
+      <RegisterForm />
     </AlertDialogSlide>
   </Wrapper>
 }
