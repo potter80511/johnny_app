@@ -4,6 +4,7 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { Provider } from 'react-redux';
 import { store } from 'src/store';
 import { ThemeProvider as MUIThemeProvider, createTheme as createMUITheme } from '@mui/material/styles';
+import Header from 'src/features/common/Header';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -59,6 +60,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <MUIThemeProvider theme={muiDarkTheme}>
+            <Header/>
             <Component {...pageProps} />
           </MUIThemeProvider>
         </ThemeProvider>
