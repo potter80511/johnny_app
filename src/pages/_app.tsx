@@ -7,6 +7,7 @@ import { ThemeProvider as MUIThemeProvider, createTheme as createMUITheme } from
 import { useEffect, useState } from 'react';
 import Router from 'next/router';
 import PageLoading from 'src/components/PageLoading';
+import Header from 'src/features/common/Header';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -50,11 +51,6 @@ const theme = {
     lg: '1024px',
   }
 };
-const muiDarkTheme = createMUITheme({
-  palette: {
-    mode: 'dark',
-  },
-});
 
 export default function App({ Component, pageProps }: AppProps) {
   console.log('App:')
@@ -90,6 +86,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <ThemeProvider theme={theme}>
           <MUIThemeProvider theme={muiDarkTheme}>
             {isPageLoading && <PageLoading />}
+            <Header/>
             <Component {...pageProps} />
           </MUIThemeProvider>
         </ThemeProvider>
