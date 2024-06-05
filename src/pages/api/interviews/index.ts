@@ -13,7 +13,7 @@ const interviews = async (
       const [rows] = await connection.query('SELECT * FROM interviews');
       res.status(200).json({data: rows as RawInterview[], success: true})
     } catch (error) {
-      res.status(500).json({ success: false, message: 'Fetching interviews error', data: [] });
+      res.status(500).json({ success: false, message: `Fetching interviews error: ${error}`, data: [] });
     } finally {
       connection.release();
     }
