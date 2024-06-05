@@ -2,7 +2,15 @@ version: '3.8'
 
 services:
   nextjs:
-    build: .
+    container_name: nextjs
+    build:
+      context: .
+      target: dev
+    restart: always
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
     ports:
       - "3000:3000"
     environment:
