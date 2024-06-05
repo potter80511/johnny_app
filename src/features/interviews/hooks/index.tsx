@@ -5,7 +5,6 @@ import { Interview, InterviewOptions, InterviewPayload } from 'src/features/inte
 const useInterviews = () => {
   const [interviewList, setInterviewList] = useState<Interview[]>([])
   const [listLoading, setListLoading] = useState(false)
-  console.log(interviewList, 'interviewList')
 
   const getInterviews = async () => {
     try {

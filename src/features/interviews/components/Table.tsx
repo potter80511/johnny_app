@@ -24,7 +24,6 @@ export type TableProps = {
 
 const Table = (props: TableProps) => {
   const { data, tableHeadData } = props
-  console.log(data, 'data')
   
   const columns: Array<ColumnBase & {
     fieldKey: string
