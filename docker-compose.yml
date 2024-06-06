@@ -29,5 +29,6 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mydatabase
     volumes:
-      - ./mysql-data:/var/lib/mysql  # 使用新的数据卷
+      - ./mysql-data:/var/lib/mysql  # 設定数据卷儲存位置
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
