@@ -28,7 +28,6 @@ const PringPringCats = ({ channelServerData }: { channelServerData: ChannelData 
     ogtype,
     ogsitename
   } = meta
-  console.log(channelServerData, 'channelServerData')
 
   return (
     <>

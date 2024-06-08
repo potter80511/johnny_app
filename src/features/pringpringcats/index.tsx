@@ -14,10 +14,11 @@ const Banner = styled.div<{$backgroundImage: string}>`
 `
 const PringPringCatsIndex = ({ channelServerData: { items } }: { channelServerData: ChannelData }) => {
   const channel = items[0]
-  const { snippet, brandingSettings } = channel
+  const { snippet, brandingSettings, id, statistics } = channel
+  console.log(channel, 'channel')
   return <CommonWrap>
     <Banner $backgroundImage={brandingSettings.image.bannerExternalUrl} />
-    <ChannelInfo snippet={snippet} />
+    <ChannelInfo snippet={snippet} id={id} statistics={statistics} />
   </CommonWrap>
 }
 

@@ -2,13 +2,18 @@ export interface PageInfo {
   totalResults: number
   resultsPerPage: number
 }
-export interface Item {
+
+export interface ChannelItem {
   kind: string
   etag: string
   id: string
   snippet: Snippet
   contentDetails: ContentDetails
   statistics: Statistics
+  brandingSettings: BrandingSettings
+  localizations:  {
+    zh_TW: Localized
+  }
 }
 
 export interface Snippet {
@@ -49,10 +54,10 @@ export interface RelatedPlaylists {
 }
 
 export interface Statistics {
-  viewCount: string
-  subscriberCount: string
+  viewCount: number
+  subscriberCount: number
   hiddenSubscriberCount: boolean
-  videoCount: string
+  videoCount: number
 }
 
 export type BrandingSettings = {
@@ -62,11 +67,7 @@ export type BrandingSettings = {
 }
 
 export type ChannelData = {
-  items: Array<{
-    snippet: Snippet
-    statistics: Statistics
-    brandingSettings: BrandingSettings
-  }>
+  items: Array<ChannelItem>
   pageInfo: PageInfo
 }
 
