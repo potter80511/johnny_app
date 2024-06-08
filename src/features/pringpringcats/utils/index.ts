@@ -1,7 +1,8 @@
 export const convertUnit = (rawValue: number) => {
-  if (rawValue >= 1e+4) {
-    return rawValue / 1e+4 + '萬'
+  const numberValue = Number(rawValue)
+  if (numberValue >= 1e+4) {
+    return `${(numberValue / 1e+4).toFixed()}萬 (${numberValue.toLocaleString()})`
   } else {
-    return rawValue
+    return numberValue
   }
 }
