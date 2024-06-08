@@ -55,10 +55,17 @@ export interface Statistics {
   videoCount: string
 }
 
+export type BrandingSettings = {
+  image: {
+    bannerExternalUrl: string
+  }
+}
+
 export type ChannelData = {
   items: Array<{
     snippet: Snippet
     statistics: Statistics
+    brandingSettings: BrandingSettings
   }>
   pageInfo: PageInfo
 }
