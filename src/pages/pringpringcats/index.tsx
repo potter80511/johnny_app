@@ -3,6 +3,7 @@ import MainLayout from 'src/components/MainLayout';
 import PringPringCatsIndex from 'src/features/pringpringcats';
 import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
+import fetcher from 'src/fetcher';
 
 const meta = {
   title: "Johnny's App - Pring Pring Cats 毛昕&毛馨",
@@ -52,8 +53,7 @@ export const getServerSideProps = async ({
   res.setHeader('Cache-Control', 'public, max-age=900')
 
   try {
-    const response = await fetch('https://www.googleapis.com/youtube/v3/channels?key=AIzaSyDrvBbitoDXcIHklICoeE6w_guJrwotF0k&id=UCrfpfIhOA_bH9QJvZNluv9w&part=snippet,contentDetails,statistics')
-    const rawData = await response.json()
+    const rawData = await fetcher('/pringpringcats/channel')
     return {
       props: {
         channelServerData: rawData
