@@ -1,19 +1,13 @@
-import { useEffect } from "react"
 import { CommonWrap } from "src/styles/Styled"
+import { ChannelData } from "src/features/pringpringcats/types/net"
+import ChannelInfo from "src/features/pringpringcats/components/ChannelInfo"
 
-const PringPringCatsIndex = () => {
-  // const fetchChannel = async () => {
-  //   try {
-  //     const response = await fetch('/api/pringpringcats/channel')
-  //     const rawData = await response.json()
-  //   } catch(error) {
-  //     console.log(error, 'fetchPringPringCatsError')
-  //   }
-  // }
-  // useEffect(() => {
-  //   fetchChannel()
-  // }, [])
-  return <CommonWrap>PringPringCatsIndex</CommonWrap>
+const PringPringCatsIndex = ({ channelServerData: { items } }: { channelServerData: ChannelData }) => {
+  const channel = items[0]
+  const { snippet } = channel
+  return <CommonWrap>
+    <ChannelInfo snippet={snippet} />
+  </CommonWrap>
 }
 
 export default PringPringCatsIndex

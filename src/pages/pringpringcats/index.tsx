@@ -4,6 +4,7 @@ import PringPringCatsIndex from 'src/features/pringpringcats';
 import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
 import fetcher from 'src/fetcher';
+import { ChannelData, RawPringPringCatsChannelResponse } from 'src/features/pringpringcats/types/net';
 
 const meta = {
   title: "Johnny's App - Pring Pring Cats 毛昕&毛馨",
@@ -17,7 +18,7 @@ const meta = {
   ogurl: '',
 };
 
-const PringPringCats = ({ channelServerData }: { channelServerData: any }) => {
+const PringPringCats = ({ channelServerData }: { channelServerData: ChannelData }) => {
   const {
     title,
     description,
@@ -41,7 +42,7 @@ const PringPringCats = ({ channelServerData }: { channelServerData: any }) => {
         <meta name="og:sitename" content={ogsitename} />
       </Head>
       <MainLayout>
-        <PringPringCatsIndex />
+        <PringPringCatsIndex channelServerData={channelServerData} />
       </MainLayout>
     </>
   );
@@ -53,10 +54,10 @@ export const getServerSideProps = async ({
   res.setHeader('Cache-Control', 'public, max-age=900')
 
   try {
-    const rawData = await fetcher('/pringpringcats/channel')
+    const rawData = await fetcher('/pringpringcats/channel') as RawPringPringCatsChannelResponse
     return {
       props: {
-        channelServerData: rawData
+        channelServerData: rawData.data
       },
     }
   } catch(error) {

@@ -10,6 +10,10 @@ const GlobalStyle = createGlobalStyle`
     background-color: #000;
     color: #fff;
     margin: 0;
+    img {
+      display: block;
+      width: 100%;
+    }
   }
 `;
 
