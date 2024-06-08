@@ -17,7 +17,7 @@ const ChannelTitle = styled.h2`
 const StatisticsWrapper = styled.div`
   color: #aaa;
   a {
-    color: #7a95a2;
+    color: #3ea6ff;
   }
 `
 
