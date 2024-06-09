@@ -1,4 +1,4 @@
-import { ChannelContentDetails, ChannelItem, Snippet } from "src/features/pringpringcats/types/net"
+import { ChannelContentDetails, YoutubeItem, ChannelSnippet, ChannelStatistics } from "src/features/pringpringcats/types/net"
 import Flex from "src/components/Flex"
 import { styled } from "styled-components"
 import { convertUnit } from "src/features/pringpringcats/utils"
@@ -29,7 +29,7 @@ const ChannelInfo = ({
     snippet,
     id,
     statistics
-  }: Pick<ChannelItem<ChannelContentDetails>, 'snippet' | 'id' | 'statistics'>) => {
+  }: Pick<YoutubeItem<ChannelContentDetails, ChannelStatistics, ChannelSnippet>, 'snippet' | 'id' | 'statistics'>) => {
   const {
     thumbnails,
     customUrl,

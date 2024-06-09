@@ -3,11 +3,11 @@ export interface PageInfo {
   resultsPerPage: number
 }
 
-export interface ChannelItem<ContentDetails> {
+export interface YoutubeItem<ContentDetails, Statistics, Snippet = {}> {
   kind: string
   etag: string
   id: string
-  snippet: Snippet
+  snippet: Snippet & BaseSnippet
   contentDetails: ContentDetails
   statistics: Statistics
   brandingSettings: BrandingSettings
@@ -16,15 +16,31 @@ export interface ChannelItem<ContentDetails> {
   }
 }
 
-export interface Snippet {
+export interface BaseSnippet {
   title: string
   description: string
-  customUrl: string
   publishedAt: string
   thumbnails: ThumbnailSizes
   defaultLanguage: string
   localized: Localized
+}
+export interface ChannelSnippet {
+  customUrl: string
   country: string
+}
+
+export interface PlayListItemsSnippet {
+  publishedAt: string
+  channelId: string
+  channelTitle: string
+  playlistId: string
+  position: number
+}
+export interface VideoSnippet {
+  publishedAt: string
+  channelId: string
+  channelTitle: string
+  categoryId: number
 }
 
 export interface ThumbnailSizes {
@@ -57,11 +73,17 @@ export interface RelatedPlaylists {
   uploads: string
 }
 
-export interface Statistics {
+export interface ChannelStatistics {
   viewCount: number
   subscriberCount: number
   hiddenSubscriberCount: boolean
   videoCount: number
+}
+export interface VideoStatistics {
+  viewCount: number
+  likeCount: number
+  favoriteCount: number
+  commentCount: number
 }
 
 export type BrandingSettings = {
@@ -70,13 +92,13 @@ export type BrandingSettings = {
   }
 }
 
-export type ChannelData<ContentDetails> = {
-  items: Array<ChannelItem<ContentDetails>>
+export type YoutubeData<ContentDetails, Statistics, Snippet = {}> = {
+  items: Array<YoutubeItem<ContentDetails, Statistics, Snippet>>
   pageInfo: PageInfo
 }
 
-export type RawPringPringCatsChannelResponse = {
-  data: ChannelData<ChannelContentDetails>
+export type RawYoutubeChannelResponse = {
+  data: YoutubeData<ChannelContentDetails, ChannelSnippet>
 }
 
 export interface PlayListItemsContentDetails {
@@ -84,4 +106,6 @@ export interface PlayListItemsContentDetails {
   videoPublishedAt: string
 }
 
-export type RawPringPringCatsPlayListItemsResponse = ChannelData<PlayListItemsContentDetails>
+export type RawYoutubePlayListItemsResponse = YoutubeData<PlayListItemsContentDetails, {}>
+
+export type RawYoutubeVideoResponse = YoutubeData<{}, VideoStatistics, VideoSnippet>

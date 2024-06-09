@@ -4,7 +4,7 @@ import PringPringCatsIndex from 'src/features/pringpringcats';
 import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
 import fetcher from 'src/fetcher';
-import { ChannelContentDetails, ChannelData, RawPringPringCatsChannelResponse } from 'src/features/pringpringcats/types/net';
+import { ChannelContentDetails, YoutubeData, ChannelSnippet, ChannelStatistics, RawYoutubeChannelResponse, RawYoutubeVideoResponse } from 'src/features/pringpringcats/types/net';
 
 const meta = {
   title: "Johnny's App - Pring Pring Cats 毛昕&毛馨",
@@ -19,8 +19,8 @@ const meta = {
 };
 
 const PringPringCats = ({ channelServerData, videosServerData }: {
-  channelServerData: ChannelData<ChannelContentDetails>
-   videosServerData: any
+  channelServerData: YoutubeData<ChannelContentDetails, ChannelStatistics, ChannelSnippet>
+  videosServerData: RawYoutubeVideoResponse
 }) => {
   const {
     title,
@@ -31,7 +31,7 @@ const PringPringCats = ({ channelServerData, videosServerData }: {
     ogtype,
     ogsitename
   } = meta
-  console.log(videosServerData, 'videosServerData')
+  
 
   return (
     <>
@@ -45,7 +45,7 @@ const PringPringCats = ({ channelServerData, videosServerData }: {
         <meta name="og:sitename" content={ogsitename} />
       </Head>
       <MainLayout>
-        <PringPringCatsIndex channelServerData={channelServerData} />
+        <PringPringCatsIndex channelServerData={channelServerData} videosServerData={videosServerData} />
       </MainLayout>
     </>
   );
@@ -57,9 +57,8 @@ export const getServerSideProps = async ({
   res.setHeader('Cache-Control', 'public, max-age=900')
 
   try {
-    const rawData = await fetcher('/pringpringcats/channel') as RawPringPringCatsChannelResponse
-    const rawVideosData = await fetcher('/pringpringcats/videos')
-    console.log(rawVideosData, 'rawVideosData')
+    const rawData = await fetcher('/pringpringcats/channel') as RawYoutubeChannelResponse
+    const rawVideosData = await fetcher('/pringpringcats/videos') as { data: RawYoutubeVideoResponse }
     return {
       props: {
         channelServerData: rawData.data,
