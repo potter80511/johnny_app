@@ -3,7 +3,7 @@ export interface PageInfo {
   resultsPerPage: number
 }
 
-export interface ChannelItem {
+export interface ChannelItem<ContentDetails> {
   kind: string
   etag: string
   id: string
@@ -44,7 +44,11 @@ export interface Localized {
   description: string
 }
 
-export interface ContentDetails {
+export interface ChannelContentDetails {
+  relatedPlaylists: RelatedPlaylists
+}
+
+export interface PlayListItemContentDetails {
   relatedPlaylists: RelatedPlaylists
 }
 
@@ -66,11 +70,18 @@ export type BrandingSettings = {
   }
 }
 
-export type ChannelData = {
-  items: Array<ChannelItem>
+export type ChannelData<ContentDetails> = {
+  items: Array<ChannelItem<ContentDetails>>
   pageInfo: PageInfo
 }
 
 export type RawPringPringCatsChannelResponse = {
-  data: ChannelData
+  data: ChannelData<ChannelContentDetails>
 }
+
+export interface PlayListItemsContentDetails {
+  videoId: string
+  videoPublishedAt: string
+}
+
+export type RawPringPringCatsPlayListItemsResponse = ChannelData<PlayListItemsContentDetails>

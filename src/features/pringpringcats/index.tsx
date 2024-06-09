@@ -1,5 +1,5 @@
 import { CommonWrap } from "src/styles/Styled"
-import { ChannelData } from "src/features/pringpringcats/types/net"
+import { ChannelContentDetails, ChannelData } from "src/features/pringpringcats/types/net"
 import ChannelInfo from "src/features/pringpringcats/components/ChannelInfo"
 import styled from "styled-components"
 
@@ -12,7 +12,7 @@ const Banner = styled.div<{$backgroundImage: string}>`
   height: 200px;
   margin-bottom: 20px;
 `
-const PringPringCatsIndex = ({ channelServerData: { items } }: { channelServerData: ChannelData }) => {
+const PringPringCatsIndex = ({ channelServerData: { items } }: { channelServerData: ChannelData<ChannelContentDetails> }) => {
   const channel = items[0]
   const { snippet, brandingSettings, id, statistics } = channel
   console.log(channel, 'channel')
