@@ -2,7 +2,7 @@ import { CommonWrap } from "src/styles/Styled"
 import { ChannelContentDetails, YoutubeData, ChannelSnippet, ChannelStatistics, RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net"
 import ChannelInfo from "src/features/pringpringcats/components/ChannelInfo"
 import styled from "styled-components"
-import { createYoutubeVideosFromNet } from "./factories"
+import VideosSection from "src/features/pringpringcats/components/VideosSection"
 
 const Banner = styled.div<{$backgroundImage: string}>`
   background-image: ${({ $backgroundImage: backgroundImage }) => `url(${backgroundImage})`};
@@ -24,11 +24,11 @@ const PringPringCatsIndex = ({
   const channel = items[0]
   const { snippet, brandingSettings, id, statistics } = channel
   console.log(channel, 'channel')
-  console.log(createYoutubeVideosFromNet(videosServerData), 'videosServerData')
 
   return <CommonWrap>
     <Banner $backgroundImage={brandingSettings.image.bannerExternalUrl} />
     <ChannelInfo snippet={snippet} id={id} statistics={statistics} />
+    <VideosSection videosServerData={videosServerData} />
   </CommonWrap>
 }
 

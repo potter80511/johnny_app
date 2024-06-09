@@ -27,8 +27,18 @@ const Wrapper = styled.div<FlexProps>`
 `
 
 const Flex = (props: FlexProps) => {
-  const { children, className, justifyContent } = props
-  return <Wrapper className={className} justifyContent={justifyContent}>{children}</Wrapper>
+  const {
+    children,
+    className,
+    justifyContent,
+    flexWrap
+  } = props
+
+  return <Wrapper
+    className={className}
+    justifyContent={justifyContent}
+    flexWrap={flexWrap}
+  >{children}</Wrapper>
 }
 
 export default Flex

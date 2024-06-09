@@ -7,4 +7,5 @@ export type YoutubeVideo = {
   publishedAt: string
   thumbnails: ThumbnailSizes
   statistics: VideoStatistics
+  duration: string
 }

@@ -105,7 +105,10 @@ export interface PlayListItemsContentDetails {
   videoId: string
   videoPublishedAt: string
 }
+export interface VideoContentDetails {
+  duration: string
+}
 
 export type RawYoutubePlayListItemsResponse = YoutubeData<PlayListItemsContentDetails, {}>
 
-export type RawYoutubeVideoResponse = YoutubeData<{}, VideoStatistics, VideoSnippet>
+export type RawYoutubeVideoResponse = YoutubeData<VideoContentDetails, VideoStatistics, VideoSnippet>
