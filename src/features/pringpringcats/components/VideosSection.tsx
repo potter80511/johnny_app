@@ -6,15 +6,23 @@ import styled from "styled-components"
 import { lineCamp } from "src/styles/Styled"
 
 const VideosWrapper = styled(Flex)`
-  /* gap: 16px; */
+  margin: 0 -16px;
+  &:after {
+    content: '';
+    display: block;
+    flex: 1;
+  }
 `
 
 const Video = styled.div`
-  width: calc(calc(100%/3) - 16px);
+  width: calc(100%/3);
+  margin-bottom: 20px;
+  padding: 0 16px;
+`
+const VideoInner = styled.div`
   transition: all .3s;
   cursor: pointer;
   border-radius: 16px 16px 0 0;
-  margin-bottom: 20px;
   
   &:hover {
     background-color: #222;
@@ -36,10 +44,11 @@ const Duration = styled.span`
   border-radius: 4px;
 `
 const VideoContent = styled.div`
-  padding: 0 8px;
+  padding: 16px 8px;
 `
 const VideoTitle = styled.h3<{ lineCount?: number }>`
   ${lineCamp};
+  margin: 0;
 `
 
 const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideoResponse }) => {
@@ -50,16 +59,16 @@ const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideo
     <div>tabs</div>
     <VideosWrapper flexWrap="wrap" justifyContent="space-between">
       {videos.map(({id, thumbnails, title, duration}) => <Video key={`videos-${id}`}>
-        <ThumbnailWrapper>
-          <img src={thumbnails.medium.url} alt={`videos-thumbnail-${title}`} />
-          <Duration>{duration}</Duration>
-        </ThumbnailWrapper>
-        <VideoContent>
-          <VideoTitle lineCount={2} title={title}>{title}</VideoTitle>
-        </VideoContent>
+        <VideoInner>
+          <ThumbnailWrapper>
+            <img src={thumbnails.medium.url} alt={`videos-thumbnail-${title}`} />
+            <Duration>{duration}</Duration>
+          </ThumbnailWrapper>
+          <VideoContent>
+            <VideoTitle lineCount={2} title={title}>{title}</VideoTitle>
+          </VideoContent>
+        </VideoInner>
       </Video>)}
-      <Video/>
-      <Video/>
     </VideosWrapper>
   </div>
 }
