@@ -8,14 +8,14 @@ const videosHandler = async (
 ) => {
   try {
     const playListItemsResponse = await fetch(
-      'https://www.googleapis.com/youtube/v3/playlistItems?key=AIzaSyDrvBbitoDXcIHklICoeE6w_guJrwotF0k&part=snippet,contentDetails&playlistId=UUrfpfIhOA_bH9QJvZNluv9w&maxResults=50',
+      `https://www.googleapis.com/youtube/v3/playlistItems?key=${process.env.YOUTUBE_API_ACCESS_KEY}&part=snippet,contentDetails&playlistId=UUrfpfIhOA_bH9QJvZNluv9w&maxResults=50`,
     )
     const rawPlayListItemsData = await playListItemsResponse.json() as RawPringPringCatsPlayListItemsResponse
     console.log(rawPlayListItemsData, 'rawPlayListItemsData')
     const videoIds = rawPlayListItemsData.items.map(({contentDetails}) => contentDetails.videoId)
 
     const videosResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?key=AIzaSyDrvBbitoDXcIHklICoeE6w_guJrwotF0k&part=snippet,contentDetails&id=${videoIds.join(',')}&hl=zh-tw`,
+      `https://www.googleapis.com/youtube/v3/videos?key=${process.env.YOUTUBE_API_ACCESS_KEY}&part=snippet,contentDetails&id=${videoIds.join(',')}&hl=zh-tw`,
     )
     const rawVideosData = await videosResponse.json()
     res.json({ data: rawVideosData })

@@ -11,7 +11,7 @@ const channel = async (
 ) => {
   try {
     const response = await fetch(
-      'https://www.googleapis.com/youtube/v3/channels?key=AIzaSyDrvBbitoDXcIHklICoeE6w_guJrwotF0k&id=UCrfpfIhOA_bH9QJvZNluv9w&part=snippet,contentDetails,statistics,brandingSettings,localizations&hl=zh-tw',
+      `https://www.googleapis.com/youtube/v3/channels?key=${process.env.YOUTUBE_API_ACCESS_KEY}&id=UCrfpfIhOA_bH9QJvZNluv9w&part=snippet,contentDetails,statistics,brandingSettings,localizations&hl=zh-tw`,
     )
     const rawData = await response.json()
     res.json({ data: rawData })
