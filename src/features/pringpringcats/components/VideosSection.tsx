@@ -4,6 +4,8 @@ import { createYoutubeVideosFromNet } from "src/features/pringpringcats/factorie
 import { useMemo } from "react"
 import styled from "styled-components"
 import { lineCamp } from "src/styles/Styled"
+import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const VideosWrapper = styled(Flex)`
   margin: 0 -16px;
@@ -50,9 +52,13 @@ const VideoTitle = styled.h3<{ lineCount?: number }>`
   ${lineCamp};
   margin: 0 0 8px;
 `
-const StatisticsWrapper = styled.div`
+const StatisticsWrapper = styled(Flex)`
   color: #aaa;
   font-size: 12px;
+`
+const Count = styled(Flex)`
+  font-size: 14px;
+  gap: 8px;
 `
 
 const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideoResponse }) => {
@@ -67,7 +73,7 @@ const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideo
         thumbnails,
         title,
         duration,
-        statistics: { viewCount },
+        statistics: { viewCount, likeCount, commentCount },
         publishedAt
       }) => <Video key={`videos-${id}`}>
         <VideoInner>
@@ -77,7 +83,13 @@ const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideo
           </ThumbnailWrapper>
           <VideoContent>
             <VideoTitle lineCount={2} title={title}>{title}</VideoTitle>
-            <StatisticsWrapper>觀看次數：{viewCount}次 ‧ {publishedAt}</StatisticsWrapper>
+            <StatisticsWrapper justifyContent="space-between">
+              <span>觀看次數：{viewCount}次 ‧ {publishedAt}</span>
+              <Count>
+                <span><FontAwesomeIcon icon={faThumbsUp} /> {likeCount}</span>
+                <span><FontAwesomeIcon icon={faComment} /> {commentCount}</span>
+              </Count>
+            </StatisticsWrapper>
           </VideoContent>
         </VideoInner>
       </Video>)}

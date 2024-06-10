@@ -1,7 +1,7 @@
 import dayjs from "src/helpers/dayjs";
 import { YoutubeVideo } from "src/features/pringpringcats/types";
 import { RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net";
-import { convertViewCountUnit } from "src/features/pringpringcats/utils";
+import { convertCountUnit } from "src/features/pringpringcats/utils";
 
 const formatSeconds = (rawValue: string | number) => {
   const rawSeconds = Number(rawValue) * 1000
@@ -30,7 +30,9 @@ export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Ar
       thumbnails: snippet.thumbnails,
       statistics: {
         ...rawStatistics,
-        viewCount: convertViewCountUnit(rawStatistics.viewCount)
+        viewCount: convertCountUnit(rawStatistics.viewCount),
+        commentCount: convertCountUnit(rawStatistics.commentCount),
+        likeCount: convertCountUnit(rawStatistics.likeCount)
       },
       duration
     }

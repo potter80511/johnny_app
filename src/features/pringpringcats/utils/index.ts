@@ -7,10 +7,10 @@ export const convertUnitForChannelInfo = (rawValue: number) => {
   }
 }
 
-export const convertViewCountUnit = (rawValue: number | string) => {
+export const convertCountUnit = (rawValue: number | string) => {
   const numberValue = Number(rawValue)
   if (numberValue >= 1e+4) {
-    return `${(numberValue / 1e+4).toFixed()}萬`
+    return `${(numberValue / 1e+4).toFixed().toLocaleString()}萬`
   } else {
     return numberValue.toLocaleString()
   }
