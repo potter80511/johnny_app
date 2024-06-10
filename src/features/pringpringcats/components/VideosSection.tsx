@@ -48,7 +48,11 @@ const VideoContent = styled.div`
 `
 const VideoTitle = styled.h3<{ lineCount?: number }>`
   ${lineCamp};
-  margin: 0;
+  margin: 0 0 8px;
+`
+const StatisticsWrapper = styled.div`
+  color: #aaa;
+  font-size: 12px;
 `
 
 const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideoResponse }) => {
@@ -58,7 +62,14 @@ const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideo
   return <div>
     <div>tabs</div>
     <VideosWrapper flexWrap="wrap" justifyContent="space-between">
-      {videos.map(({id, thumbnails, title, duration}) => <Video key={`videos-${id}`}>
+      {videos.map(({
+        id,
+        thumbnails,
+        title,
+        duration,
+        statistics: { viewCount },
+        publishedAt
+      }) => <Video key={`videos-${id}`}>
         <VideoInner>
           <ThumbnailWrapper>
             <img src={thumbnails.medium.url} alt={`videos-thumbnail-${title}`} />
@@ -66,6 +77,7 @@ const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideo
           </ThumbnailWrapper>
           <VideoContent>
             <VideoTitle lineCount={2} title={title}>{title}</VideoTitle>
+            <StatisticsWrapper>觀看次數：{viewCount}次 ‧ {publishedAt}</StatisticsWrapper>
           </VideoContent>
         </VideoInner>
       </Video>)}

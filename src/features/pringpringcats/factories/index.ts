@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { YoutubeVideo } from "src/features/pringpringcats/types";
 import { RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net";
+import { convertViewCountUnit } from "src/features/pringpringcats/utils";
 
 const formatSeconds = (rawValue: string | number) => {
   const rawSeconds = Number(rawValue) * 1000
@@ -8,7 +9,13 @@ const formatSeconds = (rawValue: string | number) => {
 }
 
 export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Array<YoutubeVideo> => {
-  return rawData.items.map(({snippet, id, statistics, contentDetails: { duration: rawDuration }}) => {
+  return rawData.items.map(({
+    snippet,
+    id,
+    statistics:
+    rawStatistics,
+    contentDetails: { duration: rawDuration }
+  }) => {
     const durationString = rawDuration.substring(2).replace('M', ':').replace('S', '')
     const durationSeconds = durationString.split(':').reduce((result, item, index, arr) => {
       return result + (arr.length > 1 && index === 0 ? Number(item) * 60 : Number(item))
@@ -21,7 +28,10 @@ export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Ar
       description: snippet.localized.description,
       publishedAt: snippet.publishedAt,
       thumbnails: snippet.thumbnails,
-      statistics: statistics,
+      statistics: {
+        ...rawStatistics,
+        viewCount: convertViewCountUnit(rawStatistics.viewCount)
+      },
       duration
     }
   })

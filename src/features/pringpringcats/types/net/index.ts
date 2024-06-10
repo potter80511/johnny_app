@@ -80,10 +80,10 @@ export interface ChannelStatistics {
   videoCount: number
 }
 export interface VideoStatistics {
-  viewCount: number
-  likeCount: number
-  favoriteCount: number
-  commentCount: number
+  viewCount: string
+  likeCount: string
+  favoriteCount: string
+  commentCount: string
 }
 
 export type BrandingSettings = {
