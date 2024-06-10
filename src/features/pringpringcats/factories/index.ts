@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs from "src/helpers/dayjs";
 import { YoutubeVideo } from "src/features/pringpringcats/types";
 import { RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net";
 import { convertViewCountUnit } from "src/features/pringpringcats/utils";
@@ -26,7 +26,7 @@ export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Ar
       id,
       title: snippet.localized.title,
       description: snippet.localized.description,
-      publishedAt: snippet.publishedAt,
+      publishedAt: dayjs().locale('zh-tw').to(dayjs(snippet.publishedAt)),
       thumbnails: snippet.thumbnails,
       statistics: {
         ...rawStatistics,
