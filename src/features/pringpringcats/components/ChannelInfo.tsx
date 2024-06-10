@@ -1,7 +1,7 @@
 import { ChannelContentDetails, YoutubeItem, ChannelSnippet, ChannelStatistics } from "src/features/pringpringcats/types/net"
 import Flex from "src/components/Flex"
 import { styled } from "styled-components"
-import { convertUnit } from "src/features/pringpringcats/utils"
+import { convertUnitForChannelInfo } from "src/features/pringpringcats/utils"
 
 const AvatarWrapper = styled.div`
   border-radius: 100rem;
@@ -41,7 +41,7 @@ const ChannelInfo = ({
     <Right>
       <ChannelTitle>{title}</ChannelTitle>
       <StatisticsWrapper>
-        <a href={`https://www.youtube.com/channel/${id}`} target="_blank">{customUrl}</a> ‧ {statistics.subscriberCount}位訂閱者 ‧ {statistics.videoCount} 部影片 ‧ {convertUnit(statistics.viewCount)} 觀看次數
+        <a href={`https://www.youtube.com/channel/${id}`} target="_blank">{customUrl}</a> ‧ {statistics.subscriberCount}位訂閱者 ‧ {statistics.videoCount} 部影片 ‧ {convertUnitForChannelInfo(statistics.viewCount)} 觀看次數
       </StatisticsWrapper>
       <p>{description}</p>
     </Right>
