@@ -52,7 +52,7 @@ const Duration = styled.span`
 const VideoContent = styled.div`
   padding: 16px 8px;
 `
-const VideoTitle = styled.h3<{ lineCount?: number }>`
+const VideoTitle = styled.h3<{ $lineCount?: number }>`
   ${lineCamp};
   margin: 0 0 8px;
 `
@@ -108,7 +108,7 @@ const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideo
             <Duration>{duration}</Duration>
           </ThumbnailWrapper>
           <VideoContent>
-            <VideoTitle lineCount={2} title={title}>{title}</VideoTitle>
+            <VideoTitle $lineCount={2} title={title}>{title}</VideoTitle>
             <StatisticsWrapper justifyContent="space-between">
               <span>觀看次數：{viewCount}次 ‧ {publishedAt}</span>
               <Count>
