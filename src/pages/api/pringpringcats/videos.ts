@@ -7,18 +7,20 @@ const videosHandler = async (
   res: NextApiResponse
 ) => {
   try {
+    const { pageToken } = req.query
+    const moreOptions = pageToken ? `&pageToken=${pageToken}` : ''
+
     const playListItemsResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/playlistItems?key=${process.env.YOUTUBE_API_ACCESS_KEY}&part=snippet,contentDetails&playlistId=UUrfpfIhOA_bH9QJvZNluv9w&maxResults=50`,
+      `https://www.googleapis.com/youtube/v3/playlistItems?key=${process.env.YOUTUBE_API_ACCESS_KEY}&part=snippet,contentDetails&playlistId=UUrfpfIhOA_bH9QJvZNluv9w&maxResults=12${moreOptions}`,
     )
     const rawPlayListItemsData = await playListItemsResponse.json() as RawYoutubePlayListItemsResponse
-    console.log(rawPlayListItemsData, 'rawPlayListItemsData')
     const videoIds = rawPlayListItemsData.items.map(({contentDetails}) => contentDetails.videoId)
 
     const videosResponse = await fetch(
       `https://www.googleapis.com/youtube/v3/videos?key=${process.env.YOUTUBE_API_ACCESS_KEY}&part=snippet,contentDetails,statistics&id=${videoIds.join(',')}&hl=zh-tw`,
     )
     const rawVideosData = await videosResponse.json() as RawYoutubeVideoResponse
-    res.json({ data: rawVideosData })
+    res.json({ data: { ...rawVideosData, nextPageToken: rawPlayListItemsData.nextPageToken } })
   } catch (error) {
     throw (error)
   }

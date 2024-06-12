@@ -23,7 +23,7 @@ const PringPringCatsIndex = ({
 }) => {
   const channel = items[0]
   const { snippet, brandingSettings, id, statistics } = channel
-  console.log(channel, 'channel')
+  // console.log(channel, 'channel')
 
   return <CommonWrap>
     <Banner $backgroundImage={brandingSettings.image.bannerExternalUrl} />

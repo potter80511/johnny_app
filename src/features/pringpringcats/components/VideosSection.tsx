@@ -1,13 +1,15 @@
 import Flex from "src/components/Flex"
 import { RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net"
 import { createYoutubeVideosFromNet } from "src/features/pringpringcats/factories"
-import { useMemo } from "react"
+import { useEffect, useState } from "react"
 import styled from "styled-components"
 import { lineCamp } from "src/styles/Styled"
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
+import { fetchPringPringCatsVideos } from "src/features/pringpringcats/fetchers"
+import { YoutubeVideo } from "src/features/pringpringcats/types"
 
 const VideosWrapper = styled(Flex)`
   margin: 0 -16px;
@@ -64,9 +66,31 @@ const Count = styled(Flex)`
 `
 
 const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideoResponse }) => {
-  console.log(videosServerData, 'videosServerData')
-  const videos = useMemo(() => createYoutubeVideosFromNet(videosServerData), [videosServerData])
-  console.log(videos, 'videos')
+  const [videos, setVideos] = useState<Array<YoutubeVideo>>([])
+  const [pageToken, setPageToken] = useState(videosServerData.nextPageToken || '')
+
+  const handleLoadMore = async () => {
+    await fetchPringPringCatsVideos({
+      payload: {
+        pageToken,
+      },
+      callBack: {
+        onSuccess: (rawResponseData) => {
+          const newVideos = createYoutubeVideosFromNet(rawResponseData.data)
+          setVideos(videos.concat(newVideos))
+          setPageToken(rawResponseData.data.nextPageToken || '')
+        },
+        onError: () => {}
+      }
+    })
+  }
+
+  // console.log(videosServerData, 'videosServerData')
+  useEffect(function initVideoServerData() {
+    setVideos(createYoutubeVideosFromNet(videosServerData))
+  }, [videosServerData])
+
+  // console.log(videos, 'videos')
   return <div>
     <div>tabs</div>
     <VideosWrapper flexWrap="wrap" justifyContent="space-between">
@@ -96,6 +120,7 @@ const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideo
         </VideoInner>
       </Video>)}
     </VideosWrapper>
+    <button type="button" onClick={() => handleLoadMore()}>load more</button>
   </div>
 }
 

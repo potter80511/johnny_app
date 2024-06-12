@@ -1,7 +1,7 @@
 declare module 'react-click-n-hold'
 
 type Callback<RawData> = {
-  onSuccess: (data?: RawData) => void
+  onSuccess: (data: RawData) => void
   onError: (error: any) => void
 }
 

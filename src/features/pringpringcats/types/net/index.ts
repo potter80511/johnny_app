@@ -95,6 +95,7 @@ export type BrandingSettings = {
 export type YoutubeData<ContentDetails, Statistics, Snippet = {}> = {
   items: Array<YoutubeItem<ContentDetails, Statistics, Snippet>>
   pageInfo: PageInfo
+  nextPageToken?: string
 }
 
 export type RawYoutubeChannelResponse = {
