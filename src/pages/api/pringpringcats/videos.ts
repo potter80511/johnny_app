@@ -1,14 +1,15 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { PringPringCatsVideosPayload } from 'src/features/pringpringcats/fetchers'
 import { RawYoutubePlayListItemsResponse, RawYoutubeVideoResponse } from 'src/features/pringpringcats/types/net'
+import { getAPIQueryStringByOption } from 'src/helpers/fetch'
 
 const videosHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
   try {
-    const { pageToken } = req.query
-    const moreOptions = pageToken ? `&pageToken=${pageToken}` : ''
+    const moreOptions = getAPIQueryStringByOption<PringPringCatsVideosPayload>(req.query)
 
     const playListItemsResponse = await fetch(
       `https://www.googleapis.com/youtube/v3/playlistItems?key=${process.env.YOUTUBE_API_ACCESS_KEY}&part=snippet,contentDetails&playlistId=UUrfpfIhOA_bH9QJvZNluv9w&maxResults=12${moreOptions}`,

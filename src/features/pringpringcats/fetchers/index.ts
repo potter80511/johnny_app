@@ -1,5 +1,6 @@
 import fetcher from "src/fetcher"
 import { RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net"
+import { getAPIQueryStringByOption } from "src/helpers/fetch"
 
 export const fetchPringPringCatsChannel: Fetcher<string> = async (params) => {
   const { callBack } = params
@@ -11,9 +12,11 @@ export const fetchPringPringCatsChannel: Fetcher<string> = async (params) => {
   }
 }
 
-export const fetchPringPringCatsVideos: Fetcher<{data: RawYoutubeVideoResponse}, { pageToken?: string }> = async (params) => {
+export type PringPringCatsVideosPayload = { pageToken?: string }
+
+export const fetchPringPringCatsVideos: Fetcher<{data: RawYoutubeVideoResponse}, PringPringCatsVideosPayload> = async (params) => {
   const { payload, callBack } = params
-  const options = payload?.pageToken ? `?pageToken=${payload.pageToken}` : ''
+  const options = getAPIQueryStringByOption(payload)
 
   try {
     const rawData = await fetcher(`/pringpringcats/videos${options}`)
