@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { Provider } from 'react-redux';
 import { store } from 'src/store';
+import { ThemeProvider as MUIThemeProvider, createTheme as createMUITheme } from '@mui/material/styles';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -16,6 +17,11 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 `;
+const muiDarkTheme = createMUITheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 const theme = {
   palette: {
@@ -31,7 +37,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <GlobalStyle />
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
+          <MUIThemeProvider theme={muiDarkTheme}>
+            <Component {...pageProps} />
+          </MUIThemeProvider>
         </ThemeProvider>
       </Provider>
     </>
