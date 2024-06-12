@@ -1,6 +1,6 @@
 import dayjs from "src/helpers/dayjs";
-import { YoutubeVideo } from "src/features/pringpringcats/types";
-import { RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net";
+import { YoutubeList, YoutubeVideo } from "src/features/pringpringcats/types";
+import { RawYoutubePlayListsResponse, RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net";
 import { convertCountUnit } from "src/features/pringpringcats/utils";
 
 const formatSeconds = (rawValue: string | number) => {
@@ -35,6 +35,24 @@ export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Ar
         likeCount: convertCountUnit(rawStatistics.likeCount)
       },
       duration
+    }
+  })
+}
+
+export const createYoutubePlaylistsFromNet = (rawData: RawYoutubePlayListsResponse): Array<YoutubeList> => {
+  console.log(rawData, 'rawData')
+  return rawData.items.map(({
+    snippet,
+    id,
+    contentDetails: { itemCount }
+  }) => {
+    return {
+      id,
+      title: snippet.localized.title,
+      description: snippet.localized.description,
+      publishedAt: dayjs().locale('zh-tw').to(dayjs(snippet.publishedAt)),
+      thumbnails: snippet.thumbnails,
+      videoCount: itemCount
     }
   })
 }

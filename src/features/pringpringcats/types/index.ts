@@ -9,3 +9,11 @@ export type YoutubeVideo = {
   statistics: VideoStatistics
   duration: string
 }
+export type YoutubeList = {
+  id: string
+  title: string
+  description: string
+  publishedAt: string
+  thumbnails: ThumbnailSizes
+  videoCount: number
+}

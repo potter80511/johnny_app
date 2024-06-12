@@ -37,7 +37,6 @@ export interface PlayListItemsSnippet {
   position: number
 }
 export interface VideoSnippet {
-  publishedAt: string
   channelId: string
   channelTitle: string
   categoryId: number
@@ -111,5 +110,6 @@ export interface VideoContentDetails {
 }
 
 export type RawYoutubePlayListItemsResponse = YoutubeData<PlayListItemsContentDetails, {}>
+export type RawYoutubePlayListsResponse = YoutubeData<{ itemCount: number }, {}>
 
 export type RawYoutubeVideoResponse = YoutubeData<VideoContentDetails, VideoStatistics, VideoSnippet>
