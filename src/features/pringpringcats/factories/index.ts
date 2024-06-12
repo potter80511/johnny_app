@@ -40,7 +40,6 @@ export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Ar
 }
 
 export const createYoutubePlaylistsFromNet = (rawData: RawYoutubePlayListsResponse): Array<YoutubeList> => {
-  console.log(rawData, 'rawData')
   return rawData.items.map(({
     snippet,
     id,

@@ -4,6 +4,7 @@ import ChannelInfo from "src/features/pringpringcats/components/ChannelInfo"
 import styled from "styled-components"
 import VideosSection from "src/features/pringpringcats/components/VideosSection"
 import Tabs from "src/components/mui/Tabs"
+import PlaylistsSection from "src/features/pringpringcats/components/PlaylistsSection"
 
 const Banner = styled.div<{$backgroundImage: string}>`
   background-image: ${({ $backgroundImage: backgroundImage }) => `url(${backgroundImage})`};
@@ -36,7 +37,7 @@ const PringPringCatsIndex = ({
       },
       {
         label: '播放清單',
-        content: 'bbb'
+        content: <PlaylistsSection />
       },
     ]} />
   </CommonWrap>
