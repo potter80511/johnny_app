@@ -3,6 +3,7 @@ import { ChannelContentDetails, YoutubeData, ChannelSnippet, ChannelStatistics, 
 import ChannelInfo from "src/features/pringpringcats/components/ChannelInfo"
 import styled from "styled-components"
 import VideosSection from "src/features/pringpringcats/components/VideosSection"
+import Tabs from "src/components/mui/Tabs"
 
 const Banner = styled.div<{$backgroundImage: string}>`
   background-image: ${({ $backgroundImage: backgroundImage }) => `url(${backgroundImage})`};
@@ -28,7 +29,16 @@ const PringPringCatsIndex = ({
   return <CommonWrap>
     <Banner $backgroundImage={brandingSettings.image.bannerExternalUrl} />
     <ChannelInfo snippet={snippet} id={id} statistics={statistics} />
-    <VideosSection videosServerData={videosServerData} />
+    <Tabs data={[
+      {
+        label: '所有影片',
+        content: <VideosSection videosServerData={videosServerData} />
+      },
+      {
+        label: '播放清單',
+        content: 'bbb'
+      },
+    ]} />
   </CommonWrap>
 }
 
