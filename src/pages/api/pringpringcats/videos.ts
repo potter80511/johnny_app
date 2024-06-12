@@ -9,10 +9,22 @@ const videosHandler = async (
   res: NextApiResponse
 ) => {
   try {
-    const moreOptions = getAPIQueryStringByOption<PringPringCatsVideosPayload>(req.query)
+    const qureyOptions = getAPIQueryStringByOption<
+      PringPringCatsVideosPayload & {
+        key: string;
+        part: string[];
+        playlistId: string;
+        maxResults: number;
+      }>({
+        ...req.query as PringPringCatsVideosPayload,
+        key: process.env.YOUTUBE_API_ACCESS_KEY || '',
+        part: ['snippet', 'contentDetails'],
+        playlistId: 'UUrfpfIhOA_bH9QJvZNluv9w',
+        maxResults: 12
+      })
 
     const playListItemsResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/playlistItems?key=${process.env.YOUTUBE_API_ACCESS_KEY}&part=snippet,contentDetails&playlistId=UUrfpfIhOA_bH9QJvZNluv9w&maxResults=12${moreOptions}`,
+      `https://www.googleapis.com/youtube/v3/playlistItems${qureyOptions}`,
     )
     const rawPlayListItemsData = await playListItemsResponse.json() as RawYoutubePlayListItemsResponse
     const videoIds = rawPlayListItemsData.items.map(({contentDetails}) => contentDetails.videoId)
