@@ -34,9 +34,10 @@ export const useFetchVideosInfinite = () => {
     size,
     setSize,
   } = useSWRInfinite<{data: RawYoutubeVideoResponse}>(
-    (pageIndex: number, previousPageData: {data: RawYoutubeVideoResponse}) => {
-      console.log(pageIndex, 'pageIndex')
-      const currentPagePayload: PringPringCatsVideosPayload = !!pageTokens ? {pageToken: pageTokens[pageIndex]} : {}
+    (newPageIndex: number, previousPageData: {data: RawYoutubeVideoResponse}) => {
+      console.log(newPageIndex, 'pageIndex')
+      const currentPagePayload: PringPringCatsVideosPayload = !!pageTokens && pageTokens[newPageIndex] ? {pageToken: pageTokens[newPageIndex]} : {}
+      console.log(currentPagePayload, 'currentPagePayload')
       return getSWRInfiniteKey(previousPageData, currentPagePayload)
     },
     fetcher,
@@ -53,7 +54,10 @@ export const useFetchVideosInfinite = () => {
     if(data?.length > 0) {
       const currentPageIndex = data.length - 1
       const currentPage = data[currentPageIndex]
-      setPageTokens({[currentPageIndex+1]: currentPage?.data.nextPageToken || ''})
+      setPageTokens({
+        ...pageTokens,
+        [currentPageIndex+1]: currentPage?.data.nextPageToken || ''
+      })
     }
   }, [data])
   console.log(data, 'data')
