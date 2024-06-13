@@ -1,11 +1,14 @@
 import Flex from "src/components/Flex"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import styled from "styled-components"
 import { lineCamp } from "src/styles/Styled"
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { fetchPringPringCatsPlayLists } from "src/features/pringpringcats/fetchers"
 import { YoutubeList } from "src/features/pringpringcats/types"
+import useSWR from 'swr'
+import fetcher from "src/fetcher";
+import { createYoutubePlaylistsFromNet } from "../factories";
 
 const Wrapper = styled(Flex)`
   margin: 0 -16px;
@@ -59,18 +62,12 @@ const SubInfo = styled(Flex)`
 `
 
 const PlaylistsSection = () => {
-  const [lists, setLists] = useState<Array<YoutubeList>>([])
+  const { data: rawData } = useSWR('/pringpringcats/playlists', fetcher, { revalidateIfStale: false })
 
-  useEffect(function initVideoServerData() {
-    fetchPringPringCatsPlayLists({
-      callBack: {
-        onSuccess: (res) => {
-          setLists(res.data)
-        },
-        onError: () => {}
-      }
-    })
-  }, [])
+  const lists = useMemo(() => {
+    if(!rawData) { return []}
+    return createYoutubePlaylistsFromNet(rawData.data)
+  }, [rawData])
 
   return <Wrapper flexWrap="wrap" justifyContent="space-between">
     {lists.map(({
