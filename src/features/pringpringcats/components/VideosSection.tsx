@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { fetchPringPringCatsVideos } from "src/features/pringpringcats/fetchers"
 import { YoutubeVideo } from "src/features/pringpringcats/types"
+import { useFetchVideosInfinite } from "../hooks"
 
 const VideosWrapper = styled(Flex)`
   margin: 0 -16px;
@@ -68,21 +69,23 @@ const Count = styled(Flex)`
 const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideoResponse }) => {
   const [videos, setVideos] = useState<Array<YoutubeVideo>>([])
   const [pageToken, setPageToken] = useState(videosServerData.nextPageToken || '')
+  const { currentPageIndex, setPageSize } = useFetchVideosInfinite()
 
   const handleLoadMore = async () => {
-    await fetchPringPringCatsVideos({
-      payload: {
-        pageToken,
-      },
-      callBack: {
-        onSuccess: (rawResponseData) => {
-          const newVideos = createYoutubeVideosFromNet(rawResponseData.data)
-          setVideos(videos.concat(newVideos))
-          setPageToken(rawResponseData.data.nextPageToken || '')
-        },
-        onError: () => {}
-      }
-    })
+    setPageSize(currentPageIndex+1)
+    // await fetchPringPringCatsVideos({
+    //   payload: {
+    //     pageToken,
+    //   },
+    //   callBack: {
+    //     onSuccess: (rawResponseData) => {
+    //       const newVideos = createYoutubeVideosFromNet(rawResponseData.data)
+    //       setVideos(videos.concat(newVideos))
+    //       setPageToken(rawResponseData.data.nextPageToken || '')
+    //     },
+    //     onError: () => {}
+    //   }
+    // })
   }
 
   // console.log(videosServerData, 'videosServerData')
