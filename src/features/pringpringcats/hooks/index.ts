@@ -2,8 +2,10 @@ import useSWRInfinite from 'swr/infinite'
 import fetcher from "src/fetcher";
 import { PringPringCatsVideosPayload } from 'src/features/pringpringcats/fetchers';
 import { RawYoutubeVideoResponse } from 'src/features/pringpringcats/types/net';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { getAPIQueryStringByOption } from 'src/helpers/fetch';
+import { YoutubeVideo } from 'src/features/pringpringcats/types';
+import { createYoutubeVideosFromNet } from 'src/features/pringpringcats/factories';
 
 export const getSWRInfiniteKey = (
   previousPageData: {data: RawYoutubeVideoResponse} | null,
@@ -45,6 +47,12 @@ export const useFetchVideosInfinite = () => {
     }
   )
 
+  const allVideos: Array<YoutubeVideo> = useMemo(() => {
+    return pagesData.reduce((result, pageData) => {
+      return [...result, ...createYoutubeVideosFromNet(pageData.data)]
+    }, [] as Array<YoutubeVideo>)
+  }, [pagesData])
+
   useEffect(() => {
     if(pagesData?.length > 0) {
       const currentPageIndex = pagesData.length - 1
@@ -57,7 +65,7 @@ export const useFetchVideosInfinite = () => {
   }, [pagesData])
 
   return {
-    pagesData,
+    allVideos,
     currentPageSize: size,
     setPageSize: setSize,
     hasMore: !!pagesData[pagesData.length - 1]?.data.nextPageToken,

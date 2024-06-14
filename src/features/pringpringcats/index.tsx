@@ -32,18 +32,12 @@ const PringPringCatsIndex = ({
   // console.log(channel, 'channel')
 
   const {
-    pagesData,
+    allVideos,
     currentPageSize,
     setPageSize,
     hasMore,
     isValidating
   } = useFetchVideosInfinite()
-
-  const allVideos: Array<YoutubeVideo> = useMemo(() => {
-    return pagesData.reduce((result, pageData) => {
-      return [...result, ...createYoutubeVideosFromNet(pageData.data)]
-    }, [] as Array<YoutubeVideo>)
-  }, [pagesData])
 
   const handleLoadMore = async () => {
     setPageSize(currentPageSize + 1)
