@@ -5,6 +5,10 @@ import styled from "styled-components"
 import VideosSection from "src/features/pringpringcats/components/VideosSection"
 import Tabs from "src/components/mui/Tabs"
 import PlaylistsSection from "src/features/pringpringcats/components/PlaylistsSection"
+import { useFetchVideosInfinite } from "src/features/pringpringcats/hooks"
+import { YoutubeVideo } from "src/features/pringpringcats/types"
+import { createYoutubeVideosFromNet } from "src/features/pringpringcats/factories"
+import { useMemo } from "react"
 
 const Banner = styled.div<{$backgroundImage: string}>`
   background-image: ${({ $backgroundImage: backgroundImage }) => `url(${backgroundImage})`};
@@ -27,13 +31,37 @@ const PringPringCatsIndex = ({
   const { snippet, brandingSettings, id, statistics } = channel
   // console.log(channel, 'channel')
 
+  const {
+    pagesData,
+    currentPageSize,
+    setPageSize,
+    hasMore,
+    isValidating
+  } = useFetchVideosInfinite()
+
+  const allVideos: Array<YoutubeVideo> = useMemo(() => {
+    return pagesData.reduce((result, pageData) => {
+      return [...result, ...createYoutubeVideosFromNet(pageData.data)]
+    }, [] as Array<YoutubeVideo>)
+  }, [pagesData])
+
+  const handleLoadMore = async () => {
+    setPageSize(currentPageSize + 1)
+  }
+
   return <CommonWrap>
     <Banner $backgroundImage={brandingSettings.image.bannerExternalUrl} />
     <ChannelInfo snippet={snippet} id={id} statistics={statistics} />
     <Tabs data={[
       {
         label: '所有影片',
-        content: <VideosSection videosServerData={videosServerData} />
+        content: <VideosSection
+          videosServerData={videosServerData}
+          videos={allVideos}
+          hasMore={hasMore}
+          isValidating={isValidating}
+          onLoadMore={handleLoadMore}
+        />
       },
       {
         label: '播放清單',

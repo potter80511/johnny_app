@@ -1,16 +1,12 @@
 import Flex from "src/components/Flex"
 import { RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net"
-import { createYoutubeVideosFromNet } from "src/features/pringpringcats/factories"
-import { useMemo } from "react"
 import styled from "styled-components"
 import { lineCamp } from "src/styles/Styled"
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from "@fortawesome/fontawesome-svg-core"
-import { fetchPringPringCatsVideos } from "src/features/pringpringcats/fetchers"
 import { YoutubeVideo } from "src/features/pringpringcats/types"
-import { useFetchVideosInfinite } from "../hooks"
 import InfiniteScrollTriggerElement from "src/components/InfiniteScrollTriggerElement"
 
 const VideosWrapper = styled(Flex)`
@@ -67,25 +63,19 @@ const Count = styled(Flex)`
   gap: 8px;
 `
 
-const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideoResponse }) => {
-  const {
-    pagesData,
-    currentPageSize,
-    setPageSize,
-    hasMore,
-    isValidating
-  } = useFetchVideosInfinite()
-
-  const videos: Array<YoutubeVideo> = useMemo(() => {
-    return pagesData.reduce((result, pageData) => {
-      return [...result, ...createYoutubeVideosFromNet(pageData.data)]
-    }, [] as Array<YoutubeVideo>)
-  }, [pagesData])
-
-  const handleLoadMore = async () => {
-    setPageSize(currentPageSize + 1)
-  }
-
+const VideosSection = ({
+  videosServerData,
+  videos,
+  isValidating,
+  hasMore,
+  onLoadMore
+}: {
+  videosServerData: RawYoutubeVideoResponse;
+  videos: Array<YoutubeVideo>
+  isValidating: boolean
+  hasMore: boolean
+  onLoadMore: () => void
+}) => {
   // console.log(videosServerData, 'videosServerData')
   console.log(videos, 'videos')
   return <div>
@@ -120,7 +110,7 @@ const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideo
     <InfiniteScrollTriggerElement
       hasMore={hasMore}
       isValidating={isValidating}
-      triggerCallback={() => handleLoadMore()}
+      triggerCallback={onLoadMore}
     />
   </div>
 }
