@@ -22,10 +22,8 @@ const Banner = styled.div<{$backgroundImage: string}>`
 
 const PringPringCatsIndex = ({
   channelServerData: { items },
-  videosServerData
 }: {
   channelServerData: YoutubeData<ChannelContentDetails, ChannelStatistics, ChannelSnippet>
-  videosServerData: RawYoutubeVideoResponse
 }) => {
   const channel = items[0]
   const { snippet, brandingSettings, id, statistics } = channel
@@ -50,7 +48,6 @@ const PringPringCatsIndex = ({
       {
         label: '所有影片',
         content: <VideosSection
-          videosServerData={videosServerData}
           videos={allVideos}
           hasMore={hasMore}
           isValidating={isValidating}

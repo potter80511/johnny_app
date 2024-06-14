@@ -64,19 +64,16 @@ const Count = styled(Flex)`
 `
 
 const VideosSection = ({
-  videosServerData,
   videos,
   isValidating,
   hasMore,
   onLoadMore
 }: {
-  videosServerData: RawYoutubeVideoResponse;
   videos: Array<YoutubeVideo>
   isValidating: boolean
   hasMore: boolean
   onLoadMore: () => void
 }) => {
-  // console.log(videosServerData, 'videosServerData')
   console.log(videos, 'videos')
   return <div>
     <div>tabs</div>

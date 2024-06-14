@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
 import fetcher from 'src/fetcher';
 import { ChannelContentDetails, YoutubeData, ChannelSnippet, ChannelStatistics, RawYoutubeChannelResponse, RawYoutubeVideoResponse } from 'src/features/pringpringcats/types/net';
+import { SWRConfig } from 'swr'
 
 const meta = {
   title: "Johnny's App - Pring Pring Cats 毛昕&毛馨",
@@ -18,9 +19,16 @@ const meta = {
   ogurl: '',
 };
 
-const PringPringCats = ({ channelServerData, videosServerData }: {
+const PringPringCats = ({
+  channelServerData,
+  videosServerData,
+  fallback,
+}: {
   channelServerData: YoutubeData<ChannelContentDetails, ChannelStatistics, ChannelSnippet>
   videosServerData: RawYoutubeVideoResponse
+  fallback: {
+    [key: string]: {data: RawYoutubeVideoResponse}[]
+  }
 }) => {
   const {
     title,
@@ -31,7 +39,7 @@ const PringPringCats = ({ channelServerData, videosServerData }: {
     ogtype,
     ogsitename
   } = meta
-  
+  console.log(fallback, 'fallback')
 
   return (
     <>
@@ -45,7 +53,15 @@ const PringPringCats = ({ channelServerData, videosServerData }: {
         <meta name="og:sitename" content={ogsitename} />
       </Head>
       <MainLayout>
-        <PringPringCatsIndex channelServerData={channelServerData} videosServerData={videosServerData} />
+        <SWRConfig
+          value={{
+            fallback,
+            revalidateOnFocus: false,
+            dedupingInterval: 3000000,
+          }}
+        >
+          <PringPringCatsIndex channelServerData={channelServerData} />
+        </SWRConfig>
       </MainLayout>
     </>
   );
@@ -62,7 +78,10 @@ export const getServerSideProps = async ({
     return {
       props: {
         channelServerData: rawData.data,
-        videosServerData: rawVideosData.data
+        videosServerData: rawVideosData.data,
+        fallback: {
+          ['/pringpringcats/videos']: [rawVideosData.data],
+        },
       },
     }
   } catch(error) {
