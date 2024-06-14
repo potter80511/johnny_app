@@ -60,5 +60,7 @@ export const useFetchVideosInfinite = () => {
     pagesData,
     currentPageSize: size,
     setPageSize: setSize,
+    hasMore: !!pagesData[pagesData.length - 1]?.data.nextPageToken,
+    isValidating,
   }
 }

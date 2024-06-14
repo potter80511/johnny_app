@@ -11,6 +11,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { fetchPringPringCatsVideos } from "src/features/pringpringcats/fetchers"
 import { YoutubeVideo } from "src/features/pringpringcats/types"
 import { useFetchVideosInfinite } from "../hooks"
+import InfiniteScrollTriggerElement from "src/components/InfiniteScrollTriggerElement"
 
 const VideosWrapper = styled(Flex)`
   margin: 0 -16px;
@@ -67,7 +68,13 @@ const Count = styled(Flex)`
 `
 
 const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideoResponse }) => {
-  const { pagesData, currentPageSize, setPageSize } = useFetchVideosInfinite()
+  const {
+    pagesData,
+    currentPageSize,
+    setPageSize,
+    hasMore,
+    isValidating
+  } = useFetchVideosInfinite()
 
   const videos: Array<YoutubeVideo> = useMemo(() => {
     return pagesData.reduce((result, pageData) => {
@@ -110,7 +117,11 @@ const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideo
         </VideoInner>
       </Video>)}
     </VideosWrapper>
-    <button type="button" onClick={() => handleLoadMore()}>load more</button>
+    <InfiniteScrollTriggerElement
+      hasMore={hasMore}
+      isValidating={isValidating}
+      triggerCallback={() => handleLoadMore()}
+    />
   </div>
 }
 
