@@ -2,7 +2,7 @@ import useSWRInfinite from 'swr/infinite'
 import fetcher from "src/fetcher";
 import { PringPringCatsVideosPayload } from 'src/features/pringpringcats/fetchers';
 import { RawYoutubeVideoResponse } from 'src/features/pringpringcats/types/net';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { getAPIQueryStringByOption } from 'src/helpers/fetch';
 
 export const getSWRInfiniteKey = (
@@ -21,23 +21,19 @@ export const getSWRInfiniteKey = (
 }
 
 export const useFetchVideosInfinite = () => {
-  const [pageTokens, setPageTokens] = useState<{
-    [pageIndex: number]: string
-  } | null>(null)
-
-  console.log(pageTokens, 'pageTokens')
+  const pageTokensRef = useRef<{ [pageIndex: number]: string | null; }>({0: null})
 
   const {
-    data = [],
+    data: pagesData = [],
     isValidating,
     error,
     size,
     setSize,
   } = useSWRInfinite<{data: RawYoutubeVideoResponse}>(
     (newPageIndex: number, previousPageData: {data: RawYoutubeVideoResponse}) => {
-      console.log(newPageIndex, 'pageIndex')
-      const currentPagePayload: PringPringCatsVideosPayload = !!pageTokens && pageTokens[newPageIndex] ? {pageToken: pageTokens[newPageIndex]} : {}
-      console.log(currentPagePayload, 'currentPagePayload')
+      const pageTokens = pageTokensRef.current
+      const nextPageToken = pageTokens[newPageIndex] || null
+      const currentPagePayload: PringPringCatsVideosPayload = !!nextPageToken ? {pageToken: nextPageToken} : {}
       return getSWRInfiniteKey(previousPageData, currentPagePayload)
     },
     fetcher,
@@ -48,22 +44,21 @@ export const useFetchVideosInfinite = () => {
       revalidateIfStale: false,
     }
   )
-  console.log(size, 'size')
 
   useEffect(() => {
-    if(data?.length > 0) {
-      const currentPageIndex = data.length - 1
-      const currentPage = data[currentPageIndex]
-      setPageTokens({
-        ...pageTokens,
+    if(pagesData?.length > 0) {
+      const currentPageIndex = pagesData.length - 1
+      const currentPage = pagesData[currentPageIndex]
+      pageTokensRef.current = {
+        ...pageTokensRef.current,
         [currentPageIndex+1]: currentPage?.data.nextPageToken || ''
-      })
+      }
     }
-  }, [data])
-  console.log(data, 'data')
+  }, [pagesData])
+
   return {
-    data,
-    currentPageIndex: size,
-    setPageSize: setSize
+    pagesData,
+    currentPageSize: size,
+    setPageSize: setSize,
   }
 }

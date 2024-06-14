@@ -1,7 +1,7 @@
 import Flex from "src/components/Flex"
 import { RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net"
 import { createYoutubeVideosFromNet } from "src/features/pringpringcats/factories"
-import { useEffect, useState } from "react"
+import { useMemo } from "react"
 import styled from "styled-components"
 import { lineCamp } from "src/styles/Styled"
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
@@ -67,33 +67,20 @@ const Count = styled(Flex)`
 `
 
 const VideosSection = ({ videosServerData }: { videosServerData: RawYoutubeVideoResponse }) => {
-  const [videos, setVideos] = useState<Array<YoutubeVideo>>([])
-  const [pageToken, setPageToken] = useState(videosServerData.nextPageToken || '')
-  const { currentPageIndex, setPageSize } = useFetchVideosInfinite()
+  const { pagesData, currentPageSize, setPageSize } = useFetchVideosInfinite()
+
+  const videos: Array<YoutubeVideo> = useMemo(() => {
+    return pagesData.reduce((result, pageData) => {
+      return [...result, ...createYoutubeVideosFromNet(pageData.data)]
+    }, [] as Array<YoutubeVideo>)
+  }, [pagesData])
 
   const handleLoadMore = async () => {
-    setPageSize(currentPageIndex+1)
-    // await fetchPringPringCatsVideos({
-    //   payload: {
-    //     pageToken,
-    //   },
-    //   callBack: {
-    //     onSuccess: (rawResponseData) => {
-    //       const newVideos = createYoutubeVideosFromNet(rawResponseData.data)
-    //       setVideos(videos.concat(newVideos))
-    //       setPageToken(rawResponseData.data.nextPageToken || '')
-    //     },
-    //     onError: () => {}
-    //   }
-    // })
+    setPageSize(currentPageSize + 1)
   }
 
   // console.log(videosServerData, 'videosServerData')
-  useEffect(function initVideoServerData() {
-    setVideos(createYoutubeVideosFromNet(videosServerData))
-  }, [videosServerData])
-
-  // console.log(videos, 'videos')
+  console.log(videos, 'videos')
   return <div>
     <div>tabs</div>
     <VideosWrapper flexWrap="wrap" justifyContent="space-between">
