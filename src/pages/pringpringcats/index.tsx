@@ -109,7 +109,7 @@ export const getServerSideProps = async ({
         channelServerData,
         error,
         fallback: {
-          [unstable_serialize(() => getSWRInfiniteKey(null, {}))]: allPromiseResult[1],
+          [unstable_serialize(() => getSWRInfiniteKey(null, {}))]: [allPromiseResult[1]],
         },
       },
     }
