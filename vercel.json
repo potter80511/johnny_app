@@ -1,4 +1,4 @@
 {
-  "buildCommand": "next build NODE_ENV=staging",
+  "buildCommand": "next build --env.NODE_ENV=staging",
   "framework": "nextjs"
 }
