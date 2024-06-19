@@ -8,6 +8,7 @@ import { ChannelContentDetails, YoutubeData, ChannelSnippet, ChannelStatistics, 
 import { SWRConfig } from 'swr'
 import { unstable_serialize } from "swr/infinite";
 import { getSWRInfiniteKey } from 'src/features/pringpringcats/hooks';
+import { PROMISE_STATUS } from 'src/types/enums';
 
 const meta = {
   title: "Johnny's App - Pring Pring Cats 毛昕&毛馨",
@@ -23,9 +24,14 @@ const meta = {
 
 const PringPringCats = ({
   channelServerData,
+  error,
   fallback,
 }: {
-  channelServerData: YoutubeData<ChannelContentDetails, ChannelStatistics, ChannelSnippet>
+  channelServerData: YoutubeData<ChannelContentDetails, ChannelStatistics, ChannelSnippet>,
+  error?: {
+    channel: string,
+    videos: string
+  },
   fallback: {
     [key: string]: {data: RawYoutubeVideoResponse}[]
   }
@@ -59,7 +65,7 @@ const PringPringCats = ({
             dedupingInterval: 3000000,
           }}
         >
-          <PringPringCatsIndex channelServerData={channelServerData} />
+          <PringPringCatsIndex channelServerData={channelServerData} error={error} />
         </SWRConfig>
       </MainLayout>
     </>
@@ -71,15 +77,37 @@ export const getServerSideProps = async ({
 }: GetServerSidePropsContext) => {
   res.setHeader('Cache-Control', 'public, max-age=900')
 
+  const defaultChannelData: RawYoutubeChannelResponse | null = null
+  const defaultVideosPagesData: Array<{data: RawYoutubeVideoResponse}> = []
+
+  const allPromiseDefaultResult = [
+    defaultChannelData,
+    defaultVideosPagesData
+  ]
+
   try {
-    const rawData = await fetcher('/pringpringcats/channel') as RawYoutubeChannelResponse
-    const rawVideosData = await fetcher('/pringpringcats/videos') as { data: RawYoutubeVideoResponse }
+    const promises: Array<Promise<any>> = [
+      fetcher('/pringpringcats/channel'),
+      fetcher('/pringpringcats/videos')
+    ]
+    const allPromiseResult = await Promise.allSettled(promises).then((results) => {
+      return results.map((result, index) =>
+        result.status === PROMISE_STATUS.FULFILLED && !!result.value
+          ? result.value
+          : allPromiseDefaultResult[index]
+      )
+    })
+    const channelServerData = allPromiseResult[0].data as RawYoutubeChannelResponse || null
+    const error = {
+      channel: allPromiseResult[0].message || '',
+      videos: allPromiseResult[1].message || '',
+    }
     return {
       props: {
-        channelServerData: rawData.data,
-        videosServerData: rawVideosData.data,
+        channelServerData,
+        error,
         fallback: {
-          [unstable_serialize(() => getSWRInfiniteKey(null, {}))]: [{data: rawVideosData.data}],
+          [unstable_serialize(() => getSWRInfiniteKey(null, {}))]: [allPromiseResult[1]],
         },
       },
     }
@@ -87,7 +115,7 @@ export const getServerSideProps = async ({
     console.log(error, 'fetchPringPringCatsError')
     return {
       props: {
-        channelServerData: null
+        channelServerData: {items: []}
       },
     }
   }

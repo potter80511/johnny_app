@@ -21,14 +21,15 @@ const Banner = styled.div<{$backgroundImage: string}>`
 `
 
 const PringPringCatsIndex = ({
-  channelServerData: { items },
+  channelServerData,
+  error,
 }: {
   channelServerData: YoutubeData<ChannelContentDetails, ChannelStatistics, ChannelSnippet>
+  error?: {
+    channel?: string,
+    videos?: string
+  }
 }) => {
-  const channel = items[0]
-  const { snippet, brandingSettings, id, statistics } = channel
-  // console.log(channel, 'channel')
-
   const {
     allVideos,
     currentPageSize,
@@ -36,6 +37,18 @@ const PringPringCatsIndex = ({
     hasMore,
     isValidating
   } = useFetchVideosInfinite()
+  // console.log(allVideos, 'allVideos')
+  // console.log(channelServerData, 'channelServerData')
+
+  if(!channelServerData && error) {
+    return <div>
+      <div>Channel Error: {error.channel}</div>
+      <div>Videos Error: {error.videos}</div>
+    </div>
+  }
+  const channel = channelServerData.items[0]
+  const { snippet, brandingSettings, id, statistics } = channel
+
 
   const handleLoadMore = async () => {
     setPageSize(currentPageSize + 1)
