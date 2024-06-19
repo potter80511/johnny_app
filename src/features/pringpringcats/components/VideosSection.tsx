@@ -76,7 +76,7 @@ const VideosSection = ({
 }) => {
   // console.log(videos, 'videos')
   return <div>
-    <div>tabs</div>
+    {/* <div>tabs</div> */}
     <VideosWrapper flexWrap="wrap" justifyContent="space-between">
       {videos.map(({
         id,
