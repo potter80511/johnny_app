@@ -32,6 +32,10 @@ const theme = {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
+  console.log('App:')
+  console.log(process.env.NEXT_PUBLIC_SITE_URL, 'NEXT_PUBLIC_SITE_URL')
+  console.log(process.env.VERCEL_ENV, 'VERCEL_ENV')
+  console.log(process.env.NODE_ENV, 'NODE_ENV')
   return (
     <>
       <GlobalStyle />
