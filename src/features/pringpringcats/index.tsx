@@ -39,6 +39,7 @@ const PringPringCatsIndex = ({
   } = useFetchVideosInfinite()
   // console.log(allVideos, 'allVideos')
   // console.log(channelServerData, 'channelServerData')
+  console.log(process.env.NEXT_PUBLIC_SITE_URL, 'NEXT_PUBLIC_SITE_URL')
 
   if(!channelServerData && error) {
     return <div>
