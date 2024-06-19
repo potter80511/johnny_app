@@ -76,3 +76,7 @@ button {
   height: 40px;
   position: absolute;
 }
+.nav-button.menu-pringpringcats {
+  background: #dc8000;
+  border: 1px solid #c4c3b5;
+}

@@ -1,4 +1,4 @@
-import { IconDefinition, faStopwatch } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faStopwatch, faPaw } from '@fortawesome/free-solid-svg-icons';
 import { ReactNode } from 'react';
 import WeatherSvg from 'src/components/icons/WeatherSvg';
 import InfinitySvg from 'src/components/icons/InfinitySvg';
@@ -36,6 +36,14 @@ export const navigation: Navigation = [
       childrenSvg: <InfinitySvg />,
       tip: 'Metronome',
       tipColor: '#038caf',
+    }
+  },
+  {
+    name: 'pringpringcats',
+    icon: {
+      fontAwsome: faPaw,
+      tip: 'Pring Pring Cats',
+      tipColor: '#dc8000',
     }
   },
 ]
