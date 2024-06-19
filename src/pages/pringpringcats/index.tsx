@@ -6,6 +6,8 @@ import { GetServerSidePropsContext } from 'next';
 import fetcher from 'src/fetcher';
 import { ChannelContentDetails, YoutubeData, ChannelSnippet, ChannelStatistics, RawYoutubeChannelResponse, RawYoutubeVideoResponse } from 'src/features/pringpringcats/types/net';
 import { SWRConfig } from 'swr'
+import { unstable_serialize } from "swr/infinite";
+import { getSWRInfiniteKey } from 'src/features/pringpringcats/hooks';
 
 const meta = {
   title: "Johnny's App - Pring Pring Cats 毛昕&毛馨",
@@ -21,11 +23,9 @@ const meta = {
 
 const PringPringCats = ({
   channelServerData,
-  videosServerData,
   fallback,
 }: {
   channelServerData: YoutubeData<ChannelContentDetails, ChannelStatistics, ChannelSnippet>
-  videosServerData: RawYoutubeVideoResponse
   fallback: {
     [key: string]: {data: RawYoutubeVideoResponse}[]
   }
@@ -39,7 +39,6 @@ const PringPringCats = ({
     ogtype,
     ogsitename
   } = meta
-  console.log(fallback, 'fallback')
 
   return (
     <>
@@ -80,7 +79,7 @@ export const getServerSideProps = async ({
         channelServerData: rawData.data,
         videosServerData: rawVideosData.data,
         fallback: {
-          ['/pringpringcats/videos']: [rawVideosData.data],
+          [unstable_serialize(() => getSWRInfiniteKey(null, {}))]: [{data: rawVideosData.data}],
         },
       },
     }

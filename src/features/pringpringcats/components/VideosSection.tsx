@@ -74,7 +74,7 @@ const VideosSection = ({
   hasMore: boolean
   onLoadMore: () => void
 }) => {
-  console.log(videos, 'videos')
+  // console.log(videos, 'videos')
   return <div>
     <div>tabs</div>
     <VideosWrapper flexWrap="wrap" justifyContent="space-between">

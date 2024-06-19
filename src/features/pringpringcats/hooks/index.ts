@@ -1,5 +1,4 @@
 import useSWRInfinite from 'swr/infinite'
-import {useSWRConfig} from 'swr'
 import fetcher from "src/fetcher";
 import { PringPringCatsVideosPayload } from 'src/features/pringpringcats/fetchers';
 import { RawYoutubeVideoResponse } from 'src/features/pringpringcats/types/net';
@@ -24,8 +23,7 @@ export const getSWRInfiniteKey = (
 
 export const useFetchVideosInfinite = () => {
   const pageTokensRef = useRef<{ [pageIndex: number]: string | null; }>({0: null})
-  const { cache } = useSWRConfig()
-  console.log(cache, 'cache')
+
   const {
     data: pagesData = [],
     isValidating,
@@ -60,7 +58,7 @@ export const useFetchVideosInfinite = () => {
       const currentPage = pagesData[currentPageIndex]
       pageTokensRef.current = {
         ...pageTokensRef.current,
-        [currentPageIndex+1]: currentPage?.data.nextPageToken || ''
+        [currentPageIndex+1]: currentPage?.data?.nextPageToken || ''
       }
     }
   }, [pagesData])
@@ -69,7 +67,7 @@ export const useFetchVideosInfinite = () => {
     allVideos,
     currentPageSize: size,
     setPageSize: setSize,
-    hasMore: !!pagesData[pagesData.length - 1]?.data.nextPageToken,
+    hasMore: !!pagesData[pagesData.length - 1]?.data?.nextPageToken,
     isValidating,
   }
 }

@@ -9,7 +9,7 @@ const formatSeconds = (rawValue: string | number) => {
 }
 
 export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Array<YoutubeVideo> => {
-  return rawData.items.map(({
+  return rawData?.items.map(({
     snippet,
     id,
     statistics:
@@ -36,7 +36,7 @@ export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Ar
       },
       duration
     }
-  })
+  }) || []
 }
 
 export const createYoutubePlaylistsFromNet = (rawData: RawYoutubePlayListsResponse): Array<YoutubeList> => {
