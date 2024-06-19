@@ -97,7 +97,7 @@ export const getServerSideProps = async ({
           : allPromiseDefaultResult[index]
       )
     })
-    console.log(allPromiseResult, 'allPromiseResult')
+    // console.log(allPromiseResult, 'allPromiseResult')
     const channelServerData = allPromiseResult[0]?.data as RawYoutubeChannelResponse || null
     const error = {
       channel: allPromiseResult[0]?.message || '',
