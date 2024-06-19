@@ -49,7 +49,6 @@ const PringPringCatsIndex = ({
   const channel = channelServerData.items[0]
   const { snippet, brandingSettings, id, statistics } = channel
 
-
   const handleLoadMore = async () => {
     setPageSize(currentPageSize + 1)
   }

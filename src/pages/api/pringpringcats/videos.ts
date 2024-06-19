@@ -35,6 +35,7 @@ const videosHandler = async (
     const rawVideosData = await videosResponse.json() as RawYoutubeVideoResponse
     res.json({ data: { ...rawVideosData, nextPageToken: rawPlayListItemsData.nextPageToken } })
   } catch (error) {
+    console.log(error, 'error')
     throw (error)
   }
 }

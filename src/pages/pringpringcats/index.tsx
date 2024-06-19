@@ -97,17 +97,19 @@ export const getServerSideProps = async ({
           : allPromiseDefaultResult[index]
       )
     })
-    const channelServerData = allPromiseResult[0].data as RawYoutubeChannelResponse || null
+    console.log(allPromiseResult, 'allPromiseResult')
+    const channelServerData = allPromiseResult[0]?.data as RawYoutubeChannelResponse || null
     const error = {
-      channel: allPromiseResult[0].message || '',
-      videos: allPromiseResult[1].message || '',
+      channel: allPromiseResult[0]?.message || '',
+      videos: allPromiseResult[1]?.message || '',
     }
+    // console.log(channelServerData, 'channelServerData')
     return {
       props: {
         channelServerData,
         error,
         fallback: {
-          [unstable_serialize(() => getSWRInfiniteKey(null, {}))]: [allPromiseResult[1]],
+          [unstable_serialize(() => getSWRInfiniteKey(null, {}))]: allPromiseResult[1],
         },
       },
     }
@@ -115,7 +117,10 @@ export const getServerSideProps = async ({
     console.log(error, 'fetchPringPringCatsError')
     return {
       props: {
-        channelServerData: {items: []}
+        channelServerData: {data: {items: [], pageInfo: {totalResults: 0, resultsPerPage: 0}}} as RawYoutubeChannelResponse,
+        fallback: {
+          [unstable_serialize(() => getSWRInfiniteKey(null, {}))]:[],
+        },
       },
     }
   }
