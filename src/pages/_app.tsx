@@ -43,11 +43,6 @@ const theme = {
     checkGreen: "#09d269",
   },
 };
-const muiDarkTheme = createMUITheme({
-  palette: {
-    mode: 'dark',
-  },
-});
 
 export default function App({ Component, pageProps }: AppProps) {
   console.log('App:')
