@@ -113,3 +113,15 @@ export type RawYoutubePlayListItemsResponse = YoutubeData<PlayListItemsContentDe
 export type RawYoutubePlayListsResponse = YoutubeData<{ itemCount: number }, {}>
 
 export type RawYoutubeVideoResponse = YoutubeData<VideoContentDetails, VideoStatistics, VideoSnippet>
+
+export type RawYoutubeSearchResponse = {
+  items: Array<{
+    kind: string
+    etag: string
+    id: {
+      videoId: string
+    }
+  }>
+  pageInfo: PageInfo
+  nextPageToken?: string
+}

@@ -9,6 +9,8 @@ import { SWRConfig } from 'swr'
 import { unstable_serialize } from "swr/infinite";
 import { getSWRInfiniteKey } from 'src/features/pringpringcats/hooks';
 import { PROMISE_STATUS } from 'src/types/enums';
+import { createYoutubeVideosFromNet } from 'src/features/pringpringcats/factories';
+import { YoutubeVideo } from 'src/features/pringpringcats/types';
 
 const meta = {
   title: "Johnny's App - Pring Pring Cats 毛昕&毛馨",
@@ -24,10 +26,12 @@ const meta = {
 
 const PringPringCats = ({
   channelServerData,
+  mostViewsInFify,
   error,
   fallback,
 }: {
   channelServerData: YoutubeData<ChannelContentDetails, ChannelStatistics, ChannelSnippet>,
+  mostViewsInFify: YoutubeVideo | null,
   error?: {
     channel: string,
     videos: string
@@ -79,38 +83,48 @@ export const getServerSideProps = async ({
 
   const defaultChannelData: RawYoutubeChannelResponse | null = null
   const defaultVideosPagesData: Array<{data: RawYoutubeVideoResponse}> = []
+  const defaultTopFiftyData: {data: RawYoutubeVideoResponse} | null = null
 
-  const allPromiseDefaultResult = [
+  const allPromiseDefaultResults = [
     defaultChannelData,
-    defaultVideosPagesData
+    defaultVideosPagesData,
+    defaultTopFiftyData
   ]
 
   try {
     const promises: Array<Promise<any>> = [
       fetcher('/pringpringcats/channel'),
-      fetcher('/pringpringcats/videos')
+      fetcher('/pringpringcats/videos'),
+      fetcher('/pringpringcats/videos/topFifty'),
     ]
     const allPromiseResult = await Promise.allSettled(promises).then((results) => {
       return results.map((result, index) =>
         result.status === PROMISE_STATUS.FULFILLED && !!result.value
           ? result.value
-          : allPromiseDefaultResult[index]
+          : allPromiseDefaultResults[index]
       )
     })
     // console.log(allPromiseResult, 'allPromiseResult')
     const channelServerData = allPromiseResult[0]?.data as RawYoutubeChannelResponse || null
+    const topFiftyServerData = allPromiseResult[2]?.data as RawYoutubeVideoResponse || null
+    const mostViewsInFify = topFiftyServerData
+      ? createYoutubeVideosFromNet(topFiftyServerData)[0]
+      : null
+
     const error = {
       channel: allPromiseResult[0]?.message || '',
       videos: allPromiseResult[1]?.message || '',
+      topFifty: allPromiseResult[2]?.message || '',
     }
     // console.log(channelServerData, 'channelServerData')
     return {
       props: {
         channelServerData,
-        error,
         fallback: {
           [unstable_serialize(() => getSWRInfiniteKey(null, {}))]: [allPromiseResult[1]],
         },
+        mostViewsInFify,
+        error,
       },
     }
   } catch(error) {
@@ -118,6 +132,7 @@ export const getServerSideProps = async ({
     return {
       props: {
         channelServerData: {data: {items: [], pageInfo: {totalResults: 0, resultsPerPage: 0}}} as RawYoutubeChannelResponse,
+        topFiftyServerData: null,
         fallback: {
           [unstable_serialize(() => getSWRInfiniteKey(null, {}))]:[],
         },
