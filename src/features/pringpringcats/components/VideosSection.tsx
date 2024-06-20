@@ -11,6 +11,9 @@ import InfiniteScrollTriggerElement from "src/components/InfiniteScrollTriggerEl
 
 const VideosWrapper = styled(Flex)`
   margin: 0 -16px;
+  * {
+    transition: all .3s;
+  }
   &:after {
     content: '';
     display: block;
@@ -22,6 +25,12 @@ const Video = styled.div`
   width: calc(100%/3);
   margin-bottom: 20px;
   padding: 0 16px;
+  @media screen and (max-width: ${({theme: {breakpoint}}) => breakpoint.md}) {
+    width: calc(100%/2);
+  }
+  @media screen and (max-width: ${({theme: {breakpoint}}) => breakpoint.sm}) {
+    width: 100%;
+  }
 `
 const VideoInner = styled.div`
   transition: all .3s;
