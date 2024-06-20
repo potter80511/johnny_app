@@ -40,6 +40,7 @@ const PringPringCats = ({
     [key: string]: {data: RawYoutubeVideoResponse}[]
   }
 }) => {
+  // console.log(mostViewsInFify, 'mostViewsInFify')
   const {
     title,
     description,
@@ -69,7 +70,11 @@ const PringPringCats = ({
             dedupingInterval: 3000000,
           }}
         >
-          <PringPringCatsIndex channelServerData={channelServerData} error={error} />
+          <PringPringCatsIndex
+            channelServerData={channelServerData}
+            mostViewsInFify={mostViewsInFify}
+            error={error}
+          />
         </SWRConfig>
       </MainLayout>
     </>
@@ -95,7 +100,7 @@ export const getServerSideProps = async ({
     const promises: Array<Promise<any>> = [
       fetcher('/pringpringcats/channel'),
       fetcher('/pringpringcats/videos'),
-      fetcher('/pringpringcats/videos/topFifty'),
+      // fetcher('/pringpringcats/videos/topFifty'),
     ]
     const allPromiseResult = await Promise.allSettled(promises).then((results) => {
       return results.map((result, index) =>
@@ -107,14 +112,15 @@ export const getServerSideProps = async ({
     // console.log(allPromiseResult, 'allPromiseResult')
     const channelServerData = allPromiseResult[0]?.data as RawYoutubeChannelResponse || null
     const topFiftyServerData = allPromiseResult[2]?.data as RawYoutubeVideoResponse || null
-    const mostViewsInFify = topFiftyServerData
-      ? createYoutubeVideosFromNet(topFiftyServerData)[0]
-      : null
+    // const mostViewsInFify = topFiftyServerData
+    //   ? createYoutubeVideosFromNet(topFiftyServerData)[0]
+    //   : null
+    //   console.log(mostViewsInFify, 'mostViewsInFify')
 
     const error = {
       channel: allPromiseResult[0]?.message || '',
       videos: allPromiseResult[1]?.message || '',
-      topFifty: allPromiseResult[2]?.message || '',
+      // topFifty: allPromiseResult[2]?.message || '',
     }
     // console.log(channelServerData, 'channelServerData')
     return {
@@ -123,7 +129,7 @@ export const getServerSideProps = async ({
         fallback: {
           [unstable_serialize(() => getSWRInfiniteKey(null, {}))]: [allPromiseResult[1]],
         },
-        mostViewsInFify,
+        mostViewsInFify: null,
         error,
       },
     }
@@ -132,7 +138,7 @@ export const getServerSideProps = async ({
     return {
       props: {
         channelServerData: {data: {items: [], pageInfo: {totalResults: 0, resultsPerPage: 0}}} as RawYoutubeChannelResponse,
-        topFiftyServerData: null,
+        mostViewsInFify: null,
         fallback: {
           [unstable_serialize(() => getSWRInfiniteKey(null, {}))]:[],
         },
