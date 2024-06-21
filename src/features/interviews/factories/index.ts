@@ -17,7 +17,8 @@ export const createInterviewsFromNet = (rawData: RawInterview[]): Interview[] =>
     interview_flow,
     current_test_level,
     created_date,
-    updated_date
+    updated_date,
+    user_id
   }) => ({
     id,
     companyName: company_name,
@@ -33,14 +34,16 @@ export const createInterviewsFromNet = (rawData: RawInterview[]): Interview[] =>
     interviewFlow: interview_flow,
     currentTestLevel: current_test_level,
     createdDate: created_date,
-    updatedDate: updated_date
+    updatedDate: updated_date,
+    userId: user_id
   }))
 }
 
 export const createInterviewsPayloadToNet = (inputData: InterviewPayload): RawInterviewPayload => {
-  const { companyName } = inputData
+  const { companyName, userId } = inputData
   return {
     company_name: companyName,
+    user_id: userId,
   }
 }
 

@@ -2,6 +2,7 @@ import { InterviewStatus } from 'src/features/interviews/enum'
 
 export type RawInterview = {
   id: number
+  user_id: number
   company_name: string
   title_name: string | null
   status: InterviewStatus
@@ -18,6 +19,7 @@ export type RawInterview = {
   updated_date: string
 }
 
-export type RawInterviewPayload = Pick<RawInterview, 'company_name'>
+export type RawInterviewPayload = Partial<Omit<RawInterview, 'id'>>
+  & Pick<RawInterview, 'company_name' | 'user_id'>
 
 export type RawInterviewOptions = Partial<Omit<RawInterview, 'id'>>
