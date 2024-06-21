@@ -59,7 +59,7 @@ export type SelectOptionsProps = {
   currentValue?: OptionValue
   displayLabel?: string
   shouldNotCloseWhenClickInside?: boolean
-  options: OptionType<ReactNode>[]
+  options: OptionType<ReactNode, string | number>[]
   onChange: (newValue: OptionValue) => void
   optionsMenuStyle?: MenuStyle
 }

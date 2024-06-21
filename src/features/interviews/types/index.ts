@@ -14,7 +14,7 @@ export type Interview = {
   projects: string | null
   mainProduct: string | null
   interviewFlow: Array<string> | null
-  currentTestLevel: number | null
+  currentTestLevel: number
   createdDate: string
   updatedDate: string
 }

@@ -14,7 +14,7 @@ export type RawInterview = {
   projects: string | null
   main_product: string | null
   interview_flow: Array<string> | null
-  current_test_level: number | null
+  current_test_level: number
   created_date: string
   updated_date: string
 }
