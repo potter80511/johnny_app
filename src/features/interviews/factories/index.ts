@@ -50,9 +50,10 @@ export const createInterviewsPayloadToNet = (inputData: InterviewPayload): RawIn
 }
 
 export const createInterviewsOpitonsToNet = (inputData: InterviewOptions): RawInterviewOptions => {
-  const { rejectReason, status } = inputData
+  const { rejectReason, status, currentTestLevel } = inputData
   return {
     reject_reason: rejectReason,
     status,
+    current_test_level: currentTestLevel,
   }
 }

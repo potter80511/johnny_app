@@ -16,6 +16,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import CreateInterviewForm from 'src/features/interviews/components/forms/CreateInterviewForm';
 import { DialogInfoName } from 'src/features/interviews/enum';
 import EditDeleteTools from 'src/components/EditDeleteTools';
+import CurrentTestLevelOptionsContainer from 'src/features/interviews/components/CurrentTestLevelOptionsContainer';
 
 const ButtonWrapper = styled.div`
   text-align: right;
@@ -62,6 +63,15 @@ const InterviewsIndex = () => {
             isOpen: true,
             formName: DialogInfoName.RejectReason
           })}
+        />,
+        currentTestLevel: <CurrentTestLevelOptionsContainer
+          id={item.id}
+          componentName="CurrentTestLevelOptions"
+          currentValue={item.currentTestLevel}
+          displayLabel={item.interviewFlow && item.interviewFlow[item.currentTestLevel] || ''}
+          options={item.interviewFlow?.map((flow, index) => ({label: flow, value: index})) || []}
+          optionsMenuStyle={{ minWidth: 150 }}
+          onChangeSuccess={getInterviews}
         />,
         editDelete: <EditDeleteTools
           deleteProps={{

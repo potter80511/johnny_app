@@ -11,14 +11,14 @@ const interviews = async (
   if (req.method === 'POST') {
     const requestBody = JSON.parse(req.body) as RawInterviewPayload;
 
-    const { interview_flow, ...restRequestBody } = requestBody
+    const { interview_flow, current_test_level,...restRequestBody } = requestBody
 
     try {
       const fieldKeys: string[] = Object.keys(restRequestBody)
       const values = Object.values(restRequestBody)
   
       const insertQuery =
-        `INSERT INTO interviews (${fieldKeys.join(', ')}, interview_flow, created_date) VALUES (${fieldKeys.map((_) => '?').join(', ')}, JSON_ARRAY(${interview_flow?.map((fow) => `'${fow}'`).join(', ')}), NOW())`
+        `INSERT INTO interviews (${fieldKeys.join(', ')}, interview_flow, current_test_level, created_date) VALUES (${fieldKeys.map((_) => '?').join(', ')}, JSON_ARRAY(${interview_flow?.map((fow) => `'${fow}'`).join(', ')}), 0, NOW())`
 
       const [result] = await connection.execute<ResultSetHeader>(insertQuery, [...values]);
       
