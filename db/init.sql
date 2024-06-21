@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS interviews (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
     company_name VARCHAR(50) NOT NULL,
     title_name VARCHAR(50),
     status ENUM('pending', 'sent', 'approved', 'interview', 'calculate_salary', 'reject', 'get_offer') DEFAULT 'pending',
