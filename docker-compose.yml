@@ -5,7 +5,7 @@ services:
     container_name: nextjs
     build:
       context: .
-      target: dev
+      # target: dev
     restart: always
     volumes:
       - .:/app
