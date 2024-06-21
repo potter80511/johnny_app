@@ -1,35 +1,40 @@
 import Flex from "src/components/Flex"
 import styled from "styled-components"
 import { YoutubeVideo } from "src/features/pringpringcats/types"
-import dynamic from 'next/dynamic'
 import Iframe from 'src/features/pringpringcats/components/Iframe'
-import { useEffect } from "react"
 
 const Wrapper = styled(Flex)`
-
+  gap: 20px;
+  margin-bottom: 36px;
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+`
+const Left = styled.div`
+  max-width: 424px;
+  width: 100%;
+`
+const Right = styled.div`
+  flex: 1;
 `
 
-const DynamicIframe = dynamic(() => import('src/features/pringpringcats/components/Iframe'), {
-  ssr: false
-})
+const Title = styled.h3`
+  margin: 0 0 16px;
+`
 
 const Popular = (props: YoutubeVideo) => {
-  const id = 'eahLK8o2R5s'
-  useEffect(() => {
+  const { id, title } = props
 
-  }, [])
-
-  return <Flex>
-    <iframe
-      id="ytplayer"
-      width="424"
-      height="238"
-      src={`https://www.youtube.com/embed/${id}?autoplay=1&mute=1&origin=${process.env.NEXT_PUBLIC_SITE_URL}`}
-      allow="autoplay"
-      style={{border: 'none'}}
-    />
-    <div>fdsf</div>
-  </Flex>
+  return <Wrapper alignItems="flex-start">
+    <Left>
+      <Iframe videoId={id} />
+    </Left>
+    <Right>
+      <Title>
+        <a href={`https://www.youtube.com/watch?v=${id}`} target="_blank">{title}</a></Title>
+    </Right>
+  </Wrapper>
 }
 
 export default Popular
