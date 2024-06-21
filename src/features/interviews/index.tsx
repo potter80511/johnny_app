@@ -119,8 +119,8 @@ const InterviewsIndex = () => {
       [DialogInfoName.CreateInterview]: {
         title: '新增面試資料',
         form: <CreateInterviewForm
-          onSubmit={(companyName) => {
-            handleCreateInterview({ companyName })
+          onSubmit={(formData) => {
+            handleCreateInterview({ ...formData, userId: 1 })
             handleCloseDialogData()
           }}
         />
