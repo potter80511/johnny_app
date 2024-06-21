@@ -55,7 +55,7 @@ const CreateInterviewForm = ({ onSubmit }: {
     defaultValues: { companyName: '' },
   })
 
-  const [interviewFlowData, setInterviewFlowData] = useState<InterviewFlowName[]>([])
+  const [interviewFlowData, setInterviewFlowData] = useState<InterviewFlowName[]>(['Resume Review'])
 
   const interviewFlowSelectOptions: Array<OptionType<ReactNode>> = useMemo(() => {
     return interviewFlowOptions.map((name) => {
@@ -75,7 +75,7 @@ const CreateInterviewForm = ({ onSubmit }: {
     console.log(formData, 'formData')
     onSubmit({
       ...formData,
-      interviewFlow: []
+      interviewFlow: interviewFlowData
     })
   }
 

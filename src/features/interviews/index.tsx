@@ -50,6 +50,7 @@ const InterviewsIndex = () => {
     return interviewList.map((item) => {
       return {
         ...item,
+        interviewFlow: item.interviewFlow?.join(' > '),
         status: <StatusOptionsContainer
           id={item.id}
           componentName="InterviewStatusSelect"
