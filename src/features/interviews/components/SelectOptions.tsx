@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { ReactNode, useRef, useState } from 'react'
 import useOnClickOutside from 'src/hooks/useOnClickOutside'
 import { OptionType } from 'src/types'
 import styled, { css } from 'styled-components'
@@ -56,8 +56,10 @@ export type OptionValue<V = string | number> = V
 
 export type SelectOptionsProps = {
   componentName: string,
-  currentValue: OptionValue
-  options: OptionType[]
+  currentValue?: OptionValue
+  displayLabel?: string
+  shouldNotCloseWhenClickInside?: boolean
+  options: OptionType<ReactNode>[]
   onChange: (newValue: OptionValue) => void
   optionsMenuStyle?: MenuStyle
 }
@@ -65,6 +67,8 @@ export type SelectOptionsProps = {
 const SelectOptions = ({
   componentName,
   currentValue,
+  displayLabel,
+  shouldNotCloseWhenClickInside = false,
   options,
   onChange,
   optionsMenuStyle
@@ -74,8 +78,20 @@ const SelectOptions = ({
   const clickRef = useRef(null)
   useOnClickOutside(clickRef, () => setIsOptionOpen(false))
 
-  return <Wrapper className="flex-between" onClick={() => setIsOptionOpen(!isOptionOpen)} ref={clickRef}>
-    <span>{options.find((item) => item.value === currentValue)?.label || '--'}</span>
+  const handleClickWholeDom = () => {
+    if(shouldNotCloseWhenClickInside) {
+      isOptionOpen === false && setIsOptionOpen(true)
+    } else {
+      setIsOptionOpen(!isOptionOpen)
+    }
+  }
+
+  return <Wrapper className="flex-between" onClick={handleClickWholeDom} ref={clickRef}>
+    <span>{
+      displayLabel
+        || options.find((item) => item.value === currentValue)?.label
+        || '--'
+      }</span>
     <FontAwesomeIcon icon={faChevronDown} />
     {isOptionOpen && <OptionsWrapper customstyle={optionsMenuStyle}>
       {options.map((o) => <Option
