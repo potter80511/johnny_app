@@ -41,24 +41,34 @@ const PringPringCatsIndex = ({
   // console.log(allVideos, 'allVideos')
   // console.log(channelServerData, 'channelServerData')
 
-  if(!channelServerData && error) {
-    return <div>
-      <div>Channel Error: {error.channel}</div>
-      <div>Videos Error: {error.videos}</div>
-    </div>
-  }
-  const channel = channelServerData.items[0]
-  const { snippet, brandingSettings, id, statistics } = channel
+  // if(!channelServerData && error) {
+  //   return <div>
+  //     <div>Channel Error: {error.channel}</div>
+  //     <div>Videos Error: {error.videos}</div>
+  //   </div>
+  // }
+  // const channel = channelServerData.items[0]
+  // const { snippet, brandingSettings, id, statistics } = channel
 
   const handleLoadMore = async () => {
     setPageSize(currentPageSize + 1)
   }
 
   return <CommonWrap>
-    <Banner $backgroundImage={brandingSettings.image.bannerExternalUrl} />
-    <ChannelInfo snippet={snippet} id={id} statistics={statistics} />
-    {mostViewsInFify && <Popular {...mostViewsInFify} />}
-    <Tabs data={[
+    <div>
+      <iframe
+        id="ytplayer"
+        width="640"
+        height="360"
+        src={`https://www.youtube.com/embed/eahLK8o2R5s?autoplay=1&mute=1&origin=${process.env.NEXT_PUBLIC_SITE_URL}`}
+        allow="autoplay"
+        style={{border: 'none'}}
+      />
+    </div>
+    {/* <Banner $backgroundImage={brandingSettings.image.bannerExternalUrl} />
+    <ChannelInfo snippet={snippet} id={id} statistics={statistics} /> */}
+    {/* {mostViewsInFify && <Popular {...mostViewsInFify} />} */}
+    {/* <Tabs data={[
       {
         label: '所有影片',
         content: <VideosSection
@@ -72,7 +82,7 @@ const PringPringCatsIndex = ({
         label: '播放清單',
         content: <PlaylistsSection />
       },
-    ]} />
+    ]} /> */}
   </CommonWrap>
 }
 

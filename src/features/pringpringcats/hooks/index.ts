@@ -47,6 +47,7 @@ export const useFetchVideosInfinite = () => {
   )
 
   const allVideos: Array<YoutubeVideo> = useMemo(() => {
+    return []
     return pagesData.reduce((result, pageData) => {
       return [...result, ...createYoutubeVideosFromNet(pageData.data)]
     }, [] as Array<YoutubeVideo>)
