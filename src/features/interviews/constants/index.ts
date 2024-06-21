@@ -38,6 +38,9 @@ export const tableHeadData: TableHeadData<TableKeyType> = {
   companyName: {
     headTitle: '公司名稱'
   },
+  titleName: {
+    headTitle: '職稱'
+  },
   rejectReason: {
     headTitle: '回絕原因',
   },
