@@ -1,15 +1,23 @@
 import { Button, TextField } from "@mui/material"
-import { useState } from "react"
+import { ReactNode, useMemo, useState } from "react"
 import styled from "styled-components"
 import { useForm, SubmitHandler } from "react-hook-form"
-import { Interview } from "src/features/interviews/types"
+import { Interview, InterviewFlowName } from "src/features/interviews/types"
 import Flex from "src/components/Flex"
+import SelectOptions from "src/features/interviews/components/SelectOptions"
+import { OptionType } from "src/types"
+import { interviewFlowOptions } from "src/features/interviews/constants"
+import { withTheme } from "@material-ui/core/styles"
 
-type Form = Pick<Interview, 'companyName' | 'titleName'>
+type FormType = Pick<Interview, 'companyName' | 'titleName'>
 
 const Form = styled.form`
   max-width: 500px;
+  min-height: 500px;
   width: 500px;
+  >div {
+    margin-bottom: 16px;
+  }
 `
 const InputGroup = styled(Flex)`
   gap: 16px;
@@ -17,13 +25,23 @@ const InputGroup = styled(Flex)`
     flex: 1;
   }
 `
+const OptionOrder = withTheme(styled.span`
+  display: inline-block;
+  text-align: center;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  background-color: ${({theme}) => theme.palette.info.dark};
+`)
+
 const ButtonWrapper = styled.div`
   text-align: right;
   margin-top: 16px;
 `
 
 const CreateInterviewForm = ({ onSubmit }: {
-  onSubmit: (data: Form) => void
+  onSubmit: (data: FormType & { interviewFlow: InterviewFlowName[] }) => void
 }) => {
   const {
     control,
@@ -31,14 +49,34 @@ const CreateInterviewForm = ({ onSubmit }: {
     register,
     clearErrors,
     getValues,
+    watch,
     formState: { errors, isValid },
-  } = useForm<Form>({
+  } = useForm<FormType>({
     defaultValues: { companyName: '' },
   })
 
-  const handleSubmit: SubmitHandler<Form> = (formData: Form) => {
+  const [interviewFlowData, setInterviewFlowData] = useState<InterviewFlowName[]>([])
+
+  const interviewFlowSelectOptions: Array<OptionType<ReactNode>> = useMemo(() => {
+    return interviewFlowOptions.map((name) => {
+      const index = interviewFlowData.findIndex((flow) => flow === name)
+      const order = index !== -1 ? <OptionOrder>{index + 1}</OptionOrder> : null
+      return {
+        label: <span>
+          {order}
+          {name}
+        </span>,
+        value: name
+      }
+    })
+  }, [interviewFlowData])
+
+  const handleSubmit: SubmitHandler<FormType> = (formData: FormType) => {
     console.log(formData, 'formData')
-    onSubmit(formData)
+    onSubmit({
+      ...formData,
+      interviewFlow: []
+    })
   }
 
   return <Form onSubmit={handleRHFSubmit(handleSubmit)}>
@@ -59,6 +97,25 @@ const CreateInterviewForm = ({ onSubmit }: {
         })}
       />
     </InputGroup>
+    <div>
+      <SelectOptions
+        componentName="interviewFlowSelectOptions"
+        shouldNotCloseWhenClickInside
+        options={interviewFlowSelectOptions}
+        displayLabel={interviewFlowData.length > 0
+          ? interviewFlowData.join(', ')
+          : '選擇流程'
+        }
+        onChange={(newValue) => {
+          const isSelected = interviewFlowData.includes(newValue as InterviewFlowName)
+          setInterviewFlowData(
+            isSelected
+              ? interviewFlowData.filter((name) => name !== newValue)
+              : [...interviewFlowData, newValue as InterviewFlowName]
+          )
+        }}
+      />
+    </div>
     <ButtonWrapper>
       <Button variant="contained" type="submit">送出</Button>
     </ButtonWrapper>
