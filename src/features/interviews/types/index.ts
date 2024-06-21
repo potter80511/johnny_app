@@ -32,3 +32,12 @@ export type TableKeyType = keyof Pick<Interview,
   | 'currentTestLevel'
   | 'interviewFlow'>
   | 'editDelete'
+
+  export type InterviewFlowName =
+    | 'Resume Review'
+    | 'Coding Test'
+    | 'Phone Interview'
+    | 'HR Interview'
+    | 'Techniques Interview'
+    | 'Peers Interview'
+    | 'CEO Interview'

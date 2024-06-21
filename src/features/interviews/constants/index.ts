@@ -1,9 +1,9 @@
 import { OptionType } from 'src/types';
 import { InterviewStatus } from 'src/features/interviews/enum';
 import { TableHeadData } from 'src/features/interviews/components/Table';
-import { TableKeyType } from 'src/features/interviews/types';
+import { InterviewFlowName, TableKeyType } from 'src/features/interviews/types';
 
-export const statusOptions: OptionType<InterviewStatus>[] = [
+export const statusOptions: OptionType<string, InterviewStatus>[] = [
   {
     label: 'Pending',
     value: InterviewStatus.Pending
@@ -60,3 +60,13 @@ export const tableHeadData: TableHeadData<TableKeyType> = {
     align: 'center'
   }
 }
+
+export const interviewFlowOptions: InterviewFlowName[] = [
+  'Resume Review',
+  'Phone Interview',
+  'Coding Test',
+  'HR Interview',
+  'Peers Interview',
+  'Techniques Interview',
+  'CEO Interview'
+]
