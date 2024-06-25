@@ -2,12 +2,9 @@ import Flex from "src/components/Flex"
 import { RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net"
 import styled from "styled-components"
 import { lineCamp } from "src/styles/Styled"
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
-import { faMessage } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconProp } from "@fortawesome/fontawesome-svg-core"
 import { YoutubeVideo } from "src/features/pringpringcats/types"
 import InfiniteScrollTriggerElement from "src/components/InfiniteScrollTriggerElement"
+import StatisticsInfo from "src/features/pringpringcats/components/StatisticsInfo";
 
 const VideosWrapper = styled(Flex)`
   margin: 0 -16px;
@@ -63,14 +60,7 @@ const VideoTitle = styled.h3<{ $lineCount?: number }>`
   ${lineCamp};
   margin: 0 0 8px;
 `
-const StatisticsWrapper = styled(Flex)`
-  color: #aaa;
-  font-size: 12px;
-`
-const Count = styled(Flex)`
-  font-size: 14px;
-  gap: 8px;
-`
+
 
 const VideosSection = ({
   videos,
@@ -92,7 +82,7 @@ const VideosSection = ({
         thumbnails,
         title,
         duration,
-        statistics: { viewCount, likeCount, commentCount },
+        statistics,
         publishedAt
       }) => <Video key={`videos-${id}`}>
         <VideoInner>
@@ -102,13 +92,7 @@ const VideosSection = ({
           </ThumbnailWrapper>
           <VideoContent>
             <VideoTitle $lineCount={2} title={title}>{title}</VideoTitle>
-            <StatisticsWrapper justifyContent="space-between">
-              <span>觀看次數：{viewCount}次 ‧ {publishedAt}</span>
-              <Count>
-                <span><FontAwesomeIcon icon={faThumbsUp} /> {likeCount}</span>
-                <span><FontAwesomeIcon icon={faMessage as IconProp} /> {commentCount}</span>
-              </Count>
-            </StatisticsWrapper>
+            <StatisticsInfo publishedAt={publishedAt} statistics={statistics} />
           </VideoContent>
         </VideoInner>
       </Video>)}

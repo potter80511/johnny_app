@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { YoutubeVideo } from "src/features/pringpringcats/types"
 import Iframe from 'src/features/pringpringcats/components/Iframe'
 import Skeleton from "@mui/material/Skeleton"
+import StatisticsInfo from "src/features/pringpringcats/components/StatisticsInfo"
 
 const Wrapper = styled(Flex)`
   gap: 20px;
@@ -76,14 +77,16 @@ const Popular = ({videoInfo, isLoading}: {videoInfo?: YoutubeVideo; isLoading: b
       </Right>
     </Wrapper>
   } else if(!!videoInfo) {
-    const { id, title } = videoInfo
+    const { id, title, statistics, publishedAt } = videoInfo
     return <Wrapper alignItems="flex-start">
       <Left>
         <Iframe videoId={id} />
       </Left>
       <Right>
         <Title>
-          <a href={`https://www.youtube.com/watch?v=${id}`} target="_blank">{title}</a></Title>
+          <a href={`https://www.youtube.com/watch?v=${id}`} target="_blank">{title}</a>
+        </Title>
+        <StatisticsInfo statistics={statistics} publishedAt={publishedAt} />
       </Right>
     </Wrapper>
   }
