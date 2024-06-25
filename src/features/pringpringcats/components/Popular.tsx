@@ -4,6 +4,7 @@ import { YoutubeVideo } from "src/features/pringpringcats/types"
 import Iframe from 'src/features/pringpringcats/components/Iframe'
 import Skeleton from "@mui/material/Skeleton"
 import StatisticsInfo from "src/features/pringpringcats/components/StatisticsInfo"
+import { lineCamp } from "src/styles/Styled"
 
 const Wrapper = styled(Flex)`
   gap: 20px;
@@ -23,6 +24,13 @@ const Right = styled.div`
 
 const Title = styled.h3`
   margin: 0 0 16px;
+`
+const Description = styled.pre<{ $lineCount?: number }>`
+  ${lineCamp}
+  white-space: pre-wrap;
+  a {
+    color: #3ea6ff;
+  }
 `
 
 type SkeletonData = {
@@ -77,7 +85,14 @@ const Popular = ({videoInfo, isLoading}: {videoInfo?: YoutubeVideo; isLoading: b
       </Right>
     </Wrapper>
   } else if(!!videoInfo) {
-    const { id, title, statistics, publishedAt } = videoInfo
+    const {
+      id,
+      title,
+      statistics,
+      publishedAt,
+      description
+    } = videoInfo
+
     return <Wrapper alignItems="flex-start">
       <Left>
         <Iframe videoId={id} />
@@ -87,6 +102,7 @@ const Popular = ({videoInfo, isLoading}: {videoInfo?: YoutubeVideo; isLoading: b
           <a href={`https://www.youtube.com/watch?v=${id}`} target="_blank">{title}</a>
         </Title>
         <StatisticsInfo statistics={statistics} publishedAt={publishedAt} />
+        <Description $lineCount={7} dangerouslySetInnerHTML={{__html: description}}></Description>
       </Right>
     </Wrapper>
   }

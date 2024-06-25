@@ -8,6 +8,13 @@ const formatSeconds = (rawValue: string | number) => {
   return dayjs(rawSeconds).format('mm:ss')
 }
 
+function urlify(text: string) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, function(url) {
+    return '<a href="' + url + '" target="_blank">' + url + '</a>';
+  })
+}
+
 export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Array<YoutubeVideo> => {
   return rawData?.items.map(({
     snippet,
@@ -25,7 +32,7 @@ export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Ar
     return {
       id,
       title: snippet.localized.title,
-      description: snippet.localized.description,
+      description: urlify(snippet.localized.description),
       publishedAt: dayjs().locale('zh-tw').to(dayjs(snippet.publishedAt)),
       thumbnails: snippet.thumbnails,
       statistics: {
