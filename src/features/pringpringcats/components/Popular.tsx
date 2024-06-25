@@ -4,7 +4,7 @@ import { YoutubeVideo } from "src/features/pringpringcats/types"
 import Iframe from 'src/features/pringpringcats/components/Iframe'
 import Skeleton from "@mui/material/Skeleton"
 import StatisticsInfo from "src/features/pringpringcats/components/StatisticsInfo"
-import { lineCamp } from "src/styles/Styled"
+import { Description } from "src/features/pringpringcats/Styled"
 
 const Wrapper = styled(Flex)`
   gap: 20px;
@@ -24,13 +24,6 @@ const Right = styled.div`
 
 const Title = styled.h3`
   margin: 0 0 16px;
-`
-const Description = styled.pre<{ $lineCount?: number }>`
-  ${lineCamp}
-  white-space: pre-wrap;
-  a {
-    color: #3ea6ff;
-  }
 `
 
 type SkeletonData = {

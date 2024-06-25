@@ -1,18 +1,11 @@
 import dayjs from "src/helpers/dayjs";
 import { YoutubeList, YoutubeVideo } from "src/features/pringpringcats/types";
 import { RawYoutubePlayListsResponse, RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net";
-import { convertCountUnit } from "src/features/pringpringcats/utils";
+import { convertCountUnit, urlify } from "src/features/pringpringcats/utils";
 
 const formatSeconds = (rawValue: string | number) => {
   const rawSeconds = Number(rawValue) * 1000
   return dayjs(rawSeconds).format('mm:ss')
-}
-
-function urlify(text: string) {
-  var urlRegex = /(https?:\/\/[^\s]+)/g;
-  return text.replace(urlRegex, function(url) {
-    return '<a href="' + url + '" target="_blank">' + url + '</a>';
-  })
 }
 
 export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Array<YoutubeVideo> => {

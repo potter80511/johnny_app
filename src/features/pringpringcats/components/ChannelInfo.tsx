@@ -2,6 +2,8 @@ import { ChannelContentDetails, YoutubeItem, ChannelSnippet, ChannelStatistics }
 import Flex from "src/components/Flex"
 import { styled } from "styled-components"
 import { convertUnitForChannelInfo } from "src/features/pringpringcats/utils"
+import { urlify } from "src/features/pringpringcats/utils"
+import { Description } from "src/features/pringpringcats/Styled"
 
 const AvatarWrapper = styled.div`
   border-radius: 100rem;
@@ -43,7 +45,7 @@ const ChannelInfo = ({
       <StatisticsWrapper>
         <a href={`https://www.youtube.com/channel/${id}`} target="_blank">{customUrl}</a> ‧ {statistics.subscriberCount}位訂閱者 ‧ {statistics.videoCount} 部影片 ‧ {convertUnitForChannelInfo(statistics.viewCount)} 觀看次數
       </StatisticsWrapper>
-      <p>{description}</p>
+      <Description dangerouslySetInnerHTML={{__html: urlify(description)}}/>
     </Right>
   </Flex>
 }
