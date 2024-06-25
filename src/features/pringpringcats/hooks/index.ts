@@ -74,7 +74,7 @@ export const useFetchVideosInfinite = () => {
 }
 
 export const useFetchTopFifty = () => {
-  const { data } = useSWR<{data: RawYoutubeVideoResponse}>(
+  const { data, isValidating } = useSWR<{data: RawYoutubeVideoResponse}>(
     '/pringpringcats/videos/topFifty',
     fetcher,
     {
@@ -91,6 +91,7 @@ export const useFetchTopFifty = () => {
   }, [data])
 
   return {
-    mostViewsInFify: videos[0] || null
+    mostViewsInFify: videos[0] || null,
+    isValidating,
   }
 }

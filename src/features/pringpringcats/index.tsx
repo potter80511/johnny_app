@@ -38,6 +38,10 @@ const PringPringCatsIndex = ({
   // console.log(allVideos, 'allVideos')
   // console.log(channelServerData, 'channelServerData')
   console.log(allVideos, 'allVideos')
+  const {
+    mostViewsInFify,
+    isValidating: isMostViewsInFifyValidating
+  } = useFetchTopFifty()
 
   if(!channelServerData && error) {
     return <div>
@@ -51,12 +55,11 @@ const PringPringCatsIndex = ({
   const handleLoadMore = async () => {
     setPageSize(currentPageSize + 1)
   }
-  const { mostViewsInFify } = useFetchTopFifty()
 
   return <CommonWrap>
     <Banner $backgroundImage={brandingSettings.image.bannerExternalUrl} />
     <ChannelInfo snippet={snippet} id={id} statistics={statistics} />
-    {mostViewsInFify && <Popular {...mostViewsInFify} />}
+    <Popular videoInfo={mostViewsInFify} isLoading={isMostViewsInFifyValidating} />
     <Tabs data={[
       {
         label: '所有影片',
