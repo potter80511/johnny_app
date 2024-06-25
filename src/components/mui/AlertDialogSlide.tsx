@@ -20,6 +20,8 @@ const Transition = forwardRef(function Transition(
 export default function AlertDialogSlide({
   title,
   isDialogOpen,
+  keepMounted = false,
+  shouldHideButtons = false,
   children,
   yesText,
   noText,
@@ -27,8 +29,10 @@ export default function AlertDialogSlide({
   onNo,
   onClose
 }: {
-  title: string;
+  title?: string;
   isDialogOpen: boolean;
+  keepMounted?: boolean;
+  shouldHideButtons?: boolean;
   children: ReactNode;
   yesText?: string
   noText?: string
@@ -54,20 +58,20 @@ export default function AlertDialogSlide({
     <Dialog
       open={isDialogOpen}
       TransitionComponent={Transition}
-      keepMounted
+      keepMounted={keepMounted}
       onClose={handleClose}
       aria-describedby="alert-dialog-slide-description"
     >
-      <DialogTitle>{title}</DialogTitle>
+      {title && <DialogTitle>{title}</DialogTitle>}
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description">
           {children}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      {!shouldHideButtons && <DialogActions>
         <Button onClick={handleClose}>{noText || 'Cancel'}</Button>
         <Button onClick={handleYes}>{yesText || 'Ok'}</Button>
-      </DialogActions>
+      </DialogActions>}
     </Dialog>
   );
 }
