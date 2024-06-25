@@ -1,7 +1,7 @@
 import Flex from "src/components/Flex"
 import styled from "styled-components"
 import { YoutubeVideo } from "src/features/pringpringcats/types"
-import Iframe from 'src/features/pringpringcats/components/Iframe'
+import Iframe from 'src/features/pringpringcats/components/Popular/Iframe'
 import Skeleton from "@mui/material/Skeleton"
 import StatisticsInfo from "src/features/pringpringcats/components/StatisticsInfo"
 import { Description } from "src/features/pringpringcats/Styled"
