@@ -8,7 +8,7 @@ import { Description } from "src/features/pringpringcats/Styled"
 
 const Wrapper = styled(Flex)`
   gap: 20px;
-  margin-bottom: 36px;
+  margin: 40px 0;
   a {
     color: #fff;
     text-decoration: none;
