@@ -7,6 +7,7 @@ import Tabs from "src/components/mui/Tabs"
 import PlaylistsSection from "src/features/pringpringcats/components/PlaylistsSection"
 import { useFetchTopFifty, useFetchVideosInfinite } from "src/features/pringpringcats/hooks"
 import Popular from "src/features/pringpringcats/components/Popular"
+import VideoList from "src/features/pringpringcats/components/VideoList"
 
 const Banner = styled.div<{$backgroundImage: string}>`
   background-image: ${({ $backgroundImage: backgroundImage }) => `url(${backgroundImage})`};
@@ -40,6 +41,7 @@ const PringPringCatsIndex = ({
   console.log(allVideos, 'allVideos')
   const {
     mostViewsInFify,
+    topFiftyVideos,
     isValidating: isMostViewsInFifyValidating
   } = useFetchTopFifty()
 
@@ -61,6 +63,10 @@ const PringPringCatsIndex = ({
     <ChannelInfo snippet={snippet} id={id} statistics={statistics} />
     <Popular videoInfo={mostViewsInFify} isLoading={isMostViewsInFifyValidating} />
     <Tabs data={[
+      {
+        label: '近期熱門',
+        content: <VideoList videos={topFiftyVideos} />
+      },
       {
         label: '所有影片',
         content: <VideosSection

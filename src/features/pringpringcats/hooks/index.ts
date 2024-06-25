@@ -87,11 +87,12 @@ export const useFetchTopFifty = () => {
   
   const videos = useMemo(() => {
     if(!data) { return [] }
-    return createYoutubeVideosFromNet(data.data)
+    return createYoutubeVideosFromNet(data.data).slice(0, 24)
   }, [data])
 
   return {
     mostViewsInFify: videos[0] || null,
+    topFiftyVideos: videos,
     isValidating,
   }
 }
