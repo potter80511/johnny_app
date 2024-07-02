@@ -9,8 +9,6 @@ import { SWRConfig } from 'swr'
 import { unstable_serialize } from "swr/infinite";
 import { getSWRInfiniteKey } from 'src/features/pringpringcats/hooks';
 import { PROMISE_STATUS } from 'src/types/enums';
-import { createYoutubeVideosFromNet } from 'src/features/pringpringcats/factories';
-import { YoutubeVideo } from 'src/features/pringpringcats/types';
 
 const meta = {
   title: "Johnny's App - Pring Pring Cats 毛昕&毛馨",
@@ -83,17 +81,17 @@ export const getServerSideProps = async ({
   res.setHeader('Cache-Control', 'public, max-age=900')
 
   const defaultChannelData: RawYoutubeChannelResponse | null = null
-  const defaultVideosPagesData: Array<{data: RawYoutubeVideoResponse}> = []
+  const defaultTopVideosPagesData: RawYoutubeVideoResponse | null = null
 
   const allPromiseDefaultResults = [
     defaultChannelData,
-    defaultVideosPagesData,
+    defaultTopVideosPagesData,
   ]
 
   try {
     const promises: Array<Promise<any>> = [
       fetcher('/pringpringcats/channel'),
-      fetcher('/pringpringcats/videos'),
+      fetcher('/pringpringcats/videos/topFifty'),
     ]
     const allPromiseResult = await Promise.allSettled(promises).then((results) => {
       return results.map((result, index) =>
@@ -102,20 +100,20 @@ export const getServerSideProps = async ({
           : allPromiseDefaultResults[index]
       )
     })
-    // console.log(allPromiseResult, 'allPromiseResult')
+
     const channelServerData = allPromiseResult[0]?.data as RawYoutubeChannelResponse || null
-    const topFiftyServerData = allPromiseResult[2]?.data as RawYoutubeVideoResponse || null
+    const topFiftyServerData = allPromiseResult[1] as RawYoutubeVideoResponse || null
 
     const error = {
       channel: allPromiseResult[0]?.message || '',
       videos: allPromiseResult[1]?.message || '',
     }
-    // console.log(channelServerData, 'channelServerData')
+
     return {
       props: {
         channelServerData,
         fallback: {
-          [unstable_serialize(() => getSWRInfiniteKey(null, {}))]: [allPromiseResult[1]],
+          '/pringpringcats/videos/topFifty': topFiftyServerData
         },
         error,
       },
