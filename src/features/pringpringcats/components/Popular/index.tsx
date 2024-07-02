@@ -62,11 +62,13 @@ const RightSkeletonDatas: SkeletonData[] = [
 const Popular = ({
   videoInfo,
   isLoading,
-  shouldTrimDescription = false
+  shouldTrimDescription = false,
+  allowAutoPlay = false,
 }: {
   videoInfo?: YoutubeVideo;
   isLoading: boolean;
   shouldTrimDescription?: boolean;
+  allowAutoPlay?: boolean;
 }) => {
   console.log(isLoading, 'isLoading')
   console.log(videoInfo, 'videoInfo')
@@ -102,7 +104,7 @@ const Popular = ({
 
     return <Wrapper alignItems="flex-start">
       <Left>
-        <Iframe videoId={id} />
+        <Iframe videoId={id} allowAutoPlay={allowAutoPlay} />
       </Left>
       <Right>
         <Title>

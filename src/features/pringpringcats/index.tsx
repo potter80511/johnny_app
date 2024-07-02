@@ -72,6 +72,7 @@ const PringPringCatsIndex = ({
       videoInfo={mostViewsInFify}
       isLoading={isMostViewsInFifyValidating}
       shouldTrimDescription
+      allowAutoPlay
     />
     <Tabs data={[
       {

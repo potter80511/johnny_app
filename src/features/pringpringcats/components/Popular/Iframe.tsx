@@ -15,8 +15,15 @@ const IframeWrapper = styled.div`
   }
 `
 
-const Iframe = ({videoId}: {videoId: string}) => {
-  const src = `https://www.youtube.com/embed/${videoId}?&mute=1&origin=${process.env.NEXT_PUBLIC_SITE_URL}`
+const Iframe = ({
+  videoId,
+  allowAutoPlay
+}: {
+  videoId: string;
+  allowAutoPlay: boolean;
+}) => {
+  const autoPlayParam = allowAutoPlay ? '&autoplay=1' : ''
+  const src = `https://www.youtube.com/embed/${videoId}?&mute=1&origin=${process.env.NEXT_PUBLIC_SITE_URL}${autoPlayParam}`
 
   return <IframeWrapper>
     <iframe
