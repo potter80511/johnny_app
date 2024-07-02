@@ -59,27 +59,40 @@ const VideoTitle = styled.h3<{ $lineCount?: number }>`
   margin: 0 0 8px;
 `
 
-const VideoList = ({videos}: {videos: Array<YoutubeVideo>}) => {
+const VideoList = ({
+  videos,
+  onShowVideoDetails
+}: {
+  videos: Array<YoutubeVideo>;
+  onShowVideoDetails: (v: YoutubeVideo) => void
+}) => {
   return <VideosWrapper flexWrap="wrap" justifyContent="space-between">
-    {videos.map(({
-      id,
-      thumbnails,
-      title,
-      duration,
-      statistics,
-      publishedAt
-    }) => <Video key={`videos-${id}`}>
-      <VideoInner>
-        <ThumbnailWrapper>
-          <img src={thumbnails.medium.url} alt={`videos-thumbnail-${title}`} />
-          <Duration>{duration}</Duration>
-        </ThumbnailWrapper>
-        <VideoContent>
-          <VideoTitle $lineCount={2} title={title}>{title}</VideoTitle>
-          <StatisticsInfo publishedAt={publishedAt} statistics={statistics} />
-        </VideoContent>
-      </VideoInner>
-    </Video>)}
+    {videos.map((video) => {
+      const {
+        id,
+        thumbnails,
+        title,
+        duration,
+        statistics,
+        publishedAt
+      } = video
+      return <Video key={`videos-${id}`}>
+        <VideoInner>
+          <ThumbnailWrapper onClick={() => onShowVideoDetails(video)}>
+            <img src={thumbnails.medium.url} alt={`videos-thumbnail-${title}`} />
+            <Duration>{duration}</Duration>
+          </ThumbnailWrapper>
+          <VideoContent>
+            <VideoTitle
+              $lineCount={2}
+              title={title}
+              onClick={() => onShowVideoDetails(video)}
+            >{title}</VideoTitle>
+            <StatisticsInfo publishedAt={publishedAt} statistics={statistics} />
+          </VideoContent>
+        </VideoInner>
+      </Video>
+    })}
   </VideosWrapper>
 }
 

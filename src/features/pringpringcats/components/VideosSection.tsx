@@ -1,26 +1,22 @@
-import Flex from "src/components/Flex"
-import { RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net"
-import styled from "styled-components"
-import { lineCamp } from "src/styles/Styled"
 import { YoutubeVideo } from "src/features/pringpringcats/types"
 import InfiniteScrollTriggerElement from "src/components/InfiniteScrollTriggerElement"
 import VideoList from "src/features/pringpringcats/components/VideoList"
-
-
 
 const VideosSection = ({
   videos,
   isValidating,
   hasMore,
-  onLoadMore
+  onLoadMore,
+  onShowVideoDetails
 }: {
   videos: Array<YoutubeVideo>
   isValidating: boolean
   hasMore: boolean
   onLoadMore: () => void
+  onShowVideoDetails: (v: YoutubeVideo) => void
 }) => {
   return <div>
-    <VideoList videos={videos} />
+    <VideoList videos={videos} onShowVideoDetails={onShowVideoDetails} />
     <InfiniteScrollTriggerElement
       hasMore={hasMore}
       isValidating={isValidating}

@@ -9,6 +9,8 @@ import { Description } from "src/features/pringpringcats/Styled"
 const Wrapper = styled(Flex)`
   gap: 20px;
   margin: 40px 0;
+  flex-wrap: wrap;
+
   a {
     color: #fff;
     text-decoration: none;
@@ -17,6 +19,10 @@ const Wrapper = styled(Flex)`
 const Left = styled.div`
   max-width: 424px;
   width: 100%;
+
+  @media screen and (max-width: ${({theme: {breakpoint}}) => breakpoint.lg}) {
+    max-width: unset;
+  }
 `
 const Right = styled.div`
   flex: 1;

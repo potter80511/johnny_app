@@ -1,5 +1,6 @@
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Breakpoint } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -34,6 +35,7 @@ export default function AlertDialogSlide({
   children,
   yesText,
   noText,
+  maxWidth,
   onYes,
   onNo,
   onClose
@@ -45,6 +47,7 @@ export default function AlertDialogSlide({
   children: ReactNode;
   yesText?: string
   noText?: string
+  maxWidth?: Breakpoint | false;
   onYes?: () => void;
   onNo?: () => void;
   onClose: () => void
@@ -70,6 +73,7 @@ export default function AlertDialogSlide({
       keepMounted={keepMounted}
       onClose={handleClose}
       aria-describedby="alert-dialog-slide-description"
+      maxWidth={maxWidth}
     >
       <CloseButton
         type='button'

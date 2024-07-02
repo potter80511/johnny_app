@@ -1,5 +1,5 @@
 import { CommonWrap } from "src/styles/Styled"
-import { ChannelContentDetails, YoutubeData, ChannelSnippet, ChannelStatistics, RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net"
+import { ChannelContentDetails, YoutubeData, ChannelSnippet, ChannelStatistics } from "src/features/pringpringcats/types/net"
 import ChannelInfo from "src/features/pringpringcats/components/ChannelInfo"
 import styled from "styled-components"
 import VideosSection from "src/features/pringpringcats/components/VideosSection"
@@ -8,6 +8,10 @@ import PlaylistsSection from "src/features/pringpringcats/components/PlaylistsSe
 import { useFetchTopFifty, useFetchVideosInfinite } from "src/features/pringpringcats/hooks"
 import Popular from "src/features/pringpringcats/components/Popular"
 import VideoList from "src/features/pringpringcats/components/VideoList"
+import AlertDialogSlide from "src/components/mui/AlertDialogSlide"
+import VideoDetails from "src/features/pringpringcats/components/VideoDetails"
+import { useState } from "react"
+import { YoutubeVideo } from "src/features/pringpringcats/types"
 
 const Banner = styled.div<{$backgroundImage: string}>`
   background-image: ${({ $backgroundImage: backgroundImage }) => `url(${backgroundImage})`};
@@ -36,6 +40,9 @@ const PringPringCatsIndex = ({
     hasMore,
     isValidating
   } = useFetchVideosInfinite()
+
+  const [videoDetails, setVideoDetails] = useState<YoutubeVideo | null>(null)
+
   // console.log(allVideos, 'allVideos')
   // console.log(channelServerData, 'channelServerData')
   console.log(allVideos, 'allVideos')
@@ -65,7 +72,10 @@ const PringPringCatsIndex = ({
     <Tabs data={[
       {
         label: '近期熱門',
-        content: <VideoList videos={topFiftyVideos} />
+        content: <VideoList
+          videos={topFiftyVideos}
+          onShowVideoDetails={setVideoDetails}
+        />
       },
       {
         label: '所有影片',
@@ -74,6 +84,7 @@ const PringPringCatsIndex = ({
           hasMore={hasMore}
           isValidating={isValidating}
           onLoadMore={handleLoadMore}
+          onShowVideoDetails={setVideoDetails}
         />
       },
       {
@@ -81,6 +92,14 @@ const PringPringCatsIndex = ({
         content: <PlaylistsSection />
       },
     ]} />
+    <AlertDialogSlide
+      isDialogOpen={!!videoDetails}
+      onClose={() => setVideoDetails(null)}
+      shouldHideButtons
+      maxWidth="lg"
+    >
+      <VideoDetails details={videoDetails}/>
+    </AlertDialogSlide>
   </CommonWrap>
 }
 
