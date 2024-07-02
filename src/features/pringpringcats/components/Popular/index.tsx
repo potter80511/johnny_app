@@ -59,7 +59,15 @@ const RightSkeletonDatas: SkeletonData[] = [
   },
 ]
 
-const Popular = ({videoInfo, isLoading}: {videoInfo?: YoutubeVideo; isLoading: boolean}) => {
+const Popular = ({
+  videoInfo,
+  isLoading,
+  shouldTrimDescription = false
+}: {
+  videoInfo?: YoutubeVideo;
+  isLoading: boolean;
+  shouldTrimDescription : boolean;
+}) => {
   console.log(isLoading, 'isLoading')
   console.log(videoInfo, 'videoInfo')
   if(isLoading) {
@@ -101,7 +109,7 @@ const Popular = ({videoInfo, isLoading}: {videoInfo?: YoutubeVideo; isLoading: b
           <a href={`https://www.youtube.com/watch?v=${id}`} target="_blank">{title}</a>
         </Title>
         <StatisticsInfo statistics={statistics} publishedAt={publishedAt} />
-        <Description $lineCount={7} dangerouslySetInnerHTML={{__html: description}}></Description>
+        <Description $lineCount={shouldTrimDescription ? 7 : undefined} dangerouslySetInnerHTML={{__html: description}}></Description>
       </Right>
     </Wrapper>
   }

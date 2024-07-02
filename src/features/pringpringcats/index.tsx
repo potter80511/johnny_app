@@ -68,7 +68,11 @@ const PringPringCatsIndex = ({
   return <CommonWrap>
     <Banner $backgroundImage={brandingSettings.image.bannerExternalUrl} />
     <ChannelInfo snippet={snippet} id={id} statistics={statistics} />
-    <Popular videoInfo={mostViewsInFify} isLoading={isMostViewsInFifyValidating} />
+    <Popular
+      videoInfo={mostViewsInFify}
+      isLoading={isMostViewsInFifyValidating}
+      shouldTrimDescription
+    />
     <Tabs data={[
       {
         label: '近期熱門',
