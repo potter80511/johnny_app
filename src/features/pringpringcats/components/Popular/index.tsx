@@ -66,7 +66,7 @@ const Popular = ({
 }: {
   videoInfo?: YoutubeVideo;
   isLoading: boolean;
-  shouldTrimDescription : boolean;
+  shouldTrimDescription?: boolean;
 }) => {
   console.log(isLoading, 'isLoading')
   console.log(videoInfo, 'videoInfo')

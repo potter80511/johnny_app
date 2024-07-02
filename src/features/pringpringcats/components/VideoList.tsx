@@ -76,9 +76,9 @@ const VideoList = ({
         statistics,
         publishedAt
       } = video
-      return <Video key={`videos-${id}`}>
+      return <Video key={`videos-${id}`} onClick={() => onShowVideoDetails(video)}>
         <VideoInner>
-          <ThumbnailWrapper onClick={() => onShowVideoDetails(video)}>
+          <ThumbnailWrapper>
             <img src={thumbnails.medium.url} alt={`videos-thumbnail-${title}`} />
             <Duration>{duration}</Duration>
           </ThumbnailWrapper>
@@ -86,7 +86,6 @@ const VideoList = ({
             <VideoTitle
               $lineCount={2}
               title={title}
-              onClick={() => onShowVideoDetails(video)}
             >{title}</VideoTitle>
             <StatisticsInfo publishedAt={publishedAt} statistics={statistics} />
           </VideoContent>
