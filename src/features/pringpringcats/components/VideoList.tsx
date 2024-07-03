@@ -3,6 +3,9 @@ import StatisticsInfo from "src/features/pringpringcats/components/StatisticsInf
 import { lineCamp } from "src/styles/Styled";
 import { styled } from "styled-components";
 import { YoutubeVideo } from "src/features/pringpringcats/types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faYoutube } from '@fortawesome/free-brands-svg-icons'
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 const VideosWrapper = styled(Flex)`
   margin: 0 -16px;
@@ -51,6 +54,12 @@ const Duration = styled.span`
   font-size: 12px;
   border-radius: 4px;
 `
+const YoutubeIcon = styled(FontAwesomeIcon)`
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  font-size: 26px;
+`
 const VideoContent = styled.div`
   padding: 16px 8px;
 `
@@ -80,6 +89,7 @@ const VideoList = ({
         <VideoInner>
           <ThumbnailWrapper>
             <img src={thumbnails.medium.url} alt={`videos-thumbnail-${title}`} />
+            <YoutubeIcon icon={faYoutube as IconProp} />
             <Duration>{duration}</Duration>
           </ThumbnailWrapper>
           <VideoContent>
