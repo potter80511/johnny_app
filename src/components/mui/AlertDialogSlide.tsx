@@ -1,3 +1,6 @@
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Breakpoint } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -7,6 +10,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { ReactNode, forwardRef } from 'react';
+import styled from 'styled-components';
+
+
+const CloseButton = styled.button`
+  color: #888;
+  padding: 0;
+`
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -20,18 +30,24 @@ const Transition = forwardRef(function Transition(
 export default function AlertDialogSlide({
   title,
   isDialogOpen,
+  keepMounted = false,
+  shouldHideButtons = false,
   children,
   yesText,
   noText,
+  maxWidth,
   onYes,
   onNo,
   onClose
 }: {
-  title: string;
+  title?: string;
   isDialogOpen: boolean;
+  keepMounted?: boolean;
+  shouldHideButtons?: boolean;
   children: ReactNode;
   yesText?: string
   noText?: string
+  maxWidth?: Breakpoint | false;
   onYes?: () => void;
   onNo?: () => void;
   onClose: () => void
@@ -54,20 +70,28 @@ export default function AlertDialogSlide({
     <Dialog
       open={isDialogOpen}
       TransitionComponent={Transition}
-      keepMounted
+      keepMounted={keepMounted}
       onClose={handleClose}
       aria-describedby="alert-dialog-slide-description"
+      maxWidth={maxWidth}
     >
-      <DialogTitle>{title}</DialogTitle>
+      <CloseButton
+        type='button'
+        style={{position: 'absolute', top: 20, right: 24}}
+        onClick={handleClose}
+      >
+        <FontAwesomeIcon icon={faTimes} size='xl' />
+      </CloseButton>
+      {title && <DialogTitle>{title}</DialogTitle>}
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description">
           {children}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      {!shouldHideButtons && <DialogActions>
         <Button onClick={handleClose}>{noText || 'Cancel'}</Button>
         <Button onClick={handleYes}>{yesText || 'Ok'}</Button>
-      </DialogActions>
+      </DialogActions>}
     </Dialog>
   );
 }

@@ -1,7 +1,7 @@
 import dayjs from "src/helpers/dayjs";
 import { YoutubeList, YoutubeVideo } from "src/features/pringpringcats/types";
 import { RawYoutubePlayListsResponse, RawYoutubeVideoResponse } from "src/features/pringpringcats/types/net";
-import { convertCountUnit } from "src/features/pringpringcats/utils";
+import { convertCountUnit, urlify } from "src/features/pringpringcats/utils";
 
 const formatSeconds = (rawValue: string | number) => {
   const rawSeconds = Number(rawValue) * 1000
@@ -25,7 +25,7 @@ export const createYoutubeVideosFromNet = (rawData: RawYoutubeVideoResponse): Ar
     return {
       id,
       title: snippet.localized.title,
-      description: snippet.localized.description,
+      description: urlify(snippet.localized.description),
       publishedAt: dayjs().locale('zh-tw').to(dayjs(snippet.publishedAt)),
       thumbnails: snippet.thumbnails,
       statistics: {
