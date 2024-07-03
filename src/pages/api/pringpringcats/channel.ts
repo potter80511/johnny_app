@@ -1,15 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-
-type YoutubeResponse = {
-  data?: any
-  error?: {
-    code: number
-    message: string
-    errors: Array<any>
-    status: 'PERMISSION_DENIED'
-  }
-}
+import { YoutubeResponse } from 'src/features/pringpringcats/types/net/Youtube'
 
 const channel = async (
   req: NextApiRequest,

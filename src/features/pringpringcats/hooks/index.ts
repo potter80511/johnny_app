@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { getAPIQueryStringByOption } from 'src/helpers/fetch';
 import { YoutubeVideo } from 'src/features/pringpringcats/types';
 import { createYoutubeVideosFromNet } from 'src/features/pringpringcats/factories';
+import useSWR from 'swr';
 
 export const getSWRInfiniteKey = (
   previousPageData: {data: RawYoutubeVideoResponse} | null,
@@ -68,6 +69,30 @@ export const useFetchVideosInfinite = () => {
     currentPageSize: size,
     setPageSize: setSize,
     hasMore: !!pagesData[pagesData.length - 1]?.data?.nextPageToken,
+    isValidating,
+  }
+}
+
+export const useFetchTopFifty = () => {
+  const { data, isValidating } = useSWR<{data: RawYoutubeVideoResponse}>(
+    '/pringpringcats/videos/topFifty',
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 3000000,
+      revalidateIfStale: false,
+    }
+  )
+  // console.log(data, 'data')
+  
+  const videos = useMemo(() => {
+    if(!data) { return [] }
+    return createYoutubeVideosFromNet(data.data).slice(0, 24)
+  }, [data])
+
+  return {
+    mostViewsInFify: videos[0] || null,
+    topFiftyVideos: videos,
     isValidating,
   }
 }

@@ -18,7 +18,7 @@ const videosHandler = async (
       }>({
         ...req.query as PringPringCatsVideosPayload,
         key: process.env.YOUTUBE_API_ACCESS_KEY || '',
-        part: ['snippet', 'contentDetails'],
+        part: ['contentDetails'],
         playlistId: 'UUrfpfIhOA_bH9QJvZNluv9w',
         maxResults: 12
       })
