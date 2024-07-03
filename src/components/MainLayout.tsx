@@ -5,18 +5,24 @@ type MainLayoutProps = {
   id?: string;
   className?: string;
   children?: React.ReactNode;
-  minHeight?: boolean;
-  height?: boolean;
+  shouldUseMinHeight?: boolean;
+  shouldUseViewHeight?: boolean;
 };
 
 const MainLayout = (props: MainLayoutProps) => {
   const [viewHeight, setViewHeight] = useState<number>(0);
+  const {
+    id,
+    className,
+    children,
+    shouldUseMinHeight = true,
+    shouldUseViewHeight = false,
+  } = props;
 
   useEffect(() => {
     setViewHeight(window.innerHeight);
-  });
+  }, []);
 
-  const { id, className, children, minHeight = true, height } = props;
 
   return (
     <>
@@ -24,8 +30,8 @@ const MainLayout = (props: MainLayoutProps) => {
       <div
         id={id}
         style={{
-          minHeight: minHeight ? viewHeight : 'unset',
-          height: height ? viewHeight : 'auto',
+          minHeight: shouldUseMinHeight ? viewHeight : 'unset',
+          height: shouldUseViewHeight ? viewHeight : 'auto',
         }}
         className={className}
       >
