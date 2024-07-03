@@ -70,8 +70,6 @@ const Popular = ({
   shouldTrimDescription?: boolean;
   allowAutoPlay?: boolean;
 }) => {
-  console.log(isLoading, 'isLoading')
-  console.log(videoInfo, 'videoInfo')
   if(isLoading) {
     return <Wrapper alignItems="flex-start">
       <Left>
