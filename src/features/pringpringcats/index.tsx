@@ -43,9 +43,6 @@ const PringPringCatsIndex = ({
 
   const [videoDetails, setVideoDetails] = useState<YoutubeVideo | null>(null)
 
-  // console.log(allVideos, 'allVideos')
-  // console.log(channelServerData, 'channelServerData')
-  console.log(allVideos, 'allVideos')
   const {
     mostViewsInFify,
     topFiftyVideos,
