@@ -23,6 +23,13 @@ const ItemWrapper = styled.div`
   width: calc(100%/3);
   margin-bottom: 20px;
   padding: 0 16px;
+
+  @media screen and (max-width: ${({theme: {breakpoint}}) => breakpoint.md}) {
+    width: calc(100%/2);
+  }
+  @media screen and (max-width: ${({theme: {breakpoint}}) => breakpoint.sm}) {
+    width: 100%;
+  }
 `
 const VideoInner = styled.a`
   transition: all .3s;
