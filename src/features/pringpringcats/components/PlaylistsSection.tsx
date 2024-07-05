@@ -24,10 +24,12 @@ const ItemWrapper = styled.div`
   margin-bottom: 20px;
   padding: 0 16px;
 `
-const VideoInner = styled.div`
+const VideoInner = styled.a`
   transition: all .3s;
-  cursor: pointer;
+  display: block;
+  color: inherit;
   border-radius: 16px 16px 0 0;
+  text-decoration: none;
   
   &:hover {
     background-color: #222;
@@ -77,7 +79,7 @@ const PlaylistsSection = () => {
       videoCount,
       publishedAt
     }) => <ItemWrapper key={`videos-${id}`}>
-      <VideoInner>
+      <VideoInner href={`https://www.youtube.com/playlist?list=${id}`} target="_blank">
         <ThumbnailWrapper>
           <img src={thumbnails.medium.url} alt={`videos-thumbnail-${title}`} />
           <Count alignItems="center">
