@@ -16,6 +16,7 @@ import styled from 'styled-components';
 const CloseButton = styled.button`
   color: #888;
   padding: 0;
+  z-index: 1;
 `
 
 const Transition = forwardRef(function Transition(
