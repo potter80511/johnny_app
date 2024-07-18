@@ -1,17 +1,26 @@
 declare module 'react-click-n-hold'
 
 type APIResponse<Data = any> = {
-  message?: string
+  message: string
   success: boolean
   data: Data
 }
 
-type Callback<RawData> = {
-  onSuccess: (data: RawData) => void
-  onError: (error: any) => void
+type ErrorOutput = {
+  message: string
 }
 
-type Fetcher<RawData, Payload = any> = (params: {payload?: Payload, callBack: Callback<RawData>}) => Promise<void>
+type Callback<OutputData> = {
+  onSuccess: (data: OutputData) => void
+  onError: (error: ErrorOutput) => void
+}
+
+type Fetcher<OutputData, InputData = any> = (
+  params: {
+    inputData: InputData;
+    callBack: Callback<OutputData>
+  }
+) => Promise<void>
 
 type APIResponse<Data = any> = {
   message?: string
