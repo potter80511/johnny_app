@@ -62,7 +62,9 @@ const RegisterForm = ({
         fullWidth
         error={!!errors?.username}
         helperText={errors?.username?.message || ''}
-        {...register('username', { maxLength: 20 })}
+        {...register('username', {
+          maxLength: {value: 20, message: '最多不可超過20個字'}
+        })}
       />
     </InputWrapper>
     <InputWrapper>
@@ -72,7 +74,13 @@ const RegisterForm = ({
         fullWidth
         error={!!errors?.email || !!registerRequestError.email}
         helperText={errors?.email?.message || registerRequestError.email || ''}
-        {...register('email', { required: { value: true, message: '必填' }, maxLength: 20, minLength: 2 })}
+        {...register('email', {
+          required: { value: true, message: '必填' },
+          pattern: {
+            value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            message: 'Email格式不正確'
+          },
+        })}
       />
     </InputWrapper>
     <InputWrapper>
@@ -82,7 +90,14 @@ const RegisterForm = ({
         fullWidth
         error={!!errors?.password}
         helperText={errors?.password?.message || ''}
-        {...register('password', { required: { value: true, message: '必填' }, maxLength: 20, minLength: 2 })}
+        {...register('password', { required: { value: true, message: '必填' }, maxLength: {
+          value: 20,
+          message: '密碼最多不可超過20個字'
+        },
+        minLength: {
+          value: 6,
+          message: '密碼至少6個字'
+        } })}
       />
     </InputWrapper>
     <ButtonWrapper>
