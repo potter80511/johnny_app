@@ -18,4 +18,4 @@ RUN yarn build
 EXPOSE 3000
 
 # 啟動應用程式
-CMD ["yarn", "dev"]
+CMD ["sh", "-c", "yarn install && yarn dev"]
