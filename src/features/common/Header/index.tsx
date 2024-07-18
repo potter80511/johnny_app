@@ -3,6 +3,7 @@ import { useState } from "react"
 import AlertDialogSlide from "src/components/mui/AlertDialogSlide"
 import { styled } from "styled-components"
 import RegisterForm from "src/features/common/Header/RegisterForm"
+import { RegisterUserPayload } from "src/features/common/users/types/net"
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,6 +17,12 @@ const Wrapper = styled.div`
 
 const Header = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+  const [registerRequestError, setRegisterRequestError] = useState<RegisterUserPayload>({
+    email: '',
+    username: '',
+    password: ''
+  })
 
   const onOpenRegisterDialog = () => {
     setIsDialogOpen(true)
@@ -32,7 +39,11 @@ const Header = () => {
       shouldHideButtons
       onClose={handleCloseDialogData}
     >
-      <RegisterForm />
+      <RegisterForm
+        registerRequestError={registerRequestError}
+        setRegisterRequestError={(newError) => setRegisterRequestError({...registerRequestError, ...newError})}
+        onClose={handleCloseDialogData}
+      />
     </AlertDialogSlide>
   </Wrapper>
 }

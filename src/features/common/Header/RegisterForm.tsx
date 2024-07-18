@@ -1,12 +1,10 @@
 import { Button, TextField } from "@mui/material"
 import { useForm, SubmitHandler } from "react-hook-form"
 import styled from "styled-components"
+import { RegisterUserPayload } from "src/features/common/users/types/net"
+import { fetchToRegister } from "src/features/common/users/fetchers"
 
-type Form = {
-  username: string
-  email: string
-  password: string
-}
+type Form = RegisterUserPayload
 
 const InputWrapper = styled.div`
   margin-bottom: 32px;
@@ -18,7 +16,15 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `
 
-const RegisterForm = () => {
+const RegisterForm = ({
+  registerRequestError,
+  setRegisterRequestError,
+  onClose
+}: {
+  registerRequestError: Form
+  setRegisterRequestError: (formError: Partial<Form>) => void
+  onClose: () => void
+}) => {
   const {
     control,
     handleSubmit,
@@ -31,7 +37,21 @@ const RegisterForm = () => {
   })
 
   const onSubmit: SubmitHandler<Form> = (formData: Form) => {
-    console.log(formData, 'formData')
+    fetchToRegister({
+      inputData: formData,
+      callBack: {
+        onSuccess: (res) => {
+          onClose()
+          console.log(res.message, 'resresresresres')
+        },
+        onError: (err) => {
+          console.log(err.message, 'errerrerrerr')
+          setRegisterRequestError({
+            email: err.message
+          })
+        }
+      }
+    })
   }
 
   return <form onSubmit={handleSubmit(onSubmit)}>
@@ -50,8 +70,8 @@ const RegisterForm = () => {
         variant="filled"
         label="*Email"
         fullWidth
-        error={!!errors?.email}
-        helperText={errors?.email?.message || ''}
+        error={!!errors?.email || !!registerRequestError.email}
+        helperText={errors?.email?.message || registerRequestError.email || ''}
         {...register('email', { required: { value: true, message: '必填' }, maxLength: 20, minLength: 2 })}
       />
     </InputWrapper>
