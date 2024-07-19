@@ -12,6 +12,7 @@ type FlexProps = {
   mt?: number
   ml?: number
   mb?: number
+  gap?: number
 }
 type FlexStyleProps = {
   $flexWrap?: CSSProperties['flexWrap']
@@ -22,6 +23,7 @@ type FlexStyleProps = {
   mt?: number
   ml?: number
   mb?: number
+  $gap?: number
 }
 
 const Wrapper = styled.div<FlexStyleProps>`
@@ -34,6 +36,7 @@ const Wrapper = styled.div<FlexStyleProps>`
   margin-top: ${({ mt }) => mt && mt + 'px'};
   margin-left: ${({ ml }) => ml && ml + 'px'};
   margin-bottom: ${({ mb }) => mb && mb + 'px'};
+  gap: ${({ $gap }) => $gap && $gap + 'px'};
 `
 
 const Flex = (props: FlexProps) => {
@@ -42,7 +45,8 @@ const Flex = (props: FlexProps) => {
     className,
     justifyContent,
     flexWrap,
-    alignItems
+    alignItems,
+    gap
   } = props
 
   return <Wrapper
@@ -50,6 +54,7 @@ const Flex = (props: FlexProps) => {
     $justifyContent={justifyContent}
     $flexWrap={flexWrap}
     $alignItems={alignItems}
+    $gap={gap}
   >{children}</Wrapper>
 }
 
