@@ -2,14 +2,13 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import pool from '../../../../db';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ResultSetHeader } from 'mysql2/promise';
 import { LoginUserPayload, RawUser } from 'src/features/common/users/types/net';
 
 const SECRET_KEY = 'your_secret_key'; // 請使用環境變數來存儲你的密鑰
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<APIResponse & { token?: string }>
+  res: NextApiResponse<APIResponse<{ token: string, user: RawUser } | null>>
 ) {
   if (req.method === 'POST') {
     const { account, password } = JSON.parse(req.body) as LoginUserPayload;
@@ -38,7 +37,6 @@ export default async function handler(
       }
 
       const user = rows[0] as RawUser;
-      console.log(user, 'user')
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
@@ -55,8 +53,7 @@ export default async function handler(
       res.status(200).json({
         message: 'Login successful',
         success: true,
-        data: null,
-        token
+        data: { token, user },
       });
     } catch (error) {
       console.error('Error logging in user:', error);

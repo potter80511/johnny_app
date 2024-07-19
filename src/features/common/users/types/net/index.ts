@@ -11,4 +11,4 @@ export type RawUser = {
 }
 
 export type RegisterUserPayload = Omit<User, 'id' | 'account'>
-export type LoginUserPayload = Pick<User, 'account' | 'password'>
+export type LoginUserPayload = Pick<RawUser, 'account' | 'password'>
