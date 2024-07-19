@@ -1,15 +1,12 @@
 import { Button } from "@mui/material"
-import { useContext, useEffect, useState } from "react"
-import AlertDialogSlide from "src/components/mui/AlertDialogSlide"
-import { styled } from "styled-components"
+import { useContext, useEffect } from "react"
 import { fetchToLogin, fetchToLoginByToken } from "src/features/common/users/fetchers"
 import { useCookies } from "react-cookie"
 import { UserContext } from "src/features/common/users/hooks"
-import Flex from "src/components/Flex"
 
 const LoginContainer = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(['user_token']);
-  const {userInfo, setUserInfo} = useContext(UserContext);
+  const [cookies, setCookie] = useCookies(['user_token']);
+  const { setUserInfo } = useContext(UserContext);
 
   const handleLogin = (account: string, password: string) => {
     fetchToLogin({
@@ -42,10 +39,7 @@ const LoginContainer = () => {
       }
     })
   }
-  const handleLogout = () => {
-    removeCookie('user_token')
-    setUserInfo(null)
-  }
+  
 
   useEffect(() => {
     const userToken = cookies['user_token']
@@ -53,17 +47,11 @@ const LoginContainer = () => {
   }, [])
 
   return <>
-    {!!userInfo
-      ? <Flex alignItems="center">
-        <span>Hi, welcome {userInfo.username || userInfo.account} !</span>
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={handleLogout}
-        >Logout</Button>
-      </Flex>
-      : <Button variant="contained" size="small" onClick={() => handleLogin('test@test.com', '123456')}>Login</Button>
-    }
+    <Button
+      variant="contained"
+      size="small"
+      onClick={() => handleLogin('test@test.com', '123456')}
+    >Login</Button>
     {/* <AlertDialogSlide
       title="註冊"
       isDialogOpen={isDialogOpen}

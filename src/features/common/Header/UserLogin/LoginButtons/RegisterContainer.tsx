@@ -22,7 +22,12 @@ const RegisterContainer = () => {
   }
 
   return <>
-    <Button variant="contained" size="small" onClick={() => onOpenRegisterDialog()}>註冊</Button>
+    <Button
+      variant="contained"
+      color="secondary"
+      size="small"
+      onClick={() => onOpenRegisterDialog()}
+    >註冊</Button>
     <AlertDialogSlide
       title="註冊"
       isDialogOpen={isDialogOpen}

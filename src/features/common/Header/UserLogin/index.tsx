@@ -1,10 +1,16 @@
-import Flex from "src/components/Flex"
-import LoginContainer from "src/features/common/Header/UserLogin/LoginContainer"
+import { useContext } from "react";
+import { UserContext } from "src/features/common/users/hooks"
+import UserDisplay from "src/features/common/Header/UserLogin/UserDisplay";
+import LoginButtons from "src/features/common/Header/UserLogin/LoginButtons";
 
 const UserLogin = () => {
-  return <Flex>
-    <LoginContainer />
-  </Flex>
+  const {userInfo, setUserInfo} = useContext(UserContext);
+  
+  if(!!userInfo) {
+    return <UserDisplay userInfo={userInfo} setUserInfo={setUserInfo} />
+  } else {
+    return <LoginButtons />
+  }
 }
 
 export default UserLogin

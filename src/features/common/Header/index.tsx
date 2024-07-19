@@ -1,7 +1,6 @@
 import { styled } from "styled-components"
 import { CookiesProvider } from 'react-cookie';
-import RegisterContainer from "src/features/common/Header/UserLogin/RegisterContainer"
-import LoginContainer from "src/features/common/Header/UserLogin/LoginContainer"
+import UserLogin from "src/features/common/Header/UserLogin";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,8 +15,7 @@ const Wrapper = styled.div`
 const Header = () => {
   return <CookiesProvider>
     <Wrapper>
-      <RegisterContainer />
-      <LoginContainer />
+      <UserLogin />
     </Wrapper>
   </CookiesProvider>
 }
