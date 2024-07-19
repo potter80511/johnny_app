@@ -47,3 +47,26 @@ export const fetchToLogin: Fetcher<{
     callBack.onError({message: error as string})
   }
 }
+
+export const fetchToLoginByToken: Fetcher<{
+  message: string,
+  data: User
+}, { token: string }> = async (params) => {
+  const { inputData: { token }, callBack } = params
+  
+  try {
+    const response = await fetcher<User>('/users/auth', { headers: { authorization: `Bearer ${token}` } })
+
+    if(response.success) {
+      callBack.onSuccess({
+        message: response.message,
+        data: response.data
+      })
+    } else {
+      callBack.onError({message: response.message})
+    }
+  } catch(error) {
+    console.log(error, 'error')
+    callBack.onError({message: error as string})
+  }
+}

@@ -48,12 +48,17 @@ export default async function handler(
         return;
       }
 
-      const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
+      const token = jwt.sign({
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        account: user.account,
+      }, SECRET_KEY, { expiresIn: '1h' });
 
       res.status(200).json({
         message: 'Login successful',
         success: true,
-        data: { token, user },
+        data: { token, user:  user},
       });
     } catch (error) {
       console.error('Error logging in user:', error);

@@ -2,7 +2,7 @@ import { Button } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import AlertDialogSlide from "src/components/mui/AlertDialogSlide"
 import { styled } from "styled-components"
-import { fetchToLogin } from "src/features/common/users/fetchers"
+import { fetchToLogin, fetchToLoginByToken } from "src/features/common/users/fetchers"
 import { useCookies } from "react-cookie"
 import { UserContext } from "src/features/common/users/hooks"
 import Flex from "src/components/Flex"
@@ -27,6 +27,21 @@ const LoginContainer = () => {
       }
     })
   }
+
+  const handleAuthLogin = (token: string) => {
+    fetchToLoginByToken({
+      inputData: { token },
+      callBack: {
+        onSuccess: ({message, data: user}) => {
+          console.log(user, 'user')
+          setUserInfo({...user})
+        },
+        onError: ({message}) => {
+          console.log(message, 'onError')
+        },
+      }
+    })
+  }
   const handleLogout = () => {
     removeCookie('user_token')
     setUserInfo(null)
@@ -34,7 +49,7 @@ const LoginContainer = () => {
 
   useEffect(() => {
     const userToken = cookies['user_token']
-    console.log(userToken, 'userToken')
+    handleAuthLogin(userToken)
   }, [])
 
   return <>
