@@ -1,5 +1,3 @@
-import { User } from "src/features/common/users/types";
-
 export type RawUser = {
   id: number
   username: string
@@ -10,5 +8,5 @@ export type RawUser = {
   updated_at: string
 }
 
-export type RegisterUserPayload = Omit<User, 'id' | 'account'>
+export type RegisterUserPayload = Pick<RawUser, 'username' | 'email' | 'password'>
 export type LoginUserPayload = Pick<RawUser, 'account' | 'password'>
