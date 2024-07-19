@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import Router from 'next/router';
 import PageLoading from 'src/components/PageLoading';
 import Header from 'src/features/common/Header';
+import { UserContext } from 'src/features/common/users/hooks';
+import useUserInfo from 'src/features/common/users/hooks'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -60,6 +62,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const [isPageLoading, setIsPageLoading] = useState(false);
 
+  const {userInfo, setUserInfo} = useUserInfo()
+
   useEffect(() => {
     const routeEventStart = () => {
         setIsPageLoading(true);
@@ -83,13 +87,15 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <MUIThemeProvider theme={muiDarkTheme}>
-            {isPageLoading && <PageLoading />}
-            <Header/>
-            <Component {...pageProps} />
-          </MUIThemeProvider>
-        </ThemeProvider>
+        <UserContext.Provider value={{userInfo, setUserInfo}}>
+          <ThemeProvider theme={theme}>
+            <MUIThemeProvider theme={muiDarkTheme}>
+              {isPageLoading && <PageLoading />}
+              <Header/>
+              <Component {...pageProps} />
+            </MUIThemeProvider>
+          </ThemeProvider>
+        </UserContext.Provider>
       </Provider>
     </>
   );
