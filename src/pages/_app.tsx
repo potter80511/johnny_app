@@ -66,7 +66,12 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const [isPageLoading, setIsPageLoading] = useState(false);
 
-  const {userInfo, setUserInfo} = useUserInfo()
+  const {
+    userInfo,
+    setUserInfo,
+    loginModalType,
+    setLoginModalType
+  } = useUserInfo()
 
   useEffect(() => {
     const routeEventStart = () => {
@@ -91,7 +96,14 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <Provider store={store}>
-        <UserContext.Provider value={{userInfo, setUserInfo}}>
+        <UserContext.Provider
+          value={{
+            userInfo,
+            setUserInfo,
+            loginModalType,
+            setLoginModalType
+          }}
+        >
           <ThemeProvider theme={theme}>
             <MUIThemeProvider theme={muiDarkTheme}>
               {isPageLoading && <PageLoading />}
