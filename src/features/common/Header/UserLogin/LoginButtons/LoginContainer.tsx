@@ -3,10 +3,12 @@ import { useContext, useEffect } from "react"
 import { fetchToLogin, fetchToLoginByToken } from "src/features/common/users/fetchers"
 import { useCookies } from "react-cookie"
 import { UserContext } from "src/features/common/users/hooks"
+import AlertDialogSlide from "src/components/mui/AlertDialogSlide"
+import LoginForm from "src/features/common/Header/UserLogin/LoginForm"
 
 const LoginContainer = () => {
   const [cookies, setCookie] = useCookies(['user_token']);
-  const { setUserInfo } = useContext(UserContext);
+  const { loginModalType, setUserInfo, setLoginModalType } = useContext(UserContext);
 
   const handleLogin = (account: string, password: string) => {
     fetchToLogin({
@@ -17,6 +19,7 @@ const LoginContainer = () => {
           console.log(user, 'user')
           setCookie('user_token', token)
           setUserInfo({...user})
+          setLoginModalType('')
         },
         onError: ({message}) => {
           console.log(message, 'onError')
@@ -50,20 +53,17 @@ const LoginContainer = () => {
     <Button
       variant="contained"
       size="small"
-      onClick={() => handleLogin('test@test.com', '123456')}
+      onClick={() => setLoginModalType('login')}
     >Login</Button>
-    {/* <AlertDialogSlide
-      title="註冊"
-      isDialogOpen={isDialogOpen}
+    <AlertDialogSlide
+      title="登入"
+      isDialogOpen={loginModalType === 'login'}
       shouldHideButtons
-      onClose={handleCloseDialogData}
+      onClose={() => setLoginModalType('')}
     >
-      <RegisterForm
-        registerRequestError={registerRequestError}
-        setRegisterRequestError={(newError) => setRegisterRequestError({...registerRequestError, ...newError})}
-        onClose={handleCloseDialogData}
+      <LoginForm onSubmitLoginData={(formData) => handleLogin(formData.email, formData.password)}
       />
-    </AlertDialogSlide> */}
+    </AlertDialogSlide>
   </>
 }
 

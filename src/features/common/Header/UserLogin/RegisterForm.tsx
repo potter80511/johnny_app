@@ -25,11 +25,8 @@ const RegisterForm = ({
   onClose: () => void
 }) => {
   const {
-    control,
     handleSubmit,
     register,
-    clearErrors,
-    getValues,
     formState: { errors, isValid },
   } = useForm<Form>({
     defaultValues: { email: '', password: '', username: '' },

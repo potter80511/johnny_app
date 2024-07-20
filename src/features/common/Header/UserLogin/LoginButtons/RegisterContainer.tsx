@@ -1,7 +1,7 @@
 import { Button } from "@mui/material"
 import { useContext, useState } from "react"
 import AlertDialogSlide from "src/components/mui/AlertDialogSlide"
-import RegisterForm from "src/features/common/Header/RegisterForm"
+import RegisterForm from "src/features/common/Header/UserLogin/RegisterForm"
 import { UserContext } from "src/features/common/users/hooks"
 import { RegisterUserPayload } from "src/features/common/users/types/net"
 
