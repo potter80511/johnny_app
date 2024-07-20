@@ -1,53 +1,38 @@
 import { Button } from "@mui/material"
-import { useContext, useEffect } from "react"
-import { fetchToLogin, fetchToLoginByToken } from "src/features/common/users/fetchers"
+import { useContext } from "react"
+import { fetchToLogin } from "src/features/common/users/fetchers"
 import { useCookies } from "react-cookie"
 import { UserContext } from "src/features/common/users/hooks"
 import AlertDialogSlide from "src/components/mui/AlertDialogSlide"
 import LoginForm from "src/features/common/Header/UserLogin/LoginForm"
 
 const LoginContainer = () => {
-  const [cookies, setCookie] = useCookies(['user_token']);
-  const { loginModalType, setUserInfo, setLoginModalType } = useContext(UserContext);
+  const [_cookies, setCookie] = useCookies(['user_token']);
+  const {
+    loginModalType,
+    setUserInfo,
+    setLoginModalType,
+    setIsUserInfoLoading
+  } = useContext(UserContext);
 
   const handleLogin = (account: string, password: string) => {
+    setIsUserInfoLoading(true)
+
     fetchToLogin({
       inputData: { account, password },
       callBack: {
         onSuccess: ({message, data: {token, user}}) => {
-          console.log(message, 'onSuccess')
-          console.log(user, 'user')
           setCookie('user_token', token)
           setUserInfo({...user})
           setLoginModalType('')
+          setIsUserInfoLoading(false)
         },
         onError: ({message}) => {
-          console.log(message, 'onError')
+          setIsUserInfoLoading(false)
         },
       }
     })
   }
-
-  const handleAuthLogin = (token: string) => {
-    fetchToLoginByToken({
-      inputData: { token },
-      callBack: {
-        onSuccess: ({message, data: user}) => {
-          console.log(user, 'user')
-          setUserInfo({...user})
-        },
-        onError: ({message}) => {
-          console.log(message, 'onError')
-        },
-      }
-    })
-  }
-  
-
-  useEffect(() => {
-    const userToken = cookies['user_token']
-    handleAuthLogin(userToken)
-  }, [])
 
   return <>
     <Button
