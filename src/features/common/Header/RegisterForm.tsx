@@ -3,6 +3,9 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import styled from "styled-components"
 import { RegisterUserPayload } from "src/features/common/users/types/net"
 import { fetchToRegister } from "src/features/common/users/fetchers"
+import { UserContext } from "src/features/common/users/hooks"
+import Flex from "src/components/Flex"
+import { useContext } from "react"
 
 type Form = RegisterUserPayload
 
@@ -10,10 +13,6 @@ const InputWrapper = styled.div`
   margin-bottom: 32px;
   max-width: 500px;
   width: 500px;
-`
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
 `
 
 const RegisterForm = ({
@@ -53,6 +52,8 @@ const RegisterForm = ({
       }
     })
   }
+
+  const { setLoginModalType } = useContext(UserContext);
 
   return <form onSubmit={handleSubmit(onSubmit)}>
     <InputWrapper>
@@ -100,9 +101,14 @@ const RegisterForm = ({
         } })}
       />
     </InputWrapper>
-    <ButtonWrapper>
+    <Flex alignItems="center" justifyContent="flex-end" gap={12}>
+      <Button
+        variant="text"
+        type="button"
+        onClick={() => setLoginModalType('login')}
+      >已有帳號請登入</Button>
       <Button variant="contained" type="submit">註冊</Button>
-    </ButtonWrapper>
+    </Flex>
   </form>
 }
 

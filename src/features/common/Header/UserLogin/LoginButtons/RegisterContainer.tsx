@@ -1,24 +1,25 @@
 import { Button } from "@mui/material"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import AlertDialogSlide from "src/components/mui/AlertDialogSlide"
 import RegisterForm from "src/features/common/Header/RegisterForm"
+import { UserContext } from "src/features/common/users/hooks"
 import { RegisterUserPayload } from "src/features/common/users/types/net"
 
 const RegisterContainer = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-
   const [registerRequestError, setRegisterRequestError] = useState<RegisterUserPayload>({
     email: '',
     username: '',
     password: ''
   })
 
+  const { loginModalType, setLoginModalType } = useContext(UserContext);
+
   const onOpenRegisterDialog = () => {
-    setIsDialogOpen(true)
+    setLoginModalType('register')
   }
 
   const handleCloseDialogData = () => {
-    setIsDialogOpen(false)
+    setLoginModalType('')
   }
 
   return <>
@@ -30,13 +31,16 @@ const RegisterContainer = () => {
     >註冊</Button>
     <AlertDialogSlide
       title="註冊"
-      isDialogOpen={isDialogOpen}
+      isDialogOpen={loginModalType === 'register'}
       shouldHideButtons
       onClose={handleCloseDialogData}
     >
       <RegisterForm
         registerRequestError={registerRequestError}
-        setRegisterRequestError={(newError) => setRegisterRequestError({...registerRequestError, ...newError})}
+        setRegisterRequestError={(newError) => setRegisterRequestError({
+          ...registerRequestError, 
+          ...newError
+        })}
         onClose={handleCloseDialogData}
       />
     </AlertDialogSlide>
