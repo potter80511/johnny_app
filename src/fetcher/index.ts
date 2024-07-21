@@ -1,4 +1,4 @@
-const fetcher = async <RawData = any>(url: string, init?: RequestInit) => {
+const baseFetcher = async <RawData = any>(url: string, init?: RequestInit) => {
   try {
     const apiPath = process.env.NEXT_PUBLIC_SITE_URL + '/api' + url;
     const response = await fetch(apiPath, init)
@@ -10,4 +10,4 @@ const fetcher = async <RawData = any>(url: string, init?: RequestInit) => {
   }
 }
 
-export default fetcher
+export default baseFetcher

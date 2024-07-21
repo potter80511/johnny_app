@@ -4,11 +4,9 @@ import styled from "styled-components"
 import { lineCamp } from "src/styles/Styled"
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { fetchPringPringCatsPlayLists } from "src/features/pringpringcats/fetchers"
-import { YoutubeList } from "src/features/pringpringcats/types"
 import useSWR from 'swr'
-import fetcher from "src/fetcher";
-import { createYoutubePlaylistsFromNet } from "../factories";
+import baseFetcher from "src/fetcher";
+import { createYoutubePlaylistsFromNet } from "src/features/pringpringcats/factories";
 
 const Wrapper = styled(Flex)`
   margin: 0 -16px;
@@ -71,7 +69,7 @@ const SubInfo = styled(Flex)`
 `
 
 const PlaylistsSection = () => {
-  const { data: rawData } = useSWR('/pringpringcats/playlists', fetcher, { revalidateIfStale: false })
+  const { data: rawData } = useSWR('/pringpringcats/playlists', baseFetcher, { revalidateIfStale: false })
 
   const lists = useMemo(() => {
     if(!rawData) { return []}
