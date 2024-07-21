@@ -85,3 +85,19 @@ button {
   background: #dc8000;
   border: 1px solid #c4c3b5;
 }
+
+:root {
+  --toastify-color-light: #2cc531;
+  /* --toastify-color-dark: #121212;
+  --toastify-color-info: #3498db; */
+  --toastify-color-success: #fff;
+  /* --toastify-color-warning: #f1c40f;
+  --toastify-color-error: #e74c3c;
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7); */
+
+  --toastify-icon-color-success: var(--toastify-color-success);
+
+  --toastify-text-color-light: #fff;
+  /* --toastify-text-color-dark: #fff; */
+
+}

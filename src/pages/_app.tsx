@@ -1,4 +1,3 @@
-import 'src/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { Provider } from 'react-redux';
@@ -12,6 +11,7 @@ import { UserContext } from 'src/features/common/users/hooks';
 import useUserInfo from 'src/features/common/users/hooks'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import 'src/styles/globals.css'
 
 const GlobalStyle = createGlobalStyle`
   body {
