@@ -24,19 +24,23 @@ export default async function handler(
     const token = req.headers.authorization?.split(' ')[1];
 
     if (!token) {
-      res.status(401).json({
+      const statusCode = 401
+      res.status(statusCode).json({
         message: 'No token provided',
         success: false,
-        data: null
+        data: null,
+        status_code: statusCode
       });
       return;
     }
 
     try {
       const decoded = await verifyToken(token) as User;
-      res.status(200).json({
+      const statusCode = 200
+      res.status(statusCode).json({
         message: 'Login token verified Success!',
         success: true,
+        status_code: statusCode,
         data: {
           id: decoded.id,
           username: decoded.username,
@@ -45,18 +49,22 @@ export default async function handler(
         }
       });
     } catch (error) {
+      const statusCode = 401
       console.error('Error verifying token:', error);
-      res.status(401).json({
+      res.status(statusCode).json({
         message: 'Invalid token',
         success: false,
-        data: null
+        data: null,
+        status_code: statusCode
       });
     }
   } else {
-    res.status(401).json({
+    const statusCode = 401
+    res.status(statusCode).json({
       message: 'Method not allowed',
       success: false,
-      data: null
+      data: null,
+      status_code: statusCode
     });
   }
 }

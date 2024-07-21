@@ -14,10 +14,12 @@ export default async function handler(
     const { account, password } = JSON.parse(req.body) as LoginUserPayload;
 
     if (!account || !password) {
-      res.status(400).json({
+      const statusCode = 400
+      res.status(statusCode).json({
         message: 'Email and password are required',
         success: false,
-        data: null
+        data: null,
+        status_code: statusCode
       });
       return;
     }
@@ -28,10 +30,12 @@ export default async function handler(
       connection.release();
 
       if (!Array.isArray(rows) || rows.length === 0) {
-        res.status(401).json({
+        const statusCode = 401
+        res.status(statusCode).json({
           message: '找不到此帳號',
           success: false,
-          data: null
+          data: null,
+          status_code: statusCode
         });
         return;
       }
@@ -40,10 +44,12 @@ export default async function handler(
       const isPasswordValid = await bcrypt.compare(password, user.password);
 
       if (!isPasswordValid) {
-        res.status(401).json({
+        const statusCode = 401
+        res.status(statusCode).json({
           message: '密碼不正確',
           success: false,
-          data: null
+          data: null,
+          status_code: statusCode
         });
         return;
       }
@@ -55,24 +61,30 @@ export default async function handler(
         account: user.account,
       }, SECRET_KEY, { expiresIn: '1h' });
 
-      res.status(200).json({
+      const statusCode = 200
+      res.status(statusCode).json({
         message: 'Login successful',
         success: true,
         data: { token, user:  user},
+        status_code: statusCode
       });
     } catch (error) {
       console.error('Error logging in user:', error);
-      res.status(500).json({
+      const statusCode = 500
+      res.status(statusCode).json({
         success: false,
         message: 'Error logging in user',
-        data: null
+        data: null,
+        status_code: statusCode
       });
     }
   } else {
-    res.status(405).json({
+    const statusCode = 405
+    res.status(statusCode).json({
       success: false,
       message: 'Method not allowed',
-      data: null
+      data: null,
+      status_code: statusCode
     });
   }
 }

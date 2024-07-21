@@ -25,10 +25,22 @@ const handleInterviewById = async (
       const [rows] = await connection.query('SELECT * FROM interviews WHERE id = ?', [id]);
 
       const data = Array.isArray(rows) && rows.length > 0 ? rows[0] as RawInterview : null
-      res.status(200).json({ success: true, message: `Interview updated successfully`, data });
+      const statusCode = 200
+      res.status(statusCode).json({
+        success: true,
+        message: `Interview updated successfully`,
+        data,
+        status_code: statusCode
+      });
 
     } catch (error) {
-      res.status(500).json({ success: false, message: 'Update interview by id error:' + error, data: null });
+      const statusCode = 500
+      res.status(statusCode).json({
+        success: false,
+        message: 'Update interview by id error:' + error,
+        data: null,
+        status_code: statusCode
+      });
     } finally {
       connection.release();
     }
@@ -50,10 +62,22 @@ const handleInterviewById = async (
       const [rows] = await connection.query('SELECT * FROM interviews WHERE id = ?', [id]);
 
       const data = Array.isArray(rows) && rows.length > 0 ? rows[0] as RawInterview : null
-      res.status(200).json({ success: true, message: `Interview ${data?.company_name} updated successfully`, data });
+      const statusCode = 200
+      res.status(statusCode).json({
+        success: true,
+        message: `Interview ${data?.company_name} updated successfully`,
+        data,
+        status_code: statusCode
+      });
 
     } catch (error) {
-      res.status(500).json({ success: false, message: 'Update interview by id error:' + error, data: null });
+      const statusCode = 500
+      res.status(statusCode).json({
+        success: false,
+        message: 'Update interview by id error:' + error,
+        data: null,
+        status_code: statusCode
+      });
     } finally {
       connection.release();
     }
@@ -68,16 +92,34 @@ const handleInterviewById = async (
       const [rows] = await connection.query('SELECT * FROM interviews WHERE id = ?', [id]);
 
       const data = Array.isArray(rows) && rows.length > 0 ? rows[0] as RawInterview : null
-      res.status(200).json({ success: true, message: `Interview ${data?.company_name} updated successfully`, data });
+      const statusCode = 200
+      res.status(statusCode).json({
+        success: true,
+        message: `Interview ${data?.company_name} updated successfully`,
+        data,
+        status_code: statusCode
+      });
 
     } catch (error) {
-      res.status(500).json({ success: false, message: 'Update interview by id error:' + error, data: null });
+      const statusCode = 500
+      res.status(statusCode).json({
+        success: false,
+        message: 'Update interview by id error:' + error,
+        data: null,
+        status_code: statusCode
+      });
     } finally {
       connection.release();
     }
   }
 
-  res.status(400).json({ success: false, message: `Method ${req.method} is not correct`, data: null });
+  const statusCode = 400
+  res.status(statusCode).json({
+    success: false,
+    message: `Method ${req.method} is not correct`,
+    data: null,
+    status_code: statusCode
+  });
   return;
 }
 

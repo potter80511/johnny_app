@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PringPringCatsVideosPayload } from 'src/features/pringpringcats/fetchers'
+import { PringPringCatsVideosPayload } from 'src/features/pringpringcats/types/net'
 import { RawYoutubePlayListItemsResponse, RawYoutubeVideoResponse } from 'src/features/pringpringcats/types/net'
 import { getAPIQueryStringByOption } from 'src/helpers/fetch'
 

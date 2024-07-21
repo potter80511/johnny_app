@@ -25,10 +25,22 @@ const interviews = async (
       const [rows] = await connection.query('SELECT * FROM interviews WHERE id = ?', [result.insertId]);
 
       const data = Array.isArray(rows) && rows.length > 0 ? rows[0] as RawInterview : null
-      res.status(200).json({ success: true, message: `Interview updated successfully`, data });
+      const statusCode = 201
+      res.status(statusCode).json({
+        success: true,
+        message: `Interview created successfully`,
+        data,
+        status_code: statusCode
+      });
 
     } catch (error) {
-      res.status(500).json({ success: false, message: 'Update interview by id error:' + error, data: null });
+      const statusCode = 500
+      res.status(statusCode).json({
+        success: false,
+        message: 'Update interview by id error:' + error,
+        data: null,
+        status_code: statusCode
+      });
     } finally {
       connection.release();
     }

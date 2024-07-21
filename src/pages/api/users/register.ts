@@ -14,10 +14,12 @@ export default async function handler(
     const { username, email, password } = requestBody;
 
     if (!username || !email || !password) {
-      res.status(400).json({
+      const statusCode = 400
+      res.status(statusCode).json({
         message: 'All fields are required',
         success: false,
-        data: null
+        data: null,
+        status_code: statusCode
       });
       return;
     }
@@ -43,23 +45,29 @@ export default async function handler(
 
       const data = Array.isArray(rows) && rows.length > 0 ? rows[0] as RawUser : null
 
-      res.status(201).json({
+      const statusCode = 201
+      res.status(statusCode).json({
         success: true,
         message: 'User registered successfully',
         data,
+        status_code: statusCode
        });
     } catch (error) {
-      res.status(500).json({
+      const statusCode = 500
+      res.status(statusCode).json({
         success: false,
         message: 'Error registering user:' + error,
-        data: null
+        data: null,
+        status_code: statusCode
       });
     }
   } else {
-    res.status(405).json({
+    const statusCode = 405
+    res.status(statusCode).json({
       success: false,
       message: 'Method not allowed',
-      data: null
+      data: null,
+      status_code: statusCode
     });
   }
 }
