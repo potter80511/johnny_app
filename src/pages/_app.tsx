@@ -10,6 +10,8 @@ import PageLoading from 'src/components/PageLoading';
 import Header from 'src/features/common/Header';
 import { UserContext } from 'src/features/common/users/hooks';
 import useUserInfo from 'src/features/common/users/hooks'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -97,6 +99,7 @@ export default function App({ Component, pageProps }: AppProps) {
               {isPageLoading && <PageLoading />}
               <Header/>
               <Component {...pageProps} />
+              <ToastContainer/>
             </MUIThemeProvider>
           </ThemeProvider>
         </UserContext.Provider>
