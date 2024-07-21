@@ -2,6 +2,7 @@ import { LoginUserPayload, RawUser, RegisterUserPayload } from "src/features/com
 import baseFetcher from "src/fetcher"
 import { User } from "src/features/common/users/types"
 import { createUserFromNet } from "src/features/common/users/factories"
+import { getErrorTypeByStatusCode } from "src/helpers/fetch"
 
 export const fetchToRegister: Fetcher<{ message: string }, RegisterUserPayload> = async (params) => {
   const { inputData: payload, callBack } = params
@@ -13,11 +14,17 @@ export const fetchToRegister: Fetcher<{ message: string }, RegisterUserPayload> 
       callBack.onSuccess({message: response.message})
     } else {
       console.log('else')
-      callBack.onError({message: response.message})
+      callBack.onError({
+        message: response.message,
+        type: getErrorTypeByStatusCode(response.status_code)
+      })
     }
   } catch(error) {
     console.log(error, 'error')
-    callBack.onError({message: error as string})
+    callBack.onError({
+      message: error as string,
+      type: 'error'
+    })
   }
 }
 
@@ -40,11 +47,14 @@ export const fetchToLogin: Fetcher<{
       })
     } else {
       console.log('else')
-      callBack.onError({message: response.message})
+      callBack.onError({
+        message: response.message,
+        type: getErrorTypeByStatusCode(response.status_code)
+      })
     }
   } catch(error) {
     console.log(error, 'error')
-    callBack.onError({message: error as string})
+    callBack.onError({message: error as string, type: 'error'})
   }
 }
 
@@ -63,10 +73,16 @@ export const fetchToLoginByToken: Fetcher<{
         data: response.data
       })
     } else {
-      callBack.onError({message: response.message})
+      callBack.onError({
+        message: response.message,
+        type: getErrorTypeByStatusCode(response.status_code)
+      })
     }
   } catch(error) {
     console.log(error, 'error')
-    callBack.onError({message: error as string})
+    callBack.onError({
+      message: error as string,
+      type: 'error'
+    })
   }
 }

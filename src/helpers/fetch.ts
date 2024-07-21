@@ -18,3 +18,12 @@ export const getAPIQueryStringByOption = <ApiOption extends {[key: string]: any}
   })
   return queryString
 }
+
+export const getErrorTypeByStatusCode = (code: APIStatusCode): ErrorType => {
+  switch (code) {
+    case 500:
+      return 'error'
+    default:
+      return 'warning'
+  }
+}

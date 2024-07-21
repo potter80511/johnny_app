@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie"
 import { UserContext } from "src/features/common/users/hooks"
 import AlertDialogSlide from "src/components/mui/AlertDialogSlide"
 import LoginForm from "src/features/common/Header/UserLogin/LoginForm"
+import toast from "src/helpers/toastify"
 
 const LoginContainer = () => {
   const [_cookies, setCookie] = useCookies(['user_token']);
@@ -26,9 +27,12 @@ const LoginContainer = () => {
           setUserInfo({...user})
           setLoginModalType('')
           setIsUserInfoLoading(false)
+
+          toast(message)
         },
-        onError: ({message}) => {
+        onError: ({message, type}) => {
           setIsUserInfoLoading(false)
+          toast(message, type)
         },
       }
     })
