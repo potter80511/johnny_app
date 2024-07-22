@@ -13,7 +13,7 @@ export default async function handler(
   if (req.method === 'POST') {
     const { username, email, password } = requestBody;
 
-    if (!username || !email || !password) {
+    if (!email || !password) {
       const statusCode = 400
       res.status(statusCode).json({
         message: 'All fields are required',
@@ -25,8 +25,28 @@ export default async function handler(
     }
 
     try {
-      const hashedPassword = await bcrypt.hash(password, 10);
       const connection = await pool.getConnection();
+      const [checkedRows] = await connection.execute('SELECT * FROM users WHERE email = ?', [email]);
+      connection.release();
+
+      if (Array.isArray(checkedRows) && checkedRows.length > 0) {
+        const statusCode = 401
+        res.status(statusCode).json({
+          message: '帳號已經存在',
+          success: false,
+          data: null,
+          status_code: statusCode,
+          error: {
+            field: {
+              email: '帳號已經存在'
+            }
+          }
+        });
+        return;
+      }
+
+
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       const insertQueryPayload = {
         ...requestBody,
