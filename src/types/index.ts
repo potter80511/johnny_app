@@ -2,7 +2,7 @@ export interface Style {
   height?: string;
 }
 
-export type optionType = {
-  label: string;
-  value: string;
+export type OptionType<L = string, V = string> = {
+  label: L;
+  value: V;
 };

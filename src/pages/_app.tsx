@@ -1,4 +1,3 @@
-import 'src/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { Provider } from 'react-redux';
@@ -7,6 +6,12 @@ import { ThemeProvider as MUIThemeProvider, createTheme as createMUITheme } from
 import { useEffect, useState } from 'react';
 import Router from 'next/router';
 import PageLoading from 'src/components/PageLoading';
+import Header from 'src/features/common/Header';
+import { UserContext } from 'src/features/common/users/hooks';
+import useUserInfo from 'src/features/common/users/hooks'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'src/styles/globals.css'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -19,10 +24,26 @@ const GlobalStyle = createGlobalStyle`
       width: 100%;
     }
   }
+
+  h2 {
+    color: #888;
+    font-size: 60px;
+  }
 `;
 const muiDarkTheme = createMUITheme({
   palette: {
     mode: 'dark',
+    primary: {
+      main: '#04b8d9',
+      contrastText: '#fff'
+    },
+    secondary: {
+      main: '#e2b238',
+      contrastText: '#fff'
+    },
+    text: {
+      primary: '#fff'
+    }
   },
 });
 
@@ -47,6 +68,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const [isPageLoading, setIsPageLoading] = useState(false);
 
+  const userInfoContextValue = useUserInfo()
+
   useEffect(() => {
     const routeEventStart = () => {
         setIsPageLoading(true);
@@ -70,12 +93,16 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <MUIThemeProvider theme={muiDarkTheme}>
-            {isPageLoading && <PageLoading />}
-            <Component {...pageProps} />
-          </MUIThemeProvider>
-        </ThemeProvider>
+        <UserContext.Provider value={userInfoContextValue}>
+          <ThemeProvider theme={theme}>
+            <MUIThemeProvider theme={muiDarkTheme}>
+              {isPageLoading && <PageLoading />}
+              <Header/>
+              <Component {...pageProps} />
+              <ToastContainer/>
+            </MUIThemeProvider>
+          </ThemeProvider>
+        </UserContext.Provider>
       </Provider>
     </>
   );

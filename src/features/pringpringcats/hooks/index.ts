@@ -1,6 +1,6 @@
 import useSWRInfinite from 'swr/infinite'
-import fetcher from "src/fetcher";
-import { PringPringCatsVideosPayload } from 'src/features/pringpringcats/fetchers';
+import baseFetcher from "src/fetcher";
+import { PringPringCatsVideosPayload } from 'src/features/pringpringcats/types/net';
 import { RawYoutubeVideoResponse } from 'src/features/pringpringcats/types/net';
 import { useEffect, useMemo, useRef } from 'react';
 import { getAPIQueryStringByOption } from 'src/helpers/fetch';
@@ -38,7 +38,7 @@ export const useFetchVideosInfinite = () => {
       const currentPagePayload: PringPringCatsVideosPayload = !!nextPageToken ? {pageToken: nextPageToken} : {}
       return getSWRInfiniteKey(previousPageData, currentPagePayload)
     },
-    fetcher,
+    baseFetcher,
     {
       revalidateOnFocus: false,
       revalidateFirstPage: false,
@@ -76,7 +76,7 @@ export const useFetchVideosInfinite = () => {
 export const useFetchTopFifty = () => {
   const { data, isValidating } = useSWR<{data: RawYoutubeVideoResponse}>(
     '/pringpringcats/videos/topFifty',
-    fetcher,
+    baseFetcher,
     {
       revalidateOnFocus: false,
       dedupingInterval: 3000000,

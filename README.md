@@ -5,6 +5,16 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Production:
 https://johnny-app.vercel.app/
 
+## .env file setting
+
+Create `.env.local` at your local
+
+Setting variables below
+
+1. Set `SECRET_KEY` for login verify
+2. Set `NEXT_PUBLIC_SITE_URL` for site domain. Default is `http://localhost:3000`
+3. Set `YOUTUBE_API_ACCESS_KEY` for Pring Pring Cats Youtube Channel
+
 ## Getting Started
 ## Getting Started
 

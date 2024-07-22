@@ -125,3 +125,5 @@ export type RawYoutubeSearchResponse = {
   pageInfo: PageInfo
   nextPageToken?: string
 }
+
+export type PringPringCatsVideosPayload = { pageToken?: string }

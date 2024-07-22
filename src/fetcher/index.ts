@@ -1,8 +1,8 @@
-const fetcher = async (url: string, init?: RequestInit) => {
+const baseFetcher = async <RawData = any, ErrorField = {}>(url: string, init?: RequestInit) => {
   try {
     const apiPath = process.env.NEXT_PUBLIC_SITE_URL + '/api' + url;
     const response = await fetch(apiPath, init)
-    const rawData = await response.json()
+    const rawData = await response.json() as APIResponse<RawData, ErrorField>
 
     return rawData
   } catch(error) {
@@ -10,4 +10,4 @@ const fetcher = async (url: string, init?: RequestInit) => {
   }
 }
 
-export default fetcher
+export default baseFetcher

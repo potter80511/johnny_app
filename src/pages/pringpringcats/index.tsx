@@ -3,7 +3,7 @@ import MainLayout from 'src/components/MainLayout';
 import PringPringCatsIndex from 'src/features/pringpringcats';
 import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next';
-import fetcher from 'src/fetcher';
+import baseFetcher from 'src/fetcher';
 import { ChannelContentDetails, YoutubeData, ChannelSnippet, ChannelStatistics, RawYoutubeChannelResponse, RawYoutubeVideoResponse } from 'src/features/pringpringcats/types/net';
 import { SWRConfig } from 'swr'
 import { unstable_serialize } from "swr/infinite";
@@ -90,8 +90,8 @@ export const getServerSideProps = async ({
 
   try {
     const promises: Array<Promise<any>> = [
-      fetcher('/pringpringcats/channel'),
-      fetcher('/pringpringcats/videos/topFifty'),
+      baseFetcher('/pringpringcats/channel'),
+      baseFetcher('/pringpringcats/videos/topFifty'),
     ]
     const allPromiseResult = await Promise.allSettled(promises).then((results) => {
       return results.map((result, index) =>

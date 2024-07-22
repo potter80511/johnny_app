@@ -33,14 +33,16 @@ const topFiftyHandler = async (
     res.json({
       data: rawVideosData,
       message: 'fetch topFifty success',
-      success: true
+      success: true,
+      status_code: 200
     })
   } catch (error) {
     console.log(error, 'error')
     res.json({
       data: null,
       message: String(error),
-      success: false
+      success: false,
+      status_code: 500
     })
   }
 }

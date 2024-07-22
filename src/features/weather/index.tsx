@@ -48,7 +48,7 @@ import { CommonWrap } from 'src/styles/Styled'
 import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from 'src/store';
 
-const Wrapper = styled(CommonWrap)`
+const Wrapper = styled.div`
   overflow: hidden;
 `
 
