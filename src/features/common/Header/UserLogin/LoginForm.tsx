@@ -37,6 +37,7 @@ const LoginForm = () => {
 
   const onSubmitLoginData = (formData: Form) => {
     const { email: account, password } = formData
+
     fetchToLogin({
       inputData: { account, password },
       callBack: {
@@ -49,7 +50,6 @@ const LoginForm = () => {
           toast(message)
         },
         onError: ({message, type, field}) => {
-          console.log(field, 'field')
           setIsUserInfoLoading(false)
           setLoginResponseError({...loginResponseError, ...field})
           toast(message, type)
