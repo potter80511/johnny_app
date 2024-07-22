@@ -3,6 +3,7 @@ import baseFetcher from "src/fetcher"
 import { User } from "src/features/common/users/types"
 import { createUserFromNet } from "src/features/common/users/factories"
 import { getErrorTypeByStatusCode } from "src/helpers/fetch"
+import { Form as LoginFormType } from "src/features/common/Header/UserLogin/LoginForm"
 
 export const fetchToRegister: Fetcher<{ message: string }, RegisterUserPayload> = async (params) => {
   const { inputData: payload, callBack } = params
@@ -13,7 +14,6 @@ export const fetchToRegister: Fetcher<{ message: string }, RegisterUserPayload> 
     if(response.success) {
       callBack.onSuccess({message: response.message})
     } else {
-      console.log('else')
       callBack.onError({
         message: response.message,
         type: getErrorTypeByStatusCode(response.status_code)
@@ -28,14 +28,21 @@ export const fetchToRegister: Fetcher<{ message: string }, RegisterUserPayload> 
   }
 }
 
-export const fetchToLogin: Fetcher<{
-  message: string,
-  data: { user: User, token: string}
-}, LoginUserPayload> = async (params) => {
+export const fetchToLogin: Fetcher<
+  {
+    message: string,
+    data: { user: User, token: string}
+  },
+  LoginUserPayload,
+  Partial<LoginFormType>
+> = async (params) => {
   const { inputData: payload, callBack } = params
   
   try {
-    const response = await baseFetcher<{ user: RawUser, token: string}>(`/users/login`, { method: 'POST', body: JSON.stringify(payload) })
+    const response = await baseFetcher<
+      { user: RawUser, token: string},
+      Partial<LoginFormType>
+    >(`/users/login`, { method: 'POST', body: JSON.stringify(payload) })
 
     if(response.success) {
       callBack.onSuccess({
@@ -49,7 +56,8 @@ export const fetchToLogin: Fetcher<{
       console.log('else')
       callBack.onError({
         message: response.message,
-        type: getErrorTypeByStatusCode(response.status_code)
+        type: getErrorTypeByStatusCode(response.status_code),
+        field: { ...response.error?.field }
       })
     }
   } catch(error) {

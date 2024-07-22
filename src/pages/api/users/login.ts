@@ -3,12 +3,16 @@ import jwt from 'jsonwebtoken';
 import pool from '../../../../db';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { LoginUserPayload, RawUser } from 'src/features/common/users/types/net';
+import { Form as LoginFormType } from "src/features/common/Header/UserLogin/LoginForm"
 
 const SECRET_KEY = 'your_secret_key'; // 請使用環境變數來存儲你的密鑰
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<APIResponse<{ token: string, user: RawUser } | null>>
+  res: NextApiResponse<APIResponse<
+    { token: string, user: RawUser } | null,
+    Partial<LoginFormType>>
+  >
 ) {
   if (req.method === 'POST') {
     const { account, password } = JSON.parse(req.body) as LoginUserPayload;
@@ -19,7 +23,7 @@ export default async function handler(
         message: 'Email and password are required',
         success: false,
         data: null,
-        status_code: statusCode
+        status_code: statusCode,
       });
       return;
     }
@@ -35,7 +39,12 @@ export default async function handler(
           message: '找不到此帳號',
           success: false,
           data: null,
-          status_code: statusCode
+          status_code: statusCode,
+          error: {
+            field: {
+              email: '找不到此帳號'
+            }
+          }
         });
         return;
       }
@@ -49,7 +58,12 @@ export default async function handler(
           message: '密碼不正確',
           success: false,
           data: null,
-          status_code: statusCode
+          status_code: statusCode,
+          error: {
+            field: {
+              password: '密碼不正確'
+            }
+          }
         });
         return;
       }

@@ -3,9 +3,12 @@ import { useForm, SubmitHandler } from "react-hook-form"
 import styled from "styled-components"
 import { UserContext } from "src/features/common/users/hooks"
 import Flex from "src/components/Flex"
-import { useContext } from "react"
+import { useContext, useState } from "react"
+import { fetchToLogin } from "src/features/common/users/fetchers"
+import { useCookies } from "react-cookie"
+import toast from "src/helpers/toastify"
 
-type Form = {
+export type Form = {
   email: string
   password: string
 }
@@ -16,11 +19,7 @@ const InputWrapper = styled.div`
   width: 500px;
 `
 
-const LoginForm = ({
-  onSubmitLoginData
-}: {
-  onSubmitLoginData: SubmitHandler<Form>;
-}) => {
+const LoginForm = () => {
   const {
     handleSubmit,
     register,
@@ -28,8 +27,36 @@ const LoginForm = ({
   } = useForm<Form>({
     defaultValues: { email: '', password: '' },
   })
+  const { setLoginModalType, setUserInfo, setIsUserInfoLoading } = useContext(UserContext);
+  const [_cookies, setCookie] = useCookies(['user_token']);
 
-  const { setLoginModalType } = useContext(UserContext);
+  const [loginResponseError, setLoginResponseError] = useState<Form>({
+    email: '',
+    password: ''
+  })
+
+  const onSubmitLoginData = (formData: Form) => {
+    const { email: account, password } = formData
+    fetchToLogin({
+      inputData: { account, password },
+      callBack: {
+        onSuccess: ({message, data: {token, user}}) => {
+          setCookie('user_token', token)
+          setUserInfo({...user})
+          setLoginModalType('')
+          setIsUserInfoLoading(false)
+
+          toast(message)
+        },
+        onError: ({message, type, field}) => {
+          console.log(field, 'field')
+          setIsUserInfoLoading(false)
+          setLoginResponseError({...loginResponseError, ...field})
+          toast(message, type)
+        },
+      }
+    })
+  }
 
   return <form onSubmit={handleSubmit(onSubmitLoginData)}>
     <InputWrapper>
@@ -37,8 +64,8 @@ const LoginForm = ({
         variant="filled"
         label="*Email"
         fullWidth
-        error={!!errors?.email}
-        helperText={errors?.email?.message}
+        error={!!errors?.email || !!loginResponseError.email}
+        helperText={errors?.email?.message || loginResponseError.email}
         {...register('email', {
           required: { value: true, message: '必填' },
           pattern: {
@@ -53,8 +80,8 @@ const LoginForm = ({
         variant="filled"
         label="*Password"
         fullWidth
-        error={!!errors?.password}
-        helperText={errors?.password?.message || ''}
+        error={!!errors?.password || !!loginResponseError.password}
+        helperText={errors?.password?.message || loginResponseError.password || ''}
         {...register('password', { required: { value: true, message: '必填' }, maxLength: {
           value: 20,
           message: '密碼最多不可超過20個字'
