@@ -6,6 +6,7 @@ import { fetchToRegister } from "src/features/common/users/fetchers"
 import { UserContext } from "src/features/common/users/hooks"
 import Flex from "src/components/Flex"
 import { useContext } from "react"
+import useLogin from "src/features/common/users/hooks/useLogin"
 
 type Form = RegisterUserPayload
 
@@ -27,21 +28,22 @@ const RegisterForm = ({
   const {
     handleSubmit,
     register,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<Form>({
     defaultValues: { email: '', password: '', username: '' },
   })
+
+  const { handleLogin } = useLogin()
 
   const onSubmit: SubmitHandler<Form> = (formData: Form) => {
     fetchToRegister({
       inputData: formData,
       callBack: {
-        onSuccess: (res) => {
+        onSuccess: () => {
           onClose()
-          console.log(res.message, 'resresresresres')
+          handleLogin(formData.email, formData.password)
         },
         onError: (err) => {
-          console.log(err.message, 'errerrerrerr')
           setRegisterRequestError({
             email: err.message
           })

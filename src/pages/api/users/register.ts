@@ -11,7 +11,7 @@ export default async function handler(
 ) {
   const requestBody = JSON.parse(req.body) as RegisterUserPayload;
   if (req.method === 'POST') {
-    const { username, email, password } = requestBody;
+    const { email, password } = requestBody;
 
     if (!email || !password) {
       const statusCode = 400
