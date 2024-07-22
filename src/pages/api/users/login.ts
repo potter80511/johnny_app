@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import pool from '../../../../db';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { LoginUserPayload, RawUser } from 'src/features/common/users/types/net';
-import { Form as LoginFormType } from "src/features/common/Header/UserLogin/LoginForm"
+import { LoginData } from "src/features/common/users/hooks/useLogin"
 
 const SECRET_KEY = 'your_secret_key'; // 請使用環境變數來存儲你的密鑰
 
@@ -11,7 +11,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse<
     { token: string, user: RawUser } | null,
-    Partial<LoginFormType>>
+    Partial<LoginData>>
   >
 ) {
   if (req.method === 'POST') {
