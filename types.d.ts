@@ -30,9 +30,3 @@ type FetcherWithCallBack<OutputData, InputData = any, ErrorField = {}> = (
     callBack: Callback<OutputData, ErrorField>
   }
 ) => Promise<void>
-
-type APIResponse<Data = any> = {
-  message?: string
-  success: boolean
-  data: Data
-}
