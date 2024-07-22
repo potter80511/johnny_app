@@ -5,7 +5,7 @@ import { createUserFromNet } from "src/features/common/users/factories"
 import { getErrorTypeByStatusCode } from "src/helpers/fetch"
 import { Form as LoginFormType } from "src/features/common/Header/UserLogin/LoginForm"
 
-export const fetchToRegister: Fetcher<{ message: string }, RegisterUserPayload> = async (params) => {
+export const fetchToRegister: FetcherWithCallBack<{ message: string }, RegisterUserPayload> = async (params) => {
   const { inputData: payload, callBack } = params
   
   try {
@@ -28,7 +28,7 @@ export const fetchToRegister: Fetcher<{ message: string }, RegisterUserPayload> 
   }
 }
 
-export const fetchToLogin: Fetcher<
+export const fetchToLogin: FetcherWithCallBack<
   {
     message: string,
     data: { user: User, token: string}
@@ -66,7 +66,7 @@ export const fetchToLogin: Fetcher<
   }
 }
 
-export const fetchToLoginByToken: Fetcher<{
+export const fetchToLoginByToken: FetcherWithCallBack<{
   message: string,
   data: User
 }, { token: string }> = async (params) => {

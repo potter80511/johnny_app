@@ -24,7 +24,7 @@ type Callback<OutputData, ErrorField = {}> = {
   onError: (error: ErrorOutput<ErrorField>) => void
 }
 
-type Fetcher<OutputData, InputData = any, ErrorField = {}> = (
+type FetcherWithCallBack<OutputData, InputData = any, ErrorField = {}> = (
   params: {
     inputData: InputData;
     callBack: Callback<OutputData, ErrorField>
