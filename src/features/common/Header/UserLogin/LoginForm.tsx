@@ -1,17 +1,10 @@
 import { Button, TextField } from "@mui/material"
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import styled from "styled-components"
 import { UserContext } from "src/features/common/users/hooks"
 import Flex from "src/components/Flex"
-import { useContext, useState } from "react"
-import { fetchToLogin } from "src/features/common/users/fetchers"
-import { useCookies } from "react-cookie"
-import toast from "src/helpers/toastify"
-
-export type Form = {
-  email: string
-  password: string
-}
+import { useContext } from "react"
+import useLogin, { LoginData } from "src/features/common/users/hooks/useLogin"
 
 const InputWrapper = styled.div`
   margin-bottom: 32px;
@@ -24,38 +17,16 @@ const LoginForm = () => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<Form>({
+  } = useForm<LoginData>({
     defaultValues: { email: '', password: '' },
   })
-  const { setLoginModalType, setUserInfo, setIsUserInfoLoading } = useContext(UserContext);
-  const [_cookies, setCookie] = useCookies(['user_token']);
+  const { setLoginModalType } = useContext(UserContext);
 
-  const [loginResponseError, setLoginResponseError] = useState<Form>({
-    email: '',
-    password: ''
-  })
+  const { loginResponseError, handleLogin } = useLogin()
 
-  const onSubmitLoginData = (formData: Form) => {
-    const { email: account, password } = formData
-
-    fetchToLogin({
-      inputData: { account, password },
-      callBack: {
-        onSuccess: ({message, data: {token, user}}) => {
-          setCookie('user_token', token)
-          setUserInfo({...user})
-          setLoginModalType('')
-          setIsUserInfoLoading(false)
-
-          toast(message)
-        },
-        onError: ({message, type, field}) => {
-          setIsUserInfoLoading(false)
-          setLoginResponseError({...loginResponseError, ...field})
-          toast(message, type)
-        },
-      }
-    })
+  const onSubmitLoginData = (formData: LoginData) => {
+    const { email, password } = formData
+    handleLogin(email, password)
   }
 
   return <form onSubmit={handleSubmit(onSubmitLoginData)}>

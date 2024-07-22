@@ -3,7 +3,7 @@ import baseFetcher from "src/fetcher"
 import { User } from "src/features/common/users/types"
 import { createUserFromNet } from "src/features/common/users/factories"
 import { getErrorTypeByStatusCode } from "src/helpers/fetch"
-import { Form as LoginFormType } from "src/features/common/Header/UserLogin/LoginForm"
+import { LoginData } from "src/features/common/users/hooks/useLogin"
 
 export const fetchToRegister: FetcherWithCallBack<{ message: string }, RegisterUserPayload> = async (params) => {
   const { inputData: payload, callBack } = params
@@ -34,14 +34,14 @@ export const fetchToLogin: FetcherWithCallBack<
     data: { user: User, token: string}
   },
   LoginUserPayload,
-  Partial<LoginFormType>
+  Partial<LoginData>
 > = async (params) => {
   const { inputData: payload, callBack } = params
   
   try {
     const response = await baseFetcher<
       { user: RawUser, token: string},
-      Partial<LoginFormType>
+      Partial<LoginData>
     >(`/users/login`, { method: 'POST', body: JSON.stringify(payload) })
 
     if(response.success) {

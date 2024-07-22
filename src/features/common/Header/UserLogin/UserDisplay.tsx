@@ -2,6 +2,7 @@ import { Button } from "@mui/material"
 import { useCookies } from "react-cookie";
 import Flex from "src/components/Flex"
 import { User } from "src/features/common/users/types"
+import useLogin from "src/features/common/users/hooks/useLogin";
 
 const UserDisplay = ({
   userInfo,
@@ -11,11 +12,7 @@ const UserDisplay = ({
   setUserInfo: (emty: null) => void
 }) => {
   const [_cookies, _setCookie, removeCookie] = useCookies(['user_token']);
-
-  const handleLogout = () => {
-    removeCookie('user_token')
-    setUserInfo(null)
-  }
+  const { handleLogout } = useLogin()
 
   return <Flex alignItems="center" gap={8}>
     <span>Hi, welcome {userInfo.username || userInfo.account} !</span>
