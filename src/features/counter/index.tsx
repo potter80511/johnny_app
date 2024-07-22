@@ -31,8 +31,9 @@ const Wrapper = styled.div`
   .show_total_seconds {
     position: fixed;
     top: 0;
-    right: 0;
+    left: 0;
     padding: 20px 0;
+    color: black;
   }
   .content {
     .total_seconds {
