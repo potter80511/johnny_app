@@ -2,11 +2,11 @@ import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from 'src/features/common/users/types';
 
-const SECRET_KEY = 'your_secret_key'; // 請使用環境變數來存儲你的密鑰
+const secretKey = process.env.JWTOKEN_SECRET_KEY || ''
 
 function verifyToken(token: string) {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    jwt.verify(token, secretKey, (err, decoded) => {
       if (err) {
         reject(err);
       } else {

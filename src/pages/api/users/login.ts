@@ -5,8 +5,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { LoginUserPayload, RawUser } from 'src/features/common/users/types/net';
 import { LoginData } from "src/features/common/users/hooks/useLogin"
 
-const SECRET_KEY = 'your_secret_key'; // 請使用環境變數來存儲你的密鑰
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse<
@@ -68,12 +66,14 @@ export default async function handler(
         return;
       }
 
+      const secretKey = process.env.JWTOKEN_SECRET_KEY || ''
+
       const token = jwt.sign({
         id: user.id,
         email: user.email,
         username: user.username,
         account: user.account,
-      }, SECRET_KEY, { expiresIn: '1h' });
+      }, secretKey, { expiresIn: '1h' });
 
       const statusCode = 200
       res.status(statusCode).json({
