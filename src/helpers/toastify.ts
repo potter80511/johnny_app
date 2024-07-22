@@ -4,7 +4,10 @@ import { toast as toastify } from "react-toastify"
 const toast = (message: string, type: TypeOptions = 'success') => {
   toastify(message, {
     position: "bottom-right",
-    type
+    type,
+    closeOnClick: true,
+    closeButton: false,
+    theme: 'colored'
   });
 }
 

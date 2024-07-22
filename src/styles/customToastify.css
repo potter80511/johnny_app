@@ -1,0 +1,20 @@
+:root {
+  --toastify-color-success: #4fd553;
+  --toastify-color-error: #ec4040;
+
+  --toastify-content-color: #fff;
+
+  --toastify-icon-color-info: var(--toastify-content-color);
+  --toastify-icon-color-warning: var(--toastify-content-color);
+  --toastify-icon-color-error: var(--toastify-content-color);
+
+  --toastify-text-color-light: var(--toastify-content-color);
+  --toastify-text-color-info: var(--toastify-content-color);
+  --toastify-text-color-warning: var(--toastify-content-color);
+  --toastify-text-color-error: var(--toastify-content-color);
+
+  --toastify-color-progress-success: var(--toastify-content-color);
+  --toastify-color-progress-info: var(--toastify-content-color);
+  --toastify-color-progress-warning: var(--toastify-content-color);
+  --toastify-color-progress-error: var(--toastify-content-color);
+}
