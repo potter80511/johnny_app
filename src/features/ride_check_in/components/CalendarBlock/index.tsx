@@ -28,7 +28,11 @@ const DialogContent = styled.div`
   min-width: 280px;
 `
 
-const CalendarBlock = () => {
+const CalendarBlock = ({
+  setCurrentDateMonth
+}: {
+  setCurrentDateMonth: (newValue: string) => void
+}) => {
   const [selectedRideDetail, setSelectedRideDetail] = useState<Ride | null>(null)
 
   const [cookies] = useCookies(['user_token'])
@@ -70,6 +74,7 @@ const CalendarBlock = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
         loading={isLoading}
+        onMonthChange={(newValue) => setCurrentDateMonth(dayjs(newValue).format('YYYY-MM'))}
         renderLoading={() => <DayCalendarSkeleton />}
         dayOfWeekFormatter={(date) => date.format('ddd')}
         shouldDisableDate={(date) => date.day() === 0 || date.day() === 6}
