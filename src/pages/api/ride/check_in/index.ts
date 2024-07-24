@@ -2,7 +2,7 @@ import pool from '../../../../../db';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from 'src/features/common/users/types';
 import { ResultSetHeader } from 'mysql2/promise';
-import { CreateRideCheckedInPayload, RawRideCheckedInData } from 'src/features/ride_check_in/types/net';
+import { CreateRideCheckedInPayload, GetRideCheckedInDataPayload, RawRideCheckedInData } from 'src/features/ride_check_in/types/net';
 import { verifyToken } from 'src/helpers/auth';
 
 export default async function handler(
@@ -27,10 +27,16 @@ export default async function handler(
     if(req.method === 'GET'){
 
       try {
-        const fieldKeys = ['id', 'type']
-        const insertKeysForQuery = fieldKeys.join(', ') + `, DATE_FORMAT(checked_in_date, '%Y-%m-%d') AS checked_in_date`
+        const {month} = req.query as GetRideCheckedInDataPayload
 
-        const [rows] = await connection.execute(`SELECT ${insertKeysForQuery} FROM ride_check_in WHERE user_id = ?`, [decoded.id]);
+        const monthPayloadForQuery = month ? ` AND DATE_FORMAT(checked_in_date, '%Y-%m') = '${month}'` : ''
+
+        const fieldKeys = ['id', 'type']
+        const keysForQuery = fieldKeys.join(', ') + `, DATE_FORMAT(checked_in_date, '%Y-%m-%d') AS checked_in_date`
+
+        const query = `SELECT ${keysForQuery} FROM ride_check_in WHERE user_id = ?${monthPayloadForQuery}`
+
+        const [rows] = await connection.execute(query, [decoded.id]);
 
         res.status(200).json({
           data: rows as RawRideCheckedInData[],

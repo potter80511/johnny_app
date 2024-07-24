@@ -12,3 +12,5 @@ export type CreateRideCheckedInPayload = Pick<
   RawRideCheckedInData,
   'type' | 'checked_in_date'
 >
+
+export type GetRideCheckedInDataPayload = { month?: string }

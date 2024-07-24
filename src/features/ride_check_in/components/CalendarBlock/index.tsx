@@ -16,9 +16,6 @@ import styleComponentTheme from "src/styles/theme";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { fetchToCheckIn } from "src/features/ride_check_in/fetchers";
 import toast from "src/helpers/toastify";
-import useSWR from "swr";
-import baseFetcher from "src/fetcher";
-import { useCookies } from "react-cookie";
 import { RawRideCheckedInData } from "src/features/ride_check_in/types/net";
 
 const DialogContent = styled.div`
@@ -27,19 +24,17 @@ const DialogContent = styled.div`
 `
 
 const CalendarBlock = ({
-  setCurrentDateMonth
+  isLoading,
+  highlightedDays = [],
+  setCurrentDateMonth,
+  onCheckedInData
 }: {
+  isLoading: boolean
+  highlightedDays: string[]
   setCurrentDateMonth: (newValue: string) => void
+  onCheckedInData: (newData: RawRideCheckedInData) => void
 }) => {
   const [selectedRideDetail, setSelectedRideDetail] = useState<Ride | null>(null)
-
-  const [cookies] = useCookies(['user_token'])
-
-  const { data: rawCheckedInDataAPIResponse, isValidating: isLoading, mutate } = useSWR<APIResponse<RawRideCheckedInData[]>>('/ride/check_in', (url: string) => baseFetcher(url, {
-    headers: { authorization: `Bearer ${cookies.user_token}`},
-  }))
-
-  console.log(rawCheckedInDataAPIResponse, 'datadatadata')
 
   const handleDateClick = (dayjsObj: Dayjs, isActive: boolean) => {
     setSelectedRideDetail({
@@ -62,10 +57,7 @@ const CalendarBlock = ({
             ...selectedRideDetail,
             hasCheckedIn: true
           })
-          rawCheckedInDataAPIResponse && mutate({
-            ...rawCheckedInDataAPIResponse,
-            data: [...rawCheckedInDataAPIResponse.data, rawResponseData]
-          })
+          onCheckedInData(rawResponseData)
         },
         onError: ({message, type}) => toast(message, type),
       }
@@ -83,7 +75,7 @@ const CalendarBlock = ({
         views={['year', 'month', 'day']}
         slots={{
           day: (props) => <FormattedDayDisplay
-            highlightedDays={rawCheckedInDataAPIResponse?.data?.map((item) => item.checked_in_date) || []}
+            highlightedDays={highlightedDays}
             onCustomClick={handleDateClick}
             {...props}
           />,
