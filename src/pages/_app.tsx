@@ -12,6 +12,7 @@ import useUserInfo from 'src/features/common/users/hooks'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'src/styles/globals.css'
+import styleComponentTheme from 'src/styles/theme';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -47,18 +48,7 @@ const muiDarkTheme = createMUITheme({
   },
 });
 
-const theme = {
-  palette: {
-    iphoneOrange: "#c9772e",
-    iphoneGreen: "#1dcc71",
-    checkGreen: "#09d269",
-  },
-  breakpoint: {
-    sm: '576px',
-    md: '768px',
-    lg: '1024px',
-  }
-};
+
 
 export default function App({ Component, pageProps }: AppProps) {
   console.log('App:')
@@ -94,7 +84,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <GlobalStyle />
       <Provider store={store}>
         <UserContext.Provider value={userInfoContextValue}>
-          <ThemeProvider theme={theme}>
+          <ThemeProvider theme={styleComponentTheme}>
             <MUIThemeProvider theme={muiDarkTheme}>
               {isPageLoading && <PageLoading />}
               <Header/>
