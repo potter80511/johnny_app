@@ -1,4 +1,4 @@
-import pool from '../../../../db';
+import pool from '../../../../../db';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from 'src/features/common/users/types';
 import { ResultSetHeader } from 'mysql2/promise';
@@ -9,20 +9,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<APIResponse<NetRideCheckedInData | null>>
 ) {
-  const requestBody = JSON.parse(req.body) as CreateRideCheckedInPayload;
+  const connection = await pool.getConnection();
+  const token = req.headers.authorization?.split(' ')[1];
+  
+  if (!token) {
+    return res.status(401).json({
+      message: 'Token not provided',
+      success: false,
+      data: null,
+      status_code: 401
+    });
+  }
+
   if (req.method === 'POST') {
-    const token = req.headers.authorization?.split(' ')[1];
-
-    if (!token) {
-      return res.status(401).json({
-        message: 'Token not provided',
-        success: false,
-        data: null,
-        status_code: 401
-      });
-    }
-
-    const connection = await pool.getConnection();
+    const requestBody = JSON.parse(req.body) as CreateRideCheckedInPayload;
 
     try {
       // 驗證 token 並獲取使用者資訊
