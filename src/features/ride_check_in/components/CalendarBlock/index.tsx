@@ -16,6 +16,10 @@ import styleComponentTheme from "src/styles/theme";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { fetchToCheckIn } from "src/features/ride_check_in/fetchers";
 import toast from "src/helpers/toastify";
+import useSWR from "swr";
+import baseFetcher from "src/fetcher";
+import { useCookies } from "react-cookie";
+import { RawRideCheckedInData } from "src/features/ride_check_in/types/net";
 
 const highlightedDays = ['2024-07-15', '2024-07-17', '2024-07-19']
 
@@ -25,8 +29,15 @@ const DialogContent = styled.div`
 `
 
 const CalendarBlock = () => {
-  const isLoading = false
   const [selectedRideDetail, setSelectedRideDetail] = useState<Ride | null>(null)
+
+  const [cookies] = useCookies(['user_token'])
+
+  const { data, isValidating: isLoading } = useSWR<APIResponse<RawRideCheckedInData[]>>('/ride/check_in', (url: string) => baseFetcher(url, {
+    headers: { authorization: `Bearer ${cookies.user_token}`},
+  }))
+
+  console.log(data, 'datadatadata')
 
   const handleDateClick = (dayjsObj: Dayjs) => {
     setSelectedRideDetail({
@@ -65,11 +76,11 @@ const CalendarBlock = () => {
         shouldDisableDate={(date) => date.day() === 0 || date.day() === 6}
         views={['year', 'month', 'day']}
         slots={{
-          day: FormattedDayDisplay,
+          day: (props) => <FormattedDayDisplay {...props} />,
         }}
         slotProps={{
           day: {
-            highlightedDays,
+            highlightedDays: data?.data.map((item) => dayjs(item.checked_in_date).format('YYYY-MM-DD')) || [],
           } as any,
         }}
       />
