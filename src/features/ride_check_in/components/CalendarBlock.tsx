@@ -1,5 +1,4 @@
 import Flex from "src/components/Flex"
-import 'react-calendar/dist/Calendar.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
