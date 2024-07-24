@@ -21,8 +21,6 @@ import baseFetcher from "src/fetcher";
 import { useCookies } from "react-cookie";
 import { RawRideCheckedInData } from "src/features/ride_check_in/types/net";
 
-const highlightedDays = ['2024-07-15', '2024-07-17', '2024-07-19']
-
 const DialogContent = styled.div`
   padding: 16px 0;
   min-width: 280px;
@@ -37,11 +35,11 @@ const CalendarBlock = ({
 
   const [cookies] = useCookies(['user_token'])
 
-  const { data, isValidating: isLoading } = useSWR<APIResponse<RawRideCheckedInData[]>>('/ride/check_in', (url: string) => baseFetcher(url, {
+  const { data: rawCheckedInDataAPIResponse, isValidating: isLoading, mutate } = useSWR<APIResponse<RawRideCheckedInData[]>>('/ride/check_in', (url: string) => baseFetcher(url, {
     headers: { authorization: `Bearer ${cookies.user_token}`},
   }))
 
-  console.log(data, 'datadatadata')
+  console.log(rawCheckedInDataAPIResponse, 'datadatadata')
 
   const handleDateClick = (dayjsObj: Dayjs, isActive: boolean) => {
     setSelectedRideDetail({
@@ -58,11 +56,15 @@ const CalendarBlock = ({
         type: 'to_work',
       },
       callBack: {
-        onSuccess: ({message}) => {
+        onSuccess: ({message, data: rawResponseData}) => {
           toast(message)
           selectedRideDetail && setSelectedRideDetail({
             ...selectedRideDetail,
             hasCheckedIn: true
+          })
+          rawCheckedInDataAPIResponse && mutate({
+            ...rawCheckedInDataAPIResponse,
+            data: [...rawCheckedInDataAPIResponse.data, rawResponseData]
           })
         },
         onError: ({message, type}) => toast(message, type),
@@ -81,7 +83,7 @@ const CalendarBlock = ({
         views={['year', 'month', 'day']}
         slots={{
           day: (props) => <FormattedDayDisplay
-            highlightedDays={data?.data?.map((item) => item.checked_in_date) || []}
+            highlightedDays={rawCheckedInDataAPIResponse?.data?.map((item) => item.checked_in_date) || []}
             onCustomClick={handleDateClick}
             {...props}
           />,
