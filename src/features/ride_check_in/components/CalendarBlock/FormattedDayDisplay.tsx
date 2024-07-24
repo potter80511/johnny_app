@@ -7,13 +7,27 @@ const Wrapper = styled.div<{isActive: boolean}>`
     color: ${({theme:{ palette }, isActive}) => isActive && palette.checkGreen};
   }
 `
-function FormattedDayDisplay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] }) {
-  const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
+function FormattedDayDisplay(props: PickersDayProps<Dayjs> & {
+  highlightedDays: string[];
+  onCustomClick: (dayjsObj: Dayjs, isActive: boolean) => void
+}) {
+  const {
+    highlightedDays = [],
+    day,
+    outsideCurrentMonth,
+    onCustomClick,
+    ...other
+  } = props;
 
   const isActive = highlightedDays.indexOf(props.day.format('YYYY-MM-DD')) >= 0;
 
   return <Wrapper isActive={isActive}>
-    <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
+    <PickersDay
+      {...other}
+      outsideCurrentMonth={outsideCurrentMonth}
+      day={day}
+      onDaySelect={(selectedDay) => onCustomClick(selectedDay, isActive)}
+    />
   </Wrapper>
 }
 

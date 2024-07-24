@@ -39,11 +39,11 @@ const CalendarBlock = () => {
 
   console.log(data, 'datadatadata')
 
-  const handleDateClick = (dayjsObj: Dayjs) => {
+  const handleDateClick = (dayjsObj: Dayjs, isActive: boolean) => {
     setSelectedRideDetail({
       id: 1,
       date: dayjs(dayjsObj).format(),
-      hasCheckedIn: false
+      hasCheckedIn: isActive
     })
   }
 
@@ -70,18 +70,16 @@ const CalendarBlock = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
         loading={isLoading}
-        onChange={handleDateClick}
         renderLoading={() => <DayCalendarSkeleton />}
         dayOfWeekFormatter={(date) => date.format('ddd')}
         shouldDisableDate={(date) => date.day() === 0 || date.day() === 6}
         views={['year', 'month', 'day']}
         slots={{
-          day: (props) => <FormattedDayDisplay {...props} />,
-        }}
-        slotProps={{
-          day: {
-            highlightedDays: data?.data?.map((item) => item.checked_in_date) || [],
-          } as any,
+          day: (props) => <FormattedDayDisplay
+            highlightedDays={data?.data?.map((item) => item.checked_in_date) || []}
+            onCustomClick={handleDateClick}
+            {...props}
+          />,
         }}
       />
     </LocalizationProvider>
