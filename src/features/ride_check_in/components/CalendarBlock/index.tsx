@@ -10,8 +10,17 @@ import Button from "@mui/material/Button";
 import { Ride } from "src/features/ride_check_in/types";
 import { Dayjs } from "dayjs";
 import dayjs from 'src/helpers/dayjs'
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styleComponentTheme from "src/styles/theme";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const highlightedDays = ['2024-07-15', '2024-07-17', '2024-07-19']
+
+const DialogContent = styled.div`
+  padding: 16px 0;
+  min-width: 280px;
+`
 
 const CalendarBlock = () => {
   const isLoading = false
@@ -21,17 +30,14 @@ const CalendarBlock = () => {
     setSelectedRideDetail({
       id: 1,
       date: dayjs(dayjsObj).format(),
-      // date: dayjs(dayjsObj).locale('zh-tw').format(),
-      hasCheckedIn: false
+      hasCheckedIn: true
     })
   }
 
   return <Flex justifyContent="center">
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar
-        // defaultValue={initialValue}
         loading={isLoading}
-        // onMonthChange={handleMonthChange}
         onChange={handleDateClick}
         renderLoading={() => <DayCalendarSkeleton />}
         dayOfWeekFormatter={(date) => date.format('ddd')}
@@ -53,15 +59,19 @@ const CalendarBlock = () => {
       shouldHideButtons
       maxWidth="lg"
     >
-      <div>
-        乘車日期：
-        {dayjs(selectedRideDetail?.date).locale('zh-tw').format('YYYY年 MMMDo dddd')}
-      </div>
-      {selectedRideDetail?.hasCheckedIn ? <div>已打卡</div> : <Button
-        variant="contained"
-        type="button"
-        onClick={() => {}}
-      >打卡</Button>}
+      <DialogContent>
+        <div>乘車日期：</div>
+        <Flex justifyContent="space-between" alignItems="center">
+          <div>{dayjs(selectedRideDetail?.date).locale('zh-tw').format('YYYY年 MMMDo dddd')}</div>
+          {selectedRideDetail?.hasCheckedIn ? <div>
+            <FontAwesomeIcon style={{marginRight: 4}} icon={faCheck} color={styleComponentTheme.palette.checkGreen} /> 已打卡
+          </div> : <Button
+            variant="contained"
+            type="button"
+            onClick={() => {}}
+          >打卡</Button>}
+        </Flex>
+      </DialogContent>
     </AlertDialogSlide>
   </Flex>
 }
