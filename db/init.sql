@@ -31,3 +31,15 @@ CREATE TABLE IF NOT EXISTS interviews (
     updated_date DATETIME DEFAULT NOW(),
     interview_dates JSON
 );
+
+
+-- 共乘打卡
+
+CREATE TABLE ride_check_in(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type ENUM('to_work', 'off_work') DEFAULT 'to_work',
+    checked_in_date DATE NOT NULL,
+    created_date DATETIME DEFAULT NOW(),
+    user_id INT NOT NULL,
+    UNIQUE (user_id, checked_in_date)  -- 複合唯一約束
+);
