@@ -75,7 +75,7 @@ export default function AlertDialogSlide({
     >
       <CloseButton
         type='button'
-        style={{position: 'absolute', top: 20, right: 24}}
+        style={{position: 'absolute', top: 10, right: 20}}
         onClick={handleClose}
       >
         <FontAwesomeIcon icon={faTimes} size='xl' />
