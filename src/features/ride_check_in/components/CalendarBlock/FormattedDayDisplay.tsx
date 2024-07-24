@@ -2,17 +2,17 @@ import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
 import { Dayjs } from "dayjs";
 import styled from 'styled-components';
 
-const Wrapper = styled.div<{isSelected: boolean}>`
+const Wrapper = styled.div<{isActive: boolean}>`
   button {
-    color: ${({theme:{ palette }, isSelected}) => isSelected && palette.checkGreen};
+    color: ${({theme:{ palette }, isActive}) => isActive && palette.checkGreen};
   }
 `
 function FormattedDayDisplay(props: PickersDayProps<Dayjs> & { highlightedDays?: string[] }) {
   const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
 
-  const isSelected = highlightedDays.indexOf(props.day.format('YYYY-MM-DD')) >= 0;
+  const isActive = highlightedDays.indexOf(props.day.format('YYYY-MM-DD')) >= 0;
 
-  return <Wrapper isSelected={isSelected}>
+  return <Wrapper isActive={isActive}>
     <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day} />
   </Wrapper>
 }
