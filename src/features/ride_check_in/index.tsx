@@ -32,7 +32,7 @@ const RideCheckInIndex = () => {
 
   return <Wrapper>
     <h2>共乘打卡</h2>
-    <Sheet />
+    <Sheet totalDays={rawCheckedInDataAPIResponse?.data?.length} />
     <SeperateLine/>
     <CalendarBlock
       isLoading={isLoading}
