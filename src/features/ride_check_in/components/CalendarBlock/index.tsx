@@ -14,6 +14,8 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styleComponentTheme from "src/styles/theme";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { fetchToCheckIn } from "src/features/ride_check_in/fetchers";
+import toast from "src/helpers/toastify";
 
 const highlightedDays = ['2024-07-15', '2024-07-17', '2024-07-19']
 
@@ -30,7 +32,26 @@ const CalendarBlock = () => {
     setSelectedRideDetail({
       id: 1,
       date: dayjs(dayjsObj).format(),
-      hasCheckedIn: true
+      hasCheckedIn: false
+    })
+  }
+
+  const handleCheckIn = (date: string) => {
+    fetchToCheckIn({
+      inputData: {
+        checked_in_date: dayjs(date).format('YYYY-MM-DD'),
+        type: 'to_work',
+      },
+      callBack: {
+        onSuccess: ({message}) => {
+          toast(message)
+          selectedRideDetail && setSelectedRideDetail({
+            ...selectedRideDetail,
+            hasCheckedIn: true
+          })
+        },
+        onError: ({message, type}) => toast(message, type),
+      }
     })
   }
 
@@ -68,7 +89,7 @@ const CalendarBlock = () => {
           </div> : <Button
             variant="contained"
             type="button"
-            onClick={() => {}}
+            onClick={() => handleCheckIn(selectedRideDetail?.date || '')}
           >打卡</Button>}
         </Flex>
       </DialogContent>

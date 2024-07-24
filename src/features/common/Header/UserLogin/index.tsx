@@ -21,8 +21,7 @@ const UserLogin = () => {
     fetchToLoginByToken({
       inputData: { token },
       callBack: {
-        onSuccess: ({message, data: user}) => {
-          console.log(user, 'user')
+        onSuccess: ({data: user}) => {
           setUserInfo({...user})
           setIsUserInfoLoading(false)
         },
