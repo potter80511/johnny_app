@@ -80,7 +80,7 @@ const CalendarBlock = () => {
         }}
         slotProps={{
           day: {
-            highlightedDays: data?.data.map((item) => dayjs(item.checked_in_date).format('YYYY-MM-DD')) || [],
+            highlightedDays: data?.data?.map((item) => item.checked_in_date) || [],
           } as any,
         }}
       />

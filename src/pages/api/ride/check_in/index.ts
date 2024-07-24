@@ -27,7 +27,10 @@ export default async function handler(
     if(req.method === 'GET'){
 
       try {
-        const [rows] = await connection.execute('SELECT * FROM ride_check_in WHERE user_id = ?', [decoded.id]);
+        const fieldKeys = ['id', 'type']
+        const insertKeysForQuery = fieldKeys.join(', ') + `, DATE_FORMAT(checked_in_date, '%Y-%m-%d') AS checked_in_date`
+
+        const [rows] = await connection.execute(`SELECT ${insertKeysForQuery} FROM ride_check_in WHERE user_id = ?`, [decoded.id]);
 
         res.status(200).json({
           data: rows as RawRideCheckedInData[],
