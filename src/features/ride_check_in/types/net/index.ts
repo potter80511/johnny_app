@@ -1,6 +1,6 @@
 import { WorkType } from "src/features/ride_check_in/types"
 
-export type NetRideCheckedInData = {
+export type RawRideCheckedInData = {
   id: number
   type: WorkType
   checked_in_date: string // YYYY-MM-DD
@@ -9,6 +9,6 @@ export type NetRideCheckedInData = {
 }
 
 export type CreateRideCheckedInPayload = Pick<
-  NetRideCheckedInData,
+  RawRideCheckedInData,
   'type' | 'checked_in_date'
 >
