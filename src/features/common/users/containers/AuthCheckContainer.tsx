@@ -11,11 +11,12 @@ const AuthCheckContainer = () => {
   const router = useRouter()
   const [cookies] = useCookies(['user_token']);
 
-  const [checkingStatus, setCheckingStatus] = useState<PromiseProgressStatus>('pending')
+  const [authCheckingStatus, setAuthCheckingStatus] = useState<PromiseProgressStatus>('pending')
 
   const { 
     setUserInfo,
-    setIsUserInfoLoading
+    setIsUserInfoLoading,
+    setLoginModalType
   } = useContext(UserContext);
 
   const handleAuthLogin = (token: string) => {
@@ -27,12 +28,12 @@ const AuthCheckContainer = () => {
         onSuccess: ({data: user}) => {
           setUserInfo({...user})
           setIsUserInfoLoading(false)
-          setCheckingStatus('resolved')
+          setAuthCheckingStatus('resolved')
         },
         onError: ({message}) => {
           console.log(message, 'onError')
           setIsUserInfoLoading(false)
-          setCheckingStatus('rejected')
+          setAuthCheckingStatus('rejected')
         },
       }
     })
@@ -45,15 +46,18 @@ const AuthCheckContainer = () => {
 
   useEffect(function handleCheckAuth() {
     const shouldAutorized = routesShouldAuthorized.includes(router.pathname)
+    const userToken = cookies['user_token']
 
-    if(shouldAutorized && checkingStatus === 'rejected') {
+    if(shouldAutorized && (!userToken || authCheckingStatus === 'rejected')) {
       toast('Please Login!!', 'info')
+      setLoginModalType('login')
       router.push({
         pathname: '/',
-        query: { from: router.asPath, shouldLogin: true }
+        query: { from: router.asPath }
       })
+      setAuthCheckingStatus('pending')
     }
-  }, [checkingStatus, router])
+  }, [authCheckingStatus, router, cookies])
 
   return null
 }
