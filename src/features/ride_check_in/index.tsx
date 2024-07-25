@@ -14,6 +14,11 @@ const Wrapper = styled.div`
   padding: 0 20px;
   margin: 0 auto;
 `
+const CurrentMonthDisplay = styled.div`
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #888;
+`
 const SeperateLine = styled.hr`
   border-color: #888;
   border-bottom: none;
@@ -30,6 +35,7 @@ const RideCheckInIndex = () => {
 
   return <Wrapper>
     <h2>共乘打卡</h2>
+    <CurrentMonthDisplay>{dayjs(currentDateMonth).locale('zh-tw').format('YYYY, MMM份')}</CurrentMonthDisplay>
     <Sheet totalDays={rawCheckedInDataAPIResponse?.data?.length} />
     <SeperateLine/>
     <CalendarBlock
