@@ -28,8 +28,6 @@ const RideCheckInIndex = () => {
     headers: { authorization: `Bearer ${cookies.user_token}`},
   }))
 
-  console.log(rawCheckedInDataAPIResponse, 'datadatadata')
-
   return <Wrapper>
     <h2>共乘打卡</h2>
     <Sheet totalDays={rawCheckedInDataAPIResponse?.data?.length} />

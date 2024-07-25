@@ -35,8 +35,10 @@ const CalendarBlock = ({
   onCheckedInData: (newData: RawRideCheckedInData) => void
 }) => {
   const [selectedRideDetail, setSelectedRideDetail] = useState<Ride | null>(null)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   const handleDateClick = (dayjsObj: Dayjs, isActive: boolean) => {
+    setIsDialogOpen(true)
     setSelectedRideDetail({
       id: 1,
       date: dayjs(dayjsObj).format(),
@@ -58,6 +60,8 @@ const CalendarBlock = ({
             hasCheckedIn: true
           })
           onCheckedInData(rawResponseData)
+
+          setTimeout(() => setIsDialogOpen(false), 2000)
         },
         onError: ({message, type}) => toast(message, type),
       }
@@ -83,8 +87,8 @@ const CalendarBlock = ({
       />
     </LocalizationProvider>
     <AlertDialogSlide
-      isDialogOpen={!!selectedRideDetail}
-      onClose={() => setSelectedRideDetail(null)}
+      isDialogOpen={isDialogOpen}
+      onClose={() => setIsDialogOpen(false)}
       shouldHideButtons
       maxWidth="lg"
     >
