@@ -1,5 +1,6 @@
 import { faCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Skeleton } from '@mui/material'
 import { useMemo } from 'react'
 import Flex from 'src/components/Flex'
 import styleComponentTheme from 'src/styles/theme'
@@ -14,12 +15,29 @@ const Fee = styled.span`
 
 const feePerDay = 120
 
-const Sheet = ({ totalDays = 0 }: {totalDays?: number}) => {
-
-  console.log(totalDays, 'totalDaystotalDaystotalDays')
+const Sheet = ({ totalDays = 0, isLoading }: {
+  totalDays?: number;
+  isLoading: boolean
+}) => {
   const total = feePerDay * totalDays
 
   const hasPayed = false
+
+  const loadingDisplay = useMemo(() => {
+    return <Wrapper flexDirection="column" gap={8}>
+      <Flex justifyContent='space-between'>
+        <Skeleton variant='rounded'width={220} height={22} />
+        <Skeleton variant='rounded'width={70} height={22} />
+      </Flex>
+      <Flex justifyContent='space-between'>
+        <Skeleton variant='rounded'width={220} height={22} />
+        <Flex gap={4}>
+          <Skeleton variant='rounded'width={40} height={22} />
+          <Skeleton variant='rounded'width={60} height={22} />
+        </Flex>
+      </Flex>
+    </Wrapper>
+  }, [])
 
   const totalDaysDispay = useMemo(() => {
     const symbol = hasPayed
@@ -31,6 +49,10 @@ const Sheet = ({ totalDays = 0 }: {totalDays?: number}) => {
       <span>{symbol} {hasPayed ? '已' : '未'}付款</span>
     </Flex>
   }, [hasPayed, totalDays])
+
+  if(isLoading) {
+    return loadingDisplay
+  }
 
   return <Wrapper flexDirection="column" gap={8}>
     <Flex justifyContent="space-between">累積共乘費用：<Fee>$NT {total}</Fee></Flex>

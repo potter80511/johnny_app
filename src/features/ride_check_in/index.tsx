@@ -31,12 +31,15 @@ const RideCheckInIndex = () => {
 
   const { data: rawCheckedInDataAPIResponse, isValidating: isLoading, mutate } = useSWR<APIResponse<RawRideCheckedInData[]>>(`/ride/check_in?month=${currentDateMonth}`, (url: string) => baseFetcher(url, {
     headers: { authorization: `Bearer ${cookies.user_token}`},
-  }))
+  }), { revalidateIfStale: false })
 
   return <Wrapper>
     <h2>共乘打卡</h2>
     <CurrentMonthDisplay>{dayjs(currentDateMonth).locale('zh-tw').format('YYYY, MMM份')}</CurrentMonthDisplay>
-    <Sheet totalDays={rawCheckedInDataAPIResponse?.data?.length} />
+    <Sheet
+      totalDays={rawCheckedInDataAPIResponse?.data?.length}
+      isLoading={isLoading}
+    />
     <SeperateLine/>
     <CalendarBlock
       isLoading={isLoading}
