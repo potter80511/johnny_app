@@ -13,6 +13,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'src/styles/globals.css'
 import styleComponentTheme from 'src/styles/theme';
+import AuthCheckContainer from 'src/features/common/users/containers/AuthCheckContainer';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -87,6 +88,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <ThemeProvider theme={styleComponentTheme}>
             <MUIThemeProvider theme={muiDarkTheme}>
               {isPageLoading && <PageLoading />}
+              <AuthCheckContainer />
               <Header/>
               <Component {...pageProps} />
               <ToastContainer/>
