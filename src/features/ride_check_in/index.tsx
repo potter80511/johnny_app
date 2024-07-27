@@ -31,7 +31,7 @@ const RideCheckInIndex = () => {
 
   const { data: rawCheckedInDataAPIResponse, isValidating: isLoading, mutate } = useSWR<APIResponse<RawRideCheckedInData[]>>(`/ride/check_in?month=${currentDateMonth}`, (url: string) => baseFetcher(url, {
     headers: { authorization: `Bearer ${cookies.user_token}`},
-  }), { revalidateIfStale: false })
+  }), { revalidateIfStale: false, revalidateOnMount: true })
 
   return <Wrapper>
     <h2>共乘打卡</h2>
