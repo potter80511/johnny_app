@@ -5,16 +5,22 @@ import Flex from "src/components/Flex";
 import AlertDialogSlide from "src/components/mui/AlertDialogSlide";
 import dayjs from "src/helpers/dayjs";
 import styled from "styled-components";
+import Typography from "@mui/material/Typography";
 
 const Wrapper = styled(Flex)`
   margin-bottom: 36px;
 `
 
 const DialogContent = styled.div`
-
+  padding: 20px 0;
+  min-width: 300px;
+`
+const ConfirmText = styled.div`
+  margin-bottom: 24px;
 `
 const ButtonWrapper = styled.div`
-  text-align: right;
+  text-align: center;
+  margin-top: 24px;
 `
 const CurrentMonthDisplay = styled.div`
   font-size: 22px;
@@ -53,11 +59,11 @@ const ConfirmPayment = ({selectedCurrentDateMonth}: { selectedCurrentDateMonth: 
       maxWidth="lg"
     >
       <DialogContent>
-        <div color="secondary">確認 {rideMonthDisplay} 的乘車費用之付款日期：</div>
+        <ConfirmText>確認 <Typography component="span" color="secondary">{rideMonthDisplay}</Typography> 的乘車費用：</ConfirmText>
         <DateTimePicker
           label="付款日期"
           views={['day', 'hours', 'minutes']}
-          format={paymentDateTime.locale('zh-tw').format('MMM Do h:mm A')}
+          format={paymentDateTime.locale('zh-tw').format('MMM Do A h:mm')}
           value={paymentDateTime}
           slotProps={{ textField: { fullWidth: true } }}
           onChange={(newValue) => setPaymentDateTime(newValue!)}
