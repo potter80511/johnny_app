@@ -7,17 +7,13 @@ import useSWR from "swr";
 import baseFetcher from "src/fetcher";
 import { useCookies } from "react-cookie";
 import { RawRideCheckedInData } from "src/features/ride_check_in/types/net";
+import ConfirmPayment from 'src/features/ride_check_in/components/ConfirmPayment'
 
 const Wrapper = styled.div`
   max-width: 403px;
   width: 100%;
   padding: 0 20px;
   margin: 0 auto;
-`
-const CurrentMonthDisplay = styled.div`
-  font-size: 22px;
-  margin-bottom: 20px;
-  color: #888;
 `
 const SeperateLine = styled.hr`
   border-color: #888;
@@ -35,7 +31,7 @@ const RideCheckInIndex = () => {
 
   return <Wrapper>
     <h2>共乘打卡</h2>
-    <CurrentMonthDisplay>{dayjs(currentDateMonth).locale('zh-tw').format('YYYY, MMM份')}</CurrentMonthDisplay>
+    <ConfirmPayment currentDateMonth={currentDateMonth} />
     <Sheet
       totalDays={rawCheckedInDataAPIResponse?.data?.length}
       isLoading={isLoading}
