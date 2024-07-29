@@ -41,12 +41,12 @@ const RideCheckInIndex = () => {
   )
 
   const {
-    data: rawRideTransactionDataAPIResponse = { data: [] },
+    data: rawRideTransactionDataAPIResponse,
     isValidating: isRideTransactionDataLoading,
-    // mutate
+    mutate: mutateRideTransactionData
   } = useSWR<APIResponse<RawRideTransactionData[]>>(
     `/ride/transaction?ride_month=${currentDateMonth}`,
-    (url: string) => baseFetcher(url, {
+    (url: string) => baseFetcher<RawRideTransactionData[]>(url, {
       headers: { authorization: `Bearer ${cookies.user_token}`},
     }),
     { revalidateIfStale: false, revalidateOnMount: true }
@@ -62,6 +62,10 @@ const RideCheckInIndex = () => {
       <ConfirmPayment
         selectedCurrentDateMonth={currentDateMonth} fee={totalFee}
         hasPayed={!!rawRideTransactionDataAPIResponse?.data && rawRideTransactionDataAPIResponse?.data.length > 0}
+        onSubmitSuccess={(newData) => !!rawRideTransactionDataAPIResponse && mutateRideTransactionData({
+          ...rawRideTransactionDataAPIResponse,
+          data: [newData]
+        })}
       />
       <Sheet
         totalDays={rawCheckedInDataAPIResponse?.data?.length ?? 0}

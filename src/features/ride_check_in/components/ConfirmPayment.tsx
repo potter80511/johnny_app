@@ -8,6 +8,7 @@ import styled from "styled-components";
 import Typography from "@mui/material/Typography";
 import { fetchToCreateTransaction } from "src/features/ride_check_in/fetchers";
 import toast from "src/helpers/toastify";
+import { RawRideTransactionData } from "src/features/ride_check_in/types/net";
 
 const Wrapper = styled(Flex)`
   margin-bottom: 36px;
@@ -32,11 +33,13 @@ const CurrentMonthDisplay = styled.div`
 const ConfirmPayment = ({
   selectedCurrentDateMonth,
   fee,
-  hasPayed
+  hasPayed,
+  onSubmitSuccess
 }: {
-  selectedCurrentDateMonth: string,
-  fee: number,
-  hasPayed: boolean
+  selectedCurrentDateMonth: string;
+  fee: number;
+  hasPayed: boolean;
+  onSubmitSuccess: (data: RawRideTransactionData) => void;
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [paymentDateTime, setPaymentDateTime] = useState(dayjs())
@@ -51,8 +54,10 @@ const ConfirmPayment = ({
         ride_month: selectedCurrentDateMonth
       },
       callBack: {
-        onSuccess: ({message}) => {
+        onSuccess: ({message, data}) => {
           toast(message)
+          setIsDialogOpen(false)
+          onSubmitSuccess(data)
         },
         onError: ({message, type}) => {
           toast(message, type)
