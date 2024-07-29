@@ -8,6 +8,8 @@ import baseFetcher from "src/fetcher";
 import { useCookies } from "react-cookie";
 import { RawRideCheckedInData } from "src/features/ride_check_in/types/net";
 import ConfirmPayment from 'src/features/ride_check_in/components/ConfirmPayment'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const Wrapper = styled.div`
   max-width: 403px;
@@ -31,23 +33,25 @@ const RideCheckInIndex = () => {
 
   return <Wrapper>
     <h2>共乘打卡</h2>
-    <ConfirmPayment currentDateMonth={currentDateMonth} />
-    <Sheet
-      totalDays={rawCheckedInDataAPIResponse?.data?.length}
-      isLoading={isLoading}
-    />
-    <SeperateLine/>
-    <CalendarBlock
-      isLoading={isLoading}
-      highlightedDays={rawCheckedInDataAPIResponse?.data?.map((item) => item.checked_in_date) || []}
-      setCurrentDateMonth={setCurrentDateMonth}
-      onCheckedInData={(newData) => {
-        rawCheckedInDataAPIResponse && mutate({
-          ...rawCheckedInDataAPIResponse,
-          data: [...rawCheckedInDataAPIResponse.data, newData]
-        })
-      }}
-    />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ConfirmPayment currentDateMonth={currentDateMonth} />
+      <Sheet
+        totalDays={rawCheckedInDataAPIResponse?.data?.length}
+        isLoading={isLoading}
+      />
+      <SeperateLine/>
+      <CalendarBlock
+        isLoading={isLoading}
+        highlightedDays={rawCheckedInDataAPIResponse?.data?.map((item) => item.checked_in_date) || []}
+        setCurrentDateMonth={setCurrentDateMonth}
+        onCheckedInData={(newData) => {
+          rawCheckedInDataAPIResponse && mutate({
+            ...rawCheckedInDataAPIResponse,
+            data: [...rawCheckedInDataAPIResponse.data, newData]
+          })
+        }}
+      />
+    </LocalizationProvider>
   </Wrapper>
 }
 

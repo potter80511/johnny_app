@@ -1,6 +1,4 @@
 import Flex from "src/components/Flex"
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import FormattedDayDisplay from "src/features/ride_check_in/components/CalendarBlock/FormattedDayDisplay";
@@ -69,23 +67,21 @@ const CalendarBlock = ({
   }
 
   return <Flex justifyContent="center">
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateCalendar
-        loading={isLoading}
-        onMonthChange={(newValue) => setCurrentDateMonth(dayjs(newValue).format('YYYY-MM'))}
-        renderLoading={() => <DayCalendarSkeleton />}
-        dayOfWeekFormatter={(date) => date.format('ddd')}
-        shouldDisableDate={(date) => date.day() === 0 || date.day() === 6}
-        views={['year', 'month', 'day']}
-        slots={{
-          day: (props) => <FormattedDayDisplay
-            highlightedDays={highlightedDays}
-            onCustomClick={handleDateClick}
-            {...props}
-          />,
-        }}
-      />
-    </LocalizationProvider>
+    <DateCalendar
+      loading={isLoading}
+      onMonthChange={(newValue) => setCurrentDateMonth(dayjs(newValue).format('YYYY-MM'))}
+      renderLoading={() => <DayCalendarSkeleton />}
+      dayOfWeekFormatter={(date) => date.format('ddd')}
+      shouldDisableDate={(date) => date.day() === 0 || date.day() === 6}
+      views={['year', 'month', 'day']}
+      slots={{
+        day: (props) => <FormattedDayDisplay
+          highlightedDays={highlightedDays}
+          onCustomClick={handleDateClick}
+          {...props}
+        />,
+      }}
+    />
     <AlertDialogSlide
       isDialogOpen={isDialogOpen}
       onClose={() => setIsDialogOpen(false)}
