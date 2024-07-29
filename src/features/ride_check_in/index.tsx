@@ -34,7 +34,7 @@ const RideCheckInIndex = () => {
   return <Wrapper>
     <h2>共乘打卡</h2>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <ConfirmPayment currentDateMonth={currentDateMonth} />
+      <ConfirmPayment selectedCurrentDateMonth={currentDateMonth} />
       <Sheet
         totalDays={rawCheckedInDataAPIResponse?.data?.length}
         isLoading={isLoading}
