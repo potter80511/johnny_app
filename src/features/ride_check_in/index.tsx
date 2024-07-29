@@ -6,7 +6,7 @@ import dayjs from 'src/helpers/dayjs'
 import useSWR from "swr";
 import baseFetcher from "src/fetcher";
 import { useCookies } from "react-cookie";
-import { RawRideCheckedInData } from "src/features/ride_check_in/types/net";
+import { RawRideCheckedInData, RawRideTransactionData } from "src/features/ride_check_in/types/net";
 import ConfirmPayment from 'src/features/ride_check_in/components/ConfirmPayment'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -28,20 +28,46 @@ const RideCheckInIndex = () => {
   
   const [cookies] = useCookies(['user_token'])
   
-  const { data: rawCheckedInDataAPIResponse, isValidating: isLoading, mutate } = useSWR<APIResponse<RawRideCheckedInData[]>>(`/ride/check_in?month=${currentDateMonth}`, (url: string) => baseFetcher(url, {
-    headers: { authorization: `Bearer ${cookies.user_token}`},
-  }), { revalidateIfStale: false, revalidateOnMount: true })
+  const {
+    data: rawCheckedInDataAPIResponse,
+    isValidating: isLoading,
+    mutate
+  } = useSWR<APIResponse<RawRideCheckedInData[]>>(
+    `/ride/check_in?month=${currentDateMonth}`,
+    (url: string) => baseFetcher(url, {
+      headers: { authorization: `Bearer ${cookies.user_token}`},
+    }),
+    { revalidateIfStale: false, revalidateOnMount: true }
+  )
+
+  const {
+    data: rawRideTransactionDataAPIResponse = { data: [] },
+    isValidating: isRideTransactionDataLoading,
+    // mutate
+  } = useSWR<APIResponse<RawRideTransactionData[]>>(
+    `/ride/transaction?ride_month=${currentDateMonth}`,
+    (url: string) => baseFetcher(url, {
+      headers: { authorization: `Bearer ${cookies.user_token}`},
+    }),
+    { revalidateIfStale: false, revalidateOnMount: true }
+  )
   
   const totalFee = feePerDay * (rawCheckedInDataAPIResponse?.data?.length ?? 0)
+  const payDate = rawRideTransactionDataAPIResponse?.data[0]?.transaction_date || ''
+  const payDateDisplay = payDate ? dayjs(payDate).locale('zh-tw').format('YYYY年 MMMDo, A h:mm') : ''
 
   return <Wrapper>
     <h2>共乘打卡</h2>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <ConfirmPayment selectedCurrentDateMonth={currentDateMonth} fee={totalFee} />
+      <ConfirmPayment
+        selectedCurrentDateMonth={currentDateMonth} fee={totalFee}
+        hasPayed={!!rawRideTransactionDataAPIResponse?.data && rawRideTransactionDataAPIResponse?.data.length > 0}
+      />
       <Sheet
         totalDays={rawCheckedInDataAPIResponse?.data?.length ?? 0}
         totalFee={totalFee}
         isLoading={isLoading}
+        payDate={payDateDisplay}
       />
       <SeperateLine/>
       <CalendarBlock

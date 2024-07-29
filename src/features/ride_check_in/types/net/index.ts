@@ -27,3 +27,4 @@ RawRideTransactionData,
 >
 
 export type GetRideCheckedInDataPayload = { month?: string }
+export type GetRideTransactionDataPayload = { ride_month?: string }

@@ -1,5 +1,6 @@
-import { faCheck, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faInfoCircle, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Tooltip } from '@material-ui/core'
 import { Skeleton } from '@mui/material'
 import { useMemo } from 'react'
 import Flex from 'src/components/Flex'
@@ -13,12 +14,18 @@ const Fee = styled.span`
   color: red;
 `
 
-const Sheet = ({ totalDays = 0, totalFee = 0, isLoading }: {
+const Sheet = ({
+  totalDays = 0,
+  totalFee = 0,
+  isLoading,
+  payDate = ''
+}: {
   totalDays?: number;
   totalFee?: number;
-  isLoading: boolean
+  isLoading: boolean;
+  payDate: string
 }) => {
-  const hasPayed = false
+  const hasPayed = !!payDate
 
   const loadingDisplay = useMemo(() => {
     return <Wrapper flexDirection="column" gap={8}>
@@ -43,9 +50,12 @@ const Sheet = ({ totalDays = 0, totalFee = 0, isLoading }: {
 
     return <Flex gap={8} alignItems='center'>
       <span>{totalDays} 天, </span>
-      <span>{symbol} {hasPayed ? '已' : '未'}付款</span>
+      <span>{symbol} {hasPayed
+        ? <>已付款 <Tooltip title={`已於 ${payDate} 付款`} arrow><FontAwesomeIcon icon={faInfoCircle} size='2xs' color="#888" /></Tooltip></>
+        : '未付款'}
+      </span>
     </Flex>
-  }, [hasPayed, totalDays])
+  }, [hasPayed, totalDays, payDate])
 
   if(isLoading) {
     return loadingDisplay

@@ -2,7 +2,7 @@ import pool from '../../../../db';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from 'src/features/common/users/types';
 import { ResultSetHeader } from 'mysql2/promise';
-import { CreateRideCheckedInPayload, CreateRideTransactionPayload, GetRideCheckedInDataPayload, RawRideCheckedInData, RawRideTransactionData } from 'src/features/ride_check_in/types/net';
+import { CreateRideTransactionPayload, GetRideTransactionDataPayload, RawRideTransactionData } from 'src/features/ride_check_in/types/net';
 import { verifyToken } from 'src/helpers/auth';
 
 export default async function handler(
@@ -27,21 +27,16 @@ export default async function handler(
     if(req.method === 'GET'){
 
       try {
-        const {month} = req.query as GetRideCheckedInDataPayload
+        const { ride_month } = req.query as GetRideTransactionDataPayload
 
-        const monthPayloadForQuery = month ? ` AND DATE_FORMAT(checked_in_date, '%Y-%m') = '${month}'` : ''
+        const query = `SELECT * FROM ride_transaction WHERE user_id = ? AND ride_month = ?`
 
-        const fieldKeys = ['id', 'type']
-        const keysForQuery = fieldKeys.join(', ') + `, DATE_FORMAT(checked_in_date, '%Y-%m-%d') AS checked_in_date`
-
-        const query = `SELECT ${keysForQuery} FROM ride_check_in WHERE user_id = ?${monthPayloadForQuery}`
-
-        const [rows] = await connection.execute(query, [decoded.id]);
+        const [rows] = await connection.execute(query, [decoded.id, ride_month]);
 
         res.status(200).json({
           data: rows as RawRideTransactionData[],
           success: true,
-          message: 'Get RideCheckedInData success!',
+          message: 'Get Ride transaction data success!',
           status_code: 200
         })
       } catch(error: any) {

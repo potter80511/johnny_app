@@ -31,12 +31,14 @@ const CurrentMonthDisplay = styled.div`
 
 const ConfirmPayment = ({
   selectedCurrentDateMonth,
-  fee
+  fee,
+  hasPayed
 }: {
   selectedCurrentDateMonth: string,
-  fee: number
+  fee: number,
+  hasPayed: boolean
 }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(true)
+  const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [paymentDateTime, setPaymentDateTime] = useState(dayjs())
 
   const rideMonthDisplay = dayjs(selectedCurrentDateMonth).locale('zh-tw').format('YYYY, MMM份')
@@ -70,12 +72,12 @@ const ConfirmPayment = ({
   return <>
     <Wrapper justifyContent="space-between" alignItems="center">
       <CurrentMonthDisplay>{rideMonthDisplay}</CurrentMonthDisplay>
-      <Button
+      {!hasPayed && <Button
         size="small"
         variant="contained"
         type="button"
         onClick={() => setIsDialogOpen(true)}
-      >確認付款</Button>
+      >確認付款</Button>}
     </Wrapper>
     <AlertDialogSlide
       isDialogOpen={isDialogOpen}
