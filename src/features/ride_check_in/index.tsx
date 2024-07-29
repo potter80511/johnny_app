@@ -21,22 +21,26 @@ const SeperateLine = styled.hr`
   border-color: #888;
   border-bottom: none;
 `
+const feePerDay = 120
 
 const RideCheckInIndex = () => {
   const [currentDateMonth, setCurrentDateMonth] = useState(dayjs().format('YYYY-MM'))
-
+  
   const [cookies] = useCookies(['user_token'])
-
+  
   const { data: rawCheckedInDataAPIResponse, isValidating: isLoading, mutate } = useSWR<APIResponse<RawRideCheckedInData[]>>(`/ride/check_in?month=${currentDateMonth}`, (url: string) => baseFetcher(url, {
     headers: { authorization: `Bearer ${cookies.user_token}`},
   }), { revalidateIfStale: false, revalidateOnMount: true })
+  
+  const totalFee = feePerDay * (rawCheckedInDataAPIResponse?.data?.length ?? 0)
 
   return <Wrapper>
     <h2>共乘打卡</h2>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <ConfirmPayment selectedCurrentDateMonth={currentDateMonth} />
+      <ConfirmPayment selectedCurrentDateMonth={currentDateMonth} fee={totalFee} />
       <Sheet
-        totalDays={rawCheckedInDataAPIResponse?.data?.length}
+        totalDays={rawCheckedInDataAPIResponse?.data?.length ?? 0}
+        totalFee={totalFee}
         isLoading={isLoading}
       />
       <SeperateLine/>

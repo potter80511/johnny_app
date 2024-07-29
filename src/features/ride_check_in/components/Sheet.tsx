@@ -13,14 +13,11 @@ const Fee = styled.span`
   color: red;
 `
 
-const feePerDay = 120
-
-const Sheet = ({ totalDays = 0, isLoading }: {
+const Sheet = ({ totalDays = 0, totalFee = 0, isLoading }: {
   totalDays?: number;
+  totalFee?: number;
   isLoading: boolean
 }) => {
-  const total = feePerDay * totalDays
-
   const hasPayed = false
 
   const loadingDisplay = useMemo(() => {
@@ -55,7 +52,7 @@ const Sheet = ({ totalDays = 0, isLoading }: {
   }
 
   return <Wrapper flexDirection="column" gap={8}>
-    <Flex justifyContent="space-between">累積共乘費用：<Fee>$NT {total}</Fee></Flex>
+    <Flex justifyContent="space-between">累積共乘費用：<Fee>$NT {totalFee}</Fee></Flex>
     <Flex justifyContent="space-between">累積打卡天數：{totalDaysDispay}</Flex>
   </Wrapper>
 }

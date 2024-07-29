@@ -6,6 +6,8 @@ import AlertDialogSlide from "src/components/mui/AlertDialogSlide";
 import dayjs from "src/helpers/dayjs";
 import styled from "styled-components";
 import Typography from "@mui/material/Typography";
+import { fetchToCreateTransaction } from "src/features/ride_check_in/fetchers";
+import toast from "src/helpers/toastify";
 
 const Wrapper = styled(Flex)`
   margin-bottom: 36px;
@@ -27,12 +29,35 @@ const CurrentMonthDisplay = styled.div`
   color: #888;
 `
 
-const ConfirmPayment = ({selectedCurrentDateMonth}: { selectedCurrentDateMonth: string }) => {
+const ConfirmPayment = ({
+  selectedCurrentDateMonth,
+  fee
+}: {
+  selectedCurrentDateMonth: string,
+  fee: number
+}) => {
   const [isDialogOpen, setIsDialogOpen] = useState(true)
   const [paymentDateTime, setPaymentDateTime] = useState(dayjs())
-  console.log(paymentDateTime, 'paymentDateTime')
 
   const rideMonthDisplay = dayjs(selectedCurrentDateMonth).locale('zh-tw').format('YYYY, MMM份')
+
+  const handleSubmit = () => {
+    fetchToCreateTransaction({
+      inputData: {
+        transaction_date: paymentDateTime.format(),
+        fee,
+        ride_month: selectedCurrentDateMonth
+      },
+      callBack: {
+        onSuccess: ({message}) => {
+          toast(message)
+        },
+        onError: ({message, type}) => {
+          toast(message, type)
+        },
+      }
+    })
+  }
 
   useEffect(() => {
     if(dayjs(selectedCurrentDateMonth).month() !== dayjs().month()) {
@@ -73,7 +98,7 @@ const ConfirmPayment = ({selectedCurrentDateMonth}: { selectedCurrentDateMonth: 
             variant="contained"
             type="button"
             size="small"
-            onClick={() => {}}
+            onClick={handleSubmit}
           >送出</Button>
         </ButtonWrapper>
       </DialogContent>
