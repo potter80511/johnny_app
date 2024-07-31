@@ -1,7 +1,7 @@
 import CalendarBlock from 'src/features/ride_check_in/components/CalendarBlock'
 import styled from 'styled-components'
 import Sheet from 'src/features/ride_check_in/components/Sheet'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import dayjs from 'src/helpers/dayjs'
 import useSWR from "swr";
 import baseFetcher from "src/fetcher";
@@ -53,8 +53,12 @@ const RideCheckInIndex = () => {
   )
   
   const totalFee = feePerDay * (rawCheckedInDataAPIResponse?.data?.length ?? 0)
-  const payDate = rawRideTransactionDataAPIResponse?.data[0]?.transaction_date || ''
-  const payDateDisplay = payDate ? dayjs(payDate).locale('zh-tw').format('YYYY年 MMMDo, A h:mm') : ''
+  
+  const payDateDisplay = useMemo(() => {
+    const payDate = (rawRideTransactionDataAPIResponse?.data && rawRideTransactionDataAPIResponse.data[0]?.transaction_date) || ''
+    
+    return payDate ? dayjs(payDate).locale('zh-tw').format('YYYY年 MMMDo, A h:mm') : ''
+  }, [rawRideTransactionDataAPIResponse])
 
   return <Wrapper>
     <h2>共乘打卡</h2>
