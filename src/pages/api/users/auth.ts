@@ -1,20 +1,6 @@
-import jwt from 'jsonwebtoken';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from 'src/features/common/users/types';
-
-const secretKey = process.env.JWTOKEN_SECRET_KEY || ''
-
-function verifyToken(token: string) {
-  return new Promise((resolve, reject) => {
-    jwt.verify(token, secretKey, (err, decoded) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(decoded);
-      }
-    });
-  });
-}
+import { verifyToken } from 'src/helpers/auth';
 
 export default async function handler(
   req: NextApiRequest,

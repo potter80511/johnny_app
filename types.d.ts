@@ -1,5 +1,7 @@
 declare module 'react-click-n-hold'
 
+type PromiseProgressStatus = 'pending' | 'resolved' | 'rejected'
+
 type APIStatusCode = 200 | 201 | 401 | 400 | 405 | 500
 
 type APIResponse<Data = any, ErrorField = {}> = {

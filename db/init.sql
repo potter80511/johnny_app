@@ -31,3 +31,25 @@ CREATE TABLE IF NOT EXISTS interviews (
     updated_date DATETIME DEFAULT NOW(),
     interview_dates JSON
 );
+
+
+-- 共乘打卡
+
+CREATE TABLE IF NOT EXISTS ride_check_in (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    type ENUM('to_work', 'off_work') DEFAULT 'to_work',
+    checked_in_date DATE NOT NULL,
+    created_date DATETIME DEFAULT NOW(),
+    user_id INT NOT NULL,
+    CONSTRAINT unique_user_check_in_date UNIQUE (user_id, checked_in_date)  -- 複合唯一約束
+);
+
+CREATE TABLE IF NOT EXISTS ride_transaction (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    fee INT NOT NULL,
+    ride_month CHAR(7) NOT NULL,
+    created_date DATETIME DEFAULT NOW(),
+    transaction_date DATE NOT NULL,
+    user_id INT NOT NULL,
+    CONSTRAINT unique_user_ride_month UNIQUE (user_id, ride_month)
+);

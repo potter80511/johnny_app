@@ -46,7 +46,8 @@ const Flex = (props: FlexProps) => {
     justifyContent,
     flexWrap,
     alignItems,
-    gap
+    gap,
+    flexDirection
   } = props
 
   return <Wrapper
@@ -55,6 +56,7 @@ const Flex = (props: FlexProps) => {
     $flexWrap={flexWrap}
     $alignItems={alignItems}
     $gap={gap}
+    $flexDirection={flexDirection}
   >{children}</Wrapper>
 }
 
